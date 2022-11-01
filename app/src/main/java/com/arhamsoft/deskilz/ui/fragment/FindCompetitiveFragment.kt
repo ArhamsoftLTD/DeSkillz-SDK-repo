@@ -77,6 +77,8 @@ class FindCompetitiveFragment : Fragment() {
 
         StaticFields.toastClass("Please wait, while we are matching opponent for you.")
 
+
+// countdown Timer
         countdownTimer()
         userNameandImg()
 
