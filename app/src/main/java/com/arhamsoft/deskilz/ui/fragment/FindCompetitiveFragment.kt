@@ -407,6 +407,7 @@ class FindCompetitiveFragment : Fragment() {
                             time.cancel()
                                 StaticFields.toastClass("Its a Non-Live Match. Press button to play match.")
 
+                                //dialog
                                 showDialog(
                                     "You need to deposit following amount in order to proceed further.",
                                     "Deposit",
