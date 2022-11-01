@@ -367,6 +367,8 @@ class FindCompetitiveFragment : Fragment() {
 
                                 if (obj1?.IsPlayable!! && click?.playerCount?.toInt() == obj1?.playerCount) {
                                     time.cancel()
+                                    StaticFields.toastClass("Press button to play match.")
+
                                     loading.startLoading()
                                     participateInTournament()
                                 }
@@ -378,6 +380,8 @@ class FindCompetitiveFragment : Fragment() {
                             } else {
                                 if (obj1?.IsPlayable!! && click?.playerCount?.toInt() == obj1?.playerCount) {
                                     time.cancel()
+                                    StaticFields.toastClass("Press button to play match.")
+
                                     binding.beginMatch.setOnClickListener {
 
                                         showDialog(
@@ -402,6 +406,12 @@ class FindCompetitiveFragment : Fragment() {
                             if (obj1?.IsPlayable!!) {
                             time.cancel()
                                 StaticFields.toastClass("Its a Non-Live Match. Press button to play match.")
+
+                                showDialog(
+                                    "You need to deposit following amount in order to proceed further.",
+                                    "Deposit",
+                                    1
+                                )
 
                                 binding.beginMatch.setOnClickListener {
                                     showDialog(
