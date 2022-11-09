@@ -154,7 +154,7 @@ interface ApiListCalling {
     suspend fun getMatchesRecord(
         @Field("limit") limit:Int,
         @Field("offSet") offSet:Int,
-        @Field("userId") userId:String,
+        @Field("userID") userId:String,
     ): Response<GetMatchesRecord>
 
     @FormUrlEncoded
@@ -295,6 +295,12 @@ interface ApiListCalling {
         @Field("limit") limit:Int,
     ): Response<GetMarketLoadMoreModel>
 
+    @FormUrlEncoded
+    @POST(URLConstant.checkTournParticipation)
+    suspend fun checkTournamentParticipation(
+        @Field("userId") userId:String,
+        @Field("tournamentId") tournamentId:String,
+    ): Response<ForgotModel>
 
     @GET(URLConstant.getEvents)
     suspend fun getEvents(@Query("longitude") long: Double, @Query("latitude") lat: Double): Response<EventsModel>

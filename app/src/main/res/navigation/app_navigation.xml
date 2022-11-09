@@ -235,7 +235,9 @@
         tools:layout="@layout/fragment_find_competitive" >
         <action
             android:id="@+id/action_findCompetitiveFragment_to_fragmentMatchScore"
-            app:destination="@id/fragmentMatchScore" />
+            app:destination="@id/fragmentMatchScore"
+            app:popUpTo="@id/app_navigation"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"

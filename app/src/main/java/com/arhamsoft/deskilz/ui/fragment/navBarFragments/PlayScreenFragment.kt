@@ -50,7 +50,7 @@ class PlayScreenFragment : Fragment() {
     private lateinit var rvAdapterH2H: RVAdapterHeadToHead
     private lateinit var rvAdapterBrackets: RVAdapterBrackets
     private lateinit var rvAdapterEvents: RVAdapterEvents
-    var u_id:String? = ""
+//    var u_id:String? = ""
 
 
     override fun onCreateView(
@@ -61,10 +61,9 @@ class PlayScreenFragment : Fragment() {
         navController = findNavController()
         loading = LoadingDialog(requireContext() as Activity)
 
-        if (!(StaticFields.isNetworkConnected(requireContext()))){
+        if (!(StaticFields.isNetworkConnected(requireContext()))) {
             StaticFields.toastClass("Check your network connection")
-        }
-        else{
+        } else {
             loading.startLoading()
 //        URLConstant.check = false
             getTournaments()
@@ -87,8 +86,7 @@ class PlayScreenFragment : Fragment() {
 //        }
 
 
-
-        binding.waiting.setOnClickListener{
+        binding.waiting.setOnClickListener {
             findNavController().navigate(R.id.action_dashboardActivity_to_pendingRequestFragment)
         }
 
@@ -102,8 +100,6 @@ class PlayScreenFragment : Fragment() {
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
 
 
-
-
 //
 
         rvAdapterPractice = RVAdapterPractice(
@@ -111,16 +107,8 @@ class PlayScreenFragment : Fragment() {
             practiceList,
             object : RVAdapterPractice.OnItemClick {
                 override fun onClick(click: GetTournamentsListData, position: Int) {
-
-                    val obj = Gson().toJson(click)
-                    val bundle = bundleOf()
-                    bundle.putString("GET_MATCHES_OBJ",obj)
-//                    URLConstant.tournamentId = click.tournamentID
-//                    URLConstant.Fee = click.entryFee
-//                    showDialog()
-                    URLConstant.eventId =""
-
-                    findNavController().navigate(R.id.action_dashboardActivity_to_findCompetitiveFragment,bundle)
+                    loading.startLoading()
+                    checkTournamentParticipation(click)
 
                 }
             })
@@ -134,17 +122,10 @@ class PlayScreenFragment : Fragment() {
             headToHeadList,
             object : RVAdapterHeadToHead.OnItemClick {
                 override fun onClick(click: GetTournamentsListData, position: Int) {
-                    val obj = Gson().toJson(click)
+                    loading.startLoading()
 
-                    val bundle = bundleOf()
-                    bundle.putSerializable("GET_MATCHES_OBJ",obj)
-//                    URLConstant.tournamentId = click.tournamentID
-//                    URLConstant.Fee = click.entryFee
-//                    URLConstant.player_count = click.playerCount
-//                    loading.startLoading()
-                    URLConstant.eventId =""
+                    checkTournamentParticipation(click)
 
-                    findNavController().navigate(R.id.action_dashboardActivity_to_findCompetitiveFragment,bundle)
 
 //                    showDialog()
 
@@ -160,16 +141,10 @@ class PlayScreenFragment : Fragment() {
             bracketsList,
             object : RVAdapterBrackets.OnItemClick {
                 override fun onClick(click: GetTournamentsListData, position: Int) {
-                    val obj = Gson().toJson(click)
+                    loading.startLoading()
 
-                    val bundle = bundleOf()
-                    bundle.putSerializable("GET_MATCHES_OBJ",obj)
-//                    URLConstant.tournamentId = click.tournamentID
-//                    URLConstant.Fee = click.entryFee
-//                    URLConstant.player_count = click.playerCount
-//                    loading.startLoading()
-                    URLConstant.eventId =""
-                    findNavController().navigate(R.id.action_dashboardActivity_to_findCompetitiveFragment,bundle)
+                    checkTournamentParticipation(click)
+
 
 //                    showDialog()
 
@@ -180,11 +155,13 @@ class PlayScreenFragment : Fragment() {
         binding.recyclerViewBrackets.adapter = rvAdapterBrackets
 
         rvAdapterEvents =
-            RVAdapterEvents(requireContext(), eventList,object : RVAdapterEvents.OnItemClick {
+            RVAdapterEvents(requireContext(), eventList, object : RVAdapterEvents.OnItemClick {
                 override fun onClick(click: EventsModelData, position: Int) {
 //                    val bundle = bundleOf()
 //                    bundle.putSerializable("GET_MATCHES_OBJ",click)
                     URLConstant.eventId = click.eventID
+//                    GetTournamentsListData(false,click.gamePlay,click.eventID,click.eventName,"","",click.entryFee,click.playerCount.toLong(),"","","",
+//                        listOf(PrizesModel("","","","","",0L)))
                     findNavController().navigate(R.id.action_dashboardActivity_to_findCompetitiveFragment)
 
 //                    showDialog()
@@ -198,10 +175,7 @@ class PlayScreenFragment : Fragment() {
     }
 
 
-
-
-
-    private fun getEvents(){
+    private fun getEvents() {
         CoroutineScope(Dispatchers.IO).launch {
             NetworkRepo.getEvent(
                 object : NetworkListener<EventsModel> {
@@ -211,24 +185,22 @@ class PlayScreenFragment : Fragment() {
 
                             activity?.runOnUiThread {
 
-                            if (t.data.isNotEmpty()) {
+                                if (t.data.isNotEmpty()) {
 
-                                binding.eventLayout.visibility = View.GONE
+                                    binding.eventLayout.visibility = View.GONE
 
-                                eventList.addAll(t.data)
+                                    eventList.addAll(t.data)
 
                                     rvAdapterEvents.addData(eventList)
-                            }
+                                }
 //                            URLConstant.check = true
                             }
 
-                        }
-                        else{
+                        } else {
                             activity?.runOnUiThread {
                                 StaticFields.toastClass(" get events status 0 ")
                             }
                         }
-
 
 
                     }
@@ -238,7 +210,6 @@ class PlayScreenFragment : Fragment() {
 //                                Toast.makeText(requireContext(), ""+marketLoadMoreList.size, Toast.LENGTH_SHORT).show()
 //                                rvAdapterAllCategory.addData(marketLoadMoreList)
 //                            }
-
 
 
                     override fun failure() {
@@ -255,11 +226,66 @@ class PlayScreenFragment : Fragment() {
     }
 
 
+    private fun checkTournamentParticipation(click:GetTournamentsListData) {
+        CoroutineScope(Dispatchers.IO).launch {
+            NetworkRepo.checkTournamentParticipation(
+                URLConstant.u_id!!,
+                click.tournamentID!!,
+                object : NetworkListener<ForgotModel> {
+                    override fun successFul(t: ForgotModel) {
+                        loading.isDismiss()
+
+                        activity?.runOnUiThread {
+
+                            if (!t.success) {
 
 
+                                val obj = Gson().toJson(click)
+
+                                val bundle = bundleOf()
+                                bundle.putSerializable("GET_MATCHES_OBJ", obj)
+//                    URLConstant.tournamentId = click.tournamentID
+//                    URLConstant.Fee = click.entryFee
+//                    URLConstant.player_count = click.playerCount
+//                    loading.startLoading()
+                                URLConstant.eventId = ""
+
+                                findNavController().navigate(
+                                    R.id.action_dashboardActivity_to_findCompetitiveFragment,
+                                    bundle
+                                )
+
+                            }
+
+                            else {
+                                StaticFields.toastClass("Your Previous Tournament result hasn't announced yet.")
+                            }
+
+                        }
+                    }
+
+//                            activity?.runOnUiThread {
+//                                rvAdapter.addData(marketList)
+//                                Toast.makeText(requireContext(), ""+marketLoadMoreList.size, Toast.LENGTH_SHORT).show()
+//                                rvAdapterAllCategory.addData(marketLoadMoreList)
+//                            }
 
 
-    private fun getTournaments(){
+                    override fun failure() {
+                        loading.isDismiss()
+
+                        activity?.runOnUiThread {
+                            StaticFields.toastClass("Api syncing fail check tourn part")
+                        }
+                    }
+                }
+            )
+        }
+
+    }
+
+
+    private fun getTournaments() {
         CoroutineScope(Dispatchers.IO).launch {
             NetworkRepo.getMatches(
                 object : NetworkListener<GetTournaments> {
@@ -274,17 +300,14 @@ class PlayScreenFragment : Fragment() {
 //                            URLConstant.check = true
 
 
-
-
                         }
-                        }
+                    }
 
 //                            requireActivity().runOnUiThread {
 //                                rvAdapter.addData(marketList)
 //                                Toast.makeText(requireContext(), ""+marketLoadMoreList.size, Toast.LENGTH_SHORT).show()
 //                                rvAdapterAllCategory.addData(marketLoadMoreList)
 //                            }
-
 
 
                     override fun failure() {
@@ -300,7 +323,7 @@ class PlayScreenFragment : Fragment() {
 
     }
 
-    private fun tournamentsApiDataSet(t:GetTournaments){
+    private fun tournamentsApiDataSet(t: GetTournaments) {
         if (t.data.Practice.isNotEmpty()) {
             binding.practiceLayout.visibility = View.VISIBLE
 
@@ -352,6 +375,7 @@ class PlayScreenFragment : Fragment() {
 
 
 }
+
 
 
 

@@ -6,6 +6,8 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.os.Handler
+import android.os.Looper
 import android.text.SpannableString
 import android.text.style.UnderlineSpan
 import android.util.Log
@@ -50,6 +52,7 @@ class FindCompetitiveFragment : Fragment() {
     lateinit var time: CountDownTimer
     lateinit var sharedPreference: CustomSharedPreference
     private var mSocket: Socket? = null
+    var isPlayable:Boolean = false
 //    var obj1:GetRandomPlayerModelData? = null
 //    var obj2:ListofOpponentModel? = null
 
@@ -77,22 +80,32 @@ class FindCompetitiveFragment : Fragment() {
 
         StaticFields.toastClass("Please wait, while we are matching opponent for you.")
 
-
-// countdown Timer
         countdownTimer()
         userNameandImg()
+
+
+//        binding.beginMatch.setOnClickListener {
+
+//            if (isPlayable){
+//
+//            }
+
+//        }
+
 
         val bundle = arguments
         if (bundle != null) {
 
+//            click = bundle.getSerializable("GET_MATCHES_OBJ") as GetTournamentsListData
+            click = Gson().fromJson(
+                bundle.getString("GET_MATCHES_OBJ"),
+                GetTournamentsListData::class.java
+            )
 
-
-            click = Gson().fromJson(bundle.getString("GET_MATCHES_OBJ"),GetTournamentsListData::class.java)
-
-
-
-            binding.entryFee.text = click?.entryFee!!
-            binding.pCount.text = "${click?.playerCount!!} players"
+            if (click != null) {
+                binding.entryFee.text = click?.entryFee!!
+                binding.pCount.text = "${click?.playerCount!!} players"
+            }
         }
 
 
@@ -106,7 +119,8 @@ class FindCompetitiveFragment : Fragment() {
 
 
 
-        binding.recycleListOpponent.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false)
+        binding.recycleListOpponent.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
 
         rvAdapter = AdapterOpponents(object : AdapterOpponents.OnItemClickListenerHandler {
             override fun onItemClicked(click: ListofOpponentModel, position: Int) {
@@ -121,6 +135,7 @@ class FindCompetitiveFragment : Fragment() {
 
         binding.exitMatch.setOnClickListener {
 
+            time.cancel()
             leavePlayer()
             findNavController().popBackStack()
 
@@ -128,6 +143,7 @@ class FindCompetitiveFragment : Fragment() {
 
         binding.cancelMatch.setOnClickListener {
 
+            time.cancel()
             leavePlayer()
             findNavController().popBackStack()
         }
@@ -180,7 +196,7 @@ class FindCompetitiveFragment : Fragment() {
             // Callback function, fired
             // when the time is up
             override fun onFinish() {
-                showDialog("Request Timeout, Try again. ", "", 0)
+                showDialog("Request Timeout. No player found at the moment. Try again later", "", 0)
 
             }
         }.start()
@@ -226,10 +242,13 @@ class FindCompetitiveFragment : Fragment() {
             dialogBinding.h1.text = h
             dialogBinding.para.text = t
             dialogBinding.price.text = " Entry Fee: ${click?.entryFee}"
+            dialogBinding.okButton.visibility = View.GONE
+            dialogBinding.cancelButton.visibility = View.GONE
         }
 
         dialogBinding.cancelButton2.setOnClickListener {
-            countdownTimer()
+            time.cancel()
+            time.start()
             dialog.dismiss()
         }
         dialogBinding.cancelButton.setOnClickListener {
@@ -237,14 +256,20 @@ class FindCompetitiveFragment : Fragment() {
         }
         dialogBinding.okButton.setOnClickListener {
             if (check == 0) {
+                time.cancel()
                 findNavController().popBackStack()
-            } else {
-                loading.startLoading()
-                participateInTournament()
             }
-
-
             dialog.dismiss()
+
+        }
+
+        if (check == 1) {
+            Handler(Looper.getMainLooper()).postDelayed(
+                Runnable {
+//                    loading.startLoading()
+                    participateInTournament()
+                    dialog.dismiss()
+                },1500)
 
         }
 
@@ -260,7 +285,7 @@ class FindCompetitiveFragment : Fragment() {
                 "abcd",
                 object : NetworkListener<ForgotModel> {
                     override fun successFul(t: ForgotModel) {
-                        loading.isDismiss()
+//                        loading.isDismiss()
 
                         activity?.runOnUiThread {
 
@@ -314,7 +339,10 @@ class FindCompetitiveFragment : Fragment() {
         loading.startLoading()
         SocketHandler.setSocket()
         mSocket = SocketHandler.getSocket()
+
         SocketHandler.establishConnection()
+
+
 
         mSocket?.on(Socket.EVENT_CONNECT_ERROR) { args ->
             Log.e(
@@ -369,7 +397,7 @@ class FindCompetitiveFragment : Fragment() {
                                     time.cancel()
                                     StaticFields.toastClass("Press button to play match.")
 
-                                    loading.startLoading()
+//                                    loading.startLoading()
                                     participateInTournament()
                                 }
 //                                else{
@@ -380,17 +408,15 @@ class FindCompetitiveFragment : Fragment() {
                             } else {
                                 if (obj1?.IsPlayable!! && click?.playerCount?.toInt() == obj1?.playerCount) {
                                     time.cancel()
-                                    StaticFields.toastClass("Press button to play match.")
-
-                                    binding.beginMatch.setOnClickListener {
-
-                                        showDialog(
-                                            "You need to deposit following amount in order to proceed further.",
-                                            "Deposit",
-                                            1
-                                        )
-                                    }
+//                                    StaticFields.toastClass("Press button to play match.")
+                                    showDialog(
+                                        "Match fee has been deducted from your account. Match is about to start.",
+                                        "Deposit",
+                                        1
+                                    )
                                 }
+//                                isPlayable = obj1.IsPlayable
+
 //                                else {
 //                                    opponentList = ArrayList()
 //                                    loading.isDismiss()
@@ -399,29 +425,29 @@ class FindCompetitiveFragment : Fragment() {
                             }
 
 
-                        }
-                        else if (click?.gamePlay == 2) {
+                        } else if (click?.gamePlay == 2) {
 
 
                             if (obj1?.IsPlayable!!) {
-                            time.cancel()
-                                StaticFields.toastClass("Its a Non-Live Match. Press button to play match.")
+                                time.cancel()
 
-                                //dialog
                                 showDialog(
-                                    "You need to deposit following amount in order to proceed further.",
+                                    "Match fee has been deducted from your account. Match is about to start.",
                                     "Deposit",
                                     1
                                 )
+//                                StaticFields.toastClass("Its a Non-Live Match. Press button to play match.")
 
-                                binding.beginMatch.setOnClickListener {
-                                    showDialog(
-                                        "You need to deposit following amount in order to proceed further.",
-                                        "Deposit",
-                                        1
-                                    )
-                                }
+//                                binding.beginMatch.setOnClickListener {
+//                                    showDialog(
+//                                        "Match fee has been deducted from your account. Proceed further to start the match.",
+//                                        "Deposit",
+//                                        1
+//                                    )
+//                                }
                             }
+//                            isPlayable = obj1.IsPlayable
+
 //                            else{
 //                                opponentList = ArrayList()
 //                                loading.isDismiss()
@@ -484,8 +510,10 @@ class FindCompetitiveFragment : Fragment() {
                         if (click?.gamePlay == 1){
                             if (opponentList.size > 0) {
                                 StaticFields.toastClass("New Player has joined")
-                            } else if (opponentList.size == 0) {
-                                StaticFields.toastClass("No Player at the moment, please wait")
+                            } else if (opponentList.size == 0 || opponentList.size < click?.playerCount!!) {
+                                time.cancel()
+                                time.start()
+                                StaticFields.toastClass(" Please wait while we are searching opponent for you.")
 
                             }
 
@@ -494,13 +522,12 @@ class FindCompetitiveFragment : Fragment() {
                         }
                         else if(click?.gamePlay == 2){
                             opponentList = ArrayList()
-                             if (opponentList.size == 0) {
+                            if (opponentList.size == 0) {
                                 StaticFields.toastClass("Its a Non-Live Match. Press button to play match.")
                             }
                             rvAdapter.setData(opponentList)
 
                         }
-
 
 //                        if (opponentList[index].isLeave!!) {
 //                            for (item in opponentList) {
@@ -524,8 +551,6 @@ class FindCompetitiveFragment : Fragment() {
 
 
 //                        rvAdapter.notifyDataSetChanged()
-
-
 
 
                     } catch (e: Exception) {
@@ -557,13 +582,16 @@ class FindCompetitiveFragment : Fragment() {
 
 
             val checked = WebSocketJoinLeaveModel(
+
                 if (URLConstant.eventId?.isNotEmpty() == true) {
                     URLConstant.eventId
                 } else {
                     click?.tournamentID!!
                 },
-                URLConstant.u_id!!,
-                )
+
+                URLConstant.u_id!!
+
+            )
 //            val map = HashMap<String, Any>()
 //            map["gameId"] = "00000067"
 //            map["userId"] = "62ebd0aa2a494e2a1260777f"
@@ -599,8 +627,8 @@ class FindCompetitiveFragment : Fragment() {
                 } else {
                     click?.tournamentID!!
                 },
-                URLConstant.u_id!!
-                )
+                URLConstant.u_id!!,
+            )
 //            val map = HashMap<String, Any>()
 //            map["gameId"] = "00000067"
 //            map["userId"] = "62ebd0aa2a494e2a1260777f"
@@ -661,14 +689,11 @@ class FindCompetitiveFragment : Fragment() {
                                     } else {
                                         if (t.data.IsPlayable && click?.playerCount?.toInt() == t.data.listOfOpponents.size + 1) {
                                             time.cancel()
-                                            binding.beginMatch.setOnClickListener {
+//                                            binding.beginMatch.setOnClickListener {
 
-                                                showDialog(
-                                                    "You need to deposit following amount in order to proceed further.",
-                                                    "Deposit",
-                                                    1
-                                                )
-                                            }
+                                            showDialog("You need to deposit following amount in order to proceed further.", "Deposit", 1
+                                            )
+//                                            }
                                         } else {
                                             opponentList = ArrayList()
                                             loading.isDismiss()
@@ -682,13 +707,13 @@ class FindCompetitiveFragment : Fragment() {
                                     if (t.data.IsPlayable) {
                                         time.cancel()
 
-                                        binding.beginMatch.setOnClickListener {
-                                            showDialog(
-                                                "You need to deposit following amount in order to proceed further.",
-                                                "Deposit",
-                                                1
-                                            )
-                                        }
+//                                        binding.beginMatch.setOnClickListener {
+                                        showDialog(
+                                            "You need to deposit following amount in order to proceed further.",
+                                            "Deposit",
+                                            1
+                                        )
+//                                        }
                                     } else {
                                         opponentList = ArrayList()
                                         loading.isDismiss()
@@ -699,7 +724,7 @@ class FindCompetitiveFragment : Fragment() {
 //
                                 }
                             } else {
-//                                time.cancel()
+                                time.cancel()
                                 showDialog(t.message, "", 0)
 
 
@@ -732,6 +757,7 @@ class FindCompetitiveFragment : Fragment() {
 
     }
 }
+
 
 
 

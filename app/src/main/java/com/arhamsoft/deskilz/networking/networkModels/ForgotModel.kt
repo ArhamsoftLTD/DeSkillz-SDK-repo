@@ -5,6 +5,7 @@ data class ForgotModel(
     val isParticipated:Boolean= false,
     val isFriend :Boolean= false,
     val isFriendRequest :Boolean= false,
-    val message: String
+    val message: String,
+    val success: Boolean= false
 
 )

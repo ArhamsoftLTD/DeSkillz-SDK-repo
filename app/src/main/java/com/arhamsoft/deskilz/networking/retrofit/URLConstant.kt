@@ -27,6 +27,8 @@ object URLConstant {
     const val getRandomPlayer = "games/get-random-player"
     const val getChats = "users/get-chats"
     const val getChatsHead = "users/get-chat-heads"
+    const val checkTournParticipation = "users/check-user-participation"
+
     const val getPlayerAccount = "games/get-player-account"
     const val getMatches = "games/get-tournaments"
     const val getRewards = "games/get-rewards"

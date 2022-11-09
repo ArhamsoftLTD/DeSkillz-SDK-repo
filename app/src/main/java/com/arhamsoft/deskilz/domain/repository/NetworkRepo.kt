@@ -22,10 +22,10 @@ object NetworkRepo {
     private val callApi = CallApi.getInstance()
     var signupsuccessLiveData: MutableLiveData<SignUpModel> = MutableLiveData()
     var forgotsuccessLiveData: MutableLiveData<ForgotModel> = MutableLiveData()
-//    var firebasesuccessLiveData: MutableLiveData<StatusModel> = MutableLiveData()
+    //    var firebasesuccessLiveData: MutableLiveData<StatusModel> = MutableLiveData()
 //    var logoutsuccessLiveData: MutableLiveData<StatusModel> = MutableLiveData()
     var loginsuccessLiveData: MutableLiveData<LoginModel> = MutableLiveData()
-//    var generateSuccessLiveData: MutableLiveData<GenerateCodeModel> = MutableLiveData()
+    //    var generateSuccessLiveData: MutableLiveData<GenerateCodeModel> = MutableLiveData()
     var errorLiveData: MutableLiveData<ErrorModel> = MutableLiveData()
 
 
@@ -80,7 +80,7 @@ object NetworkRepo {
                 }
 
                 override fun failure(error: Any) {
-                   listener.failure()
+                    listener.failure()
                 }
             }
         )
@@ -105,7 +105,7 @@ object NetworkRepo {
                 }
 
                 override fun failure(error: Any) {
-                   listener.failure()
+                    listener.failure()
                 }
             }
         )
@@ -128,7 +128,7 @@ object NetworkRepo {
                 }
 
                 override fun failure(error: Any) {
-                 listener.failure()
+                    listener.failure()
                 }
             }
         )
@@ -136,7 +136,7 @@ object NetworkRepo {
 
 
     suspend fun coreLoop(
-       gameID:String,
+        gameID:String,
         listener: NetworkListener<ForgotModel>
     ) {
         callApi.callApi(
@@ -227,7 +227,7 @@ object NetworkRepo {
                 }
 
                 override fun failure(error: Any) {
-                  listener.failure()
+                    listener.failure()
                 }
             }
         )
@@ -249,7 +249,7 @@ object NetworkRepo {
                 }
 
                 override fun failure(error: Any) {
-                  listener.failure()
+                    listener.failure()
                 }
             }
         )
@@ -369,7 +369,7 @@ object NetworkRepo {
 
     suspend fun getPlayerAccount(
         userId: String,
-       listener: NetworkListener<GetPlayerAccount>
+        listener: NetworkListener<GetPlayerAccount>
     ) {
         try {
             callApi.callApi(
@@ -449,6 +449,28 @@ object NetworkRepo {
             retrofitClient.getRandomPlayer(userId,tournamentId),
             object : ResponseHandler<GetRandomPlayerModel> {
                 override fun success(model: GetRandomPlayerModel) {
+//                    forgotsuccessLiveData.postValue(model)
+                    model.let {
+                        listener.successFul(it)
+                    }
+                }
+
+                override fun failure(error: Any) {
+                    listener.failure()
+                }
+            }
+        )
+    }
+
+    suspend fun checkTournamentParticipation(
+        userId: String,
+        tournamentId:String,
+        listener: NetworkListener<ForgotModel>
+    ) {
+        callApi.callApi(
+            retrofitClient.checkTournamentParticipation(userId,tournamentId),
+            object : ResponseHandler<ForgotModel> {
+                override fun success(model: ForgotModel) {
 //                    forgotsuccessLiveData.postValue(model)
                     model.let {
                         listener.successFul(it)
@@ -756,7 +778,7 @@ object NetworkRepo {
         )
     }
 
- suspend fun getMarket(
+    suspend fun getMarket(
         limit:Int,
         listener: NetworkListener<GetMarketLoadMoreModel>
     ) {

@@ -43,7 +43,7 @@ class FragmentMatchScore : Fragment() {
             prog =  data.extras?.get("progression") as HashMap<*,*>
             Log.d("dataResult", data.toString())
 
-            loading.startLoading()
+//            loading.startLoading()
 
             getGameCustomData()
 
@@ -75,13 +75,11 @@ class FragmentMatchScore : Fragment() {
 
 
 
-        binding.btnSubmit.setOnClickListener {
 //            findNavController().navigate(R.id.)
             loading.startLoading()
 
             updateScore()
 
-        }
 
 
 
@@ -95,7 +93,7 @@ class FragmentMatchScore : Fragment() {
                 object : NetworkListener<CustomPlayerModel> {
                     override fun successFul(t: CustomPlayerModel) {
                         activity?.runOnUiThread {
-                            loading.isDismiss()
+//                            loading.isDismiss()
 
                             if (t.status == 1) {
 
@@ -151,7 +149,7 @@ class FragmentMatchScore : Fragment() {
                     override fun failure() {
 
                         activity?.runOnUiThread {
-                            loading.isDismiss()
+//                            loading.isDismiss()
 
                             StaticFields.toastClass("Api syncing fail getCustomgameDAta")
                         }
@@ -178,8 +176,9 @@ class FragmentMatchScore : Fragment() {
 
                         if (t.status ==1) {
                             StaticFields.toastClass(t.message)
-                            findNavController().navigate(R.id.action_fragmentMatchScore_to_dashboardActivity)
-
+                            binding.btnSubmit.setOnClickListener {
+                                findNavController().navigate(R.id.action_fragmentMatchScore_to_dashboardActivity)
+                            }
 //                                binding.score.text = t.data.matchScore
                         }
                         else{
@@ -215,7 +214,7 @@ class FragmentMatchScore : Fragment() {
                 progressionList,
                 object : NetworkListener<ProgressionModel> {
                     override fun successFul(t: ProgressionModel) {
-                        loading.isDismiss()
+//                        loading.isDismiss()
                         activity?.runOnUiThread {
                             if (t.status ==1){
                                 StaticFields.toastClass("progression hit")
@@ -236,7 +235,7 @@ class FragmentMatchScore : Fragment() {
                     }
 
                     override fun failure() {
-                        loading.isDismiss()
+//                        loading.isDismiss()
 
                         activity?.runOnUiThread {
                             StaticFields.toastClass("api syncing failed progression")

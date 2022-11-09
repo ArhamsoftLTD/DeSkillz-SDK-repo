@@ -309,8 +309,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="1462" />
-                            <option name="y" value="-624" />
+                            <option name="x" value="1502" />
+                            <option name="y" value="-1008" />
                           </Point>
                         </option>
                         <option name="myPositions">
@@ -505,8 +505,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="1587" />
-                            <option name="y" value="-1220" />
+                            <option name="x" value="1827" />
+                            <option name="y" value="-588" />
                           </Point>
                         </option>
                       </LayoutPositions>
@@ -618,6 +618,11 @@
                         <option name="myPositions">
                           <map>
                             <entry key="action_splashFragment_to_chatFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                            <entry key="action_splashFragment_to_chatHeadsFragment">
                               <value>
                                 <LayoutPositions />
                               </value>
