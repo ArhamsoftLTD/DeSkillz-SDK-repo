@@ -46,7 +46,8 @@ class FragmentMatchScore : Fragment() {
 //            loading.startLoading()
 
             getGameCustomData()
-
+            loading.startLoading()
+            updateScore()
 
         }
     }
@@ -76,9 +77,7 @@ class FragmentMatchScore : Fragment() {
 
 
 //            findNavController().navigate(R.id.)
-            loading.startLoading()
 
-            updateScore()
 
 
 
