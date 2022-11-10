@@ -178,12 +178,12 @@ class HomeScreenFragment : Fragment() {
 
                             activity?.runOnUiThread {
 
-                            if (t.data.isNotEmpty()) {
+                                if (t.data.isNotEmpty()) {
 
 
                                     completedList.addAll(t.data)
 
-                                completedList.reverse()
+                                    completedList.reverse()
                                     adapterHomeScreen.setData(completedList)
 
 //                                if (isLoadMore) {
@@ -191,11 +191,11 @@ class HomeScreenFragment : Fragment() {
 //                                }
 
 //                                binding.progressBar.visibility = View.GONE
-                            }
-                            else{
+                                }
+                                else{
 
-                                adapterHomeScreen.setData(completedList)
-                            }
+                                    adapterHomeScreen.setData(completedList)
+                                }
 
 
                             }
@@ -207,7 +207,7 @@ class HomeScreenFragment : Fragment() {
                         loading.isDismiss()
 
                         activity?.runOnUiThread {
-                            StaticFields.toastClass("Api syncing fail get events")
+                            StaticFields.toastClass("Api syncing fail get match record")
                         }
                     }
                 }
@@ -252,6 +252,8 @@ class HomeScreenFragment : Fragment() {
                                     binding.ongoingLayout.visibility = View.VISIBLE
 
                                     requestList.addAll(t.data)
+
+                                    requestList.reverse()
 
                                     rvAdapter.setData(requestList)
                                 }
