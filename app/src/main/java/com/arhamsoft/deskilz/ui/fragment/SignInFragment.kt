@@ -4,6 +4,8 @@ import android.app.Activity
 import android.app.Dialog
 import android.app.NotificationManager
 import android.content.Context.NOTIFICATION_SERVICE
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.provider.Settings
 import android.text.TextUtils
@@ -18,6 +20,7 @@ import androidx.navigation.fragment.findNavController
 import com.alphaCareInc.app.room.User
 import com.alphaCareInc.app.room.UserDatabase
 import com.arhamsoft.deskilz.R
+import com.arhamsoft.deskilz.databinding.ForgotDialogBinding
 import com.arhamsoft.deskilz.databinding.FragmentSignInBinding
 import com.arhamsoft.deskilz.domain.listeners.NetworkListener
 import com.arhamsoft.deskilz.domain.repository.NetworkRepo
@@ -153,27 +156,27 @@ class SignInFragment : Fragment() {
                                     else{
 
 
-                                    val user = User()
-                                    user.accessToken = t.data.authToken
-                                    user.userId = t.data.userID
-                                    user.userName = t.data.userName
-                                    user.userEmail = binding.mail.text.toString()
-                                    insertData(user)
+                                        val user = User()
+                                        user.accessToken = t.data.authToken
+                                        user.userId = t.data.userID
+                                        user.userName = t.data.userName
+                                        user.userEmail = binding.mail.text.toString()
+                                        insertData(user)
 
-                                    StaticFields.toastClass(t.message)
+                                        StaticFields.toastClass(t.message)
 
-                                    sharedPreference.saveValue("USERIMG", t.data.userImage)
-                                    sharedPreference.saveValue("USERNAME", t.data.userName)
+                                        sharedPreference.saveValue("USERIMG", t.data.userImage)
+                                        sharedPreference.saveValue("USERNAME", t.data.userName)
 
 //                URLConstant.userName = it.data.userName
 //                URLConstant.userImg = it.data.userImage
 
-                                    sharedPreference.saveLogin("LOGIN", true)
-                                    //RetrofitClient.updateInstance()
+                                        sharedPreference.saveLogin("LOGIN", true)
+                                        //RetrofitClient.updateInstance()
 
-                                    loadingDialog.isDismiss()
+                                        loadingDialog.isDismiss()
 
-                                    findNavController().navigate(R.id.action_signInFragment_to_dashboardActivity)
+                                        findNavController().navigate(R.id.action_signInFragment_to_dashboardActivity)
 
 //                if (user.code == 0)
 //                    sharedPreference.saveCodeCheck("CODE", true)
@@ -244,20 +247,29 @@ class SignInFragment : Fragment() {
 
     private fun forgotDialog() {
         val dialog = Dialog(requireContext())
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        val dialogBinding = ForgotDialogBinding.inflate(layoutInflater)
+        dialog.window?.setBackgroundDrawable(
+            ColorDrawable(
+                Color.TRANSPARENT
+            )
+        )
+        dialog.setContentView(dialogBinding.root)
         dialog.setCancelable(false)
-        dialog.setContentView(R.layout.forgot_dialog)
 
-        val yesBtn = dialog.findViewById(R.id.submit_button) as RelativeLayout
-        val noBtn = dialog.findViewById(R.id.cancel_button) as RelativeLayout
-
-        yesBtn.setOnClickListener {
+//        val yesBtn = dialog.findViewById(R.id.submit_button) as RelativeLayout
+//        val noBtn = dialog.findViewById(R.id.cancel_button) as RelativeLayout
+//        val email = dialog.findViewById(R.id.forgotemail) as EditText
 
 
-                forgotPassApiCall()
+        dialogBinding.submitButton.setOnClickListener {
+
+//            StaticFields.toastClass(dialogBinding.forgotemail.text.toString())
+//            StaticFields.toastClass(device_id.toString())
+            loadingDialog.startLoading()
+            forgotPassApiCall(dialogBinding.forgotemail.text.toString())
 
         }
-        noBtn.setOnClickListener {
+        dialogBinding.cancelButton.setOnClickListener {
             dialog.dismiss() }
         dialog.show()
 
@@ -298,18 +310,19 @@ class SignInFragment : Fragment() {
 
 
 
-    fun forgotPassApiCall(){
+    fun forgotPassApiCall(mail:String){
 
-        loadingDialog.startLoading()
+//        loadingDialog.startLoading()
         CoroutineScope(Dispatchers.IO).launch {
             NetworkRepo.forgot(
-                binding.mail.text.toString(),
+                mail,
                 device_id!!,
                 object : NetworkListener<ForgotModel> {
                     override fun successFul(t: ForgotModel) {
+                        loadingDialog.isDismiss()
+
                         activity?.runOnUiThread {
 
-                            loadingDialog.isDismiss()
 
                             if (t.status == 1) {
                                 StaticFields.toastClass(t.message)
@@ -322,9 +335,10 @@ class SignInFragment : Fragment() {
                     }
 
                     override fun failure() {
+                        loadingDialog.isDismiss()
+
                         activity?.runOnUiThread {
 
-                            loadingDialog.isDismiss()
                             StaticFields.toastClass("api syncing failed forgot pass")
 
                         }                    }

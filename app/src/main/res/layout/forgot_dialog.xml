@@ -37,7 +37,7 @@
             android:textSize="@dimen/text_size_15sp" />
 
         <EditText
-            android:id="@+id/checkbox"
+            android:id="@+id/forgotemail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/para"
@@ -55,15 +55,15 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/checkbox"
+            android:layout_below="@id/forgotemail"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/size_10dp"
             android:orientation="horizontal">
 
             <RelativeLayout
                 android:id="@+id/cancel_button"
-                android:layout_width="@dimen/_100sdp"
-                android:layout_height="@dimen/_35sdp"
+                android:layout_width="@dimen/size_100dp"
+                android:layout_height="@dimen/size_40dp"
                 android:layout_marginEnd="@dimen/size_10dp">
 
                 <ImageView
@@ -85,8 +85,8 @@
 
             <RelativeLayout
                 android:id="@+id/submit_button"
-                android:layout_width="@dimen/_100sdp"
-                android:layout_height="@dimen/_35sdp">
+                android:layout_width="@dimen/size_100dp"
+                android:layout_height="@dimen/size_40dp">
 
                 <ImageView
                     android:layout_width="match_parent"

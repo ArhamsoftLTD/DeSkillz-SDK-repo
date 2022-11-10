@@ -295,7 +295,7 @@ class StartSDKFragment : Fragment() {
                         activity?.runOnUiThread {
                             loading.isDismiss()
 
-                            StaticFields.toastClass("Api syncing fail getCustomgameDAta")
+                            StaticFields.toastClass("Api syncing fail coreloop")
                         }
                     }
                 }
