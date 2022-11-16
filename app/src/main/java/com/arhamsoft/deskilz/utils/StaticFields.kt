@@ -1,11 +1,13 @@
 package com.arhamsoft.deskilz.utils
 
 import android.content.Context
+import android.content.Intent
 import android.net.ConnectivityManager
 import android.util.Log
 import android.widget.Toast
 import com.arhamsoft.deskilz.AppController
 import com.arhamsoft.deskilz.networking.networkModels.LoginModel
+import com.arhamsoft.deskilz.ui.activity.BaseActivity
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
 
@@ -17,6 +19,12 @@ object StaticFields {
     var userModel: LoginModel? = null
     var key : String = "0"
 
+
+
+    fun startSDK(context: Context){
+
+        context.startActivity(Intent(context,BaseActivity::class.java))
+    }
 //    00000067
     fun toastClass(text:String,context: Context = AppController.getContext()){
         val toast = Toast.makeText(context, text, Toast.LENGTH_SHORT)

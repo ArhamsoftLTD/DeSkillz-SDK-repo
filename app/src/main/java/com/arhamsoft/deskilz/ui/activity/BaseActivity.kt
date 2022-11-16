@@ -45,8 +45,8 @@ open class BaseActivity : AppCompatActivity(), LogoutInterface {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        binding = ActivityBaseBinding.inflate(layoutInflater)
-//        setContentView(binding.root)
+        binding = ActivityBaseBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         packageManager.getApplicationInfo(packageName, PackageManager.GET_META_DATA).apply {
             StaticFields.key = metaData.getString("GameId").toString()
@@ -59,8 +59,8 @@ open class BaseActivity : AppCompatActivity(), LogoutInterface {
             }
             URLConstant.gameActivity = metaData.getString("gameActivity").toString()
         }
-//        val fragmentHost = supportFragmentManager.findFragmentById(binding.navGraph.id) as NavHostFragment
-//        navController = fragmentHost.navController
+        val fragmentHost = supportFragmentManager.findFragmentById(binding.navGraph.id) as NavHostFragment
+        navController = fragmentHost.navController
 
         LogoutHandler.setListener(this)
 
