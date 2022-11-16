@@ -5,6 +5,8 @@ import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.os.PersistableBundle
 import android.util.Log
 import android.view.View
@@ -28,37 +30,12 @@ open class BaseActivity : AppCompatActivity(), LogoutInterface {
     private lateinit var navController: NavController
     lateinit var sharedPreference: CustomSharedPreference
 
-    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
-        super.onCreate(savedInstanceState, persistentState)
-        packageManager.getApplicationInfo(packageName, PackageManager.GET_META_DATA).apply {
-            StaticFields.key = metaData.getString("GameId").toString()
-            Log.e("gameKeyStringOnCreate1", "onCreate:${StaticFields.key}..String " )
-            if (StaticFields.key.isEmpty() || StaticFields.key == "null") {
-                StaticFields.key = metaData.getInt("GameId").toString()
-                Log.e("gameKeyIntOnCreate1", "onCreate:${StaticFields.key}..Int " )
-
-            }
-            URLConstant.gameActivity = metaData.getString("gameActivity").toString()
-        }
-        LogoutHandler.setListener(this)
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityBaseBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        packageManager.getApplicationInfo(packageName, PackageManager.GET_META_DATA).apply {
-            StaticFields.key = metaData.getString("GameId").toString()
-            Log.e("gameKeyStringOnCreate2", "onCreate:${StaticFields.key}..String " )
 
-            if (StaticFields.key.isEmpty() || StaticFields.key == "null") {
-                StaticFields.key = metaData.getInt("GameId").toString()
-                Log.e("gameKeyIntOnCreate2", "onCreate:${StaticFields.key}..Int " )
-
-            }
-            URLConstant.gameActivity = metaData.getString("gameActivity").toString()
-        }
         val fragmentHost = supportFragmentManager.findFragmentById(binding.navGraph.id) as NavHostFragment
         navController = fragmentHost.navController
 
@@ -118,21 +95,24 @@ open class BaseActivity : AppCompatActivity(), LogoutInterface {
         dialogBinding.h1.text ="You have logged-In in another device"
         dialogBinding.price.visibility = View.GONE
         dialogBinding.cancelButton.visibility = View.GONE
-        dialogBinding.okButton.text = "OK"
-        dialogBinding.okButton.setOnClickListener {
-            dialog.dismiss()
+        dialogBinding.okButton.visibility = View.GONE
+
+        Handler(Looper.getMainLooper()).postDelayed(
+            Runnable {
+
+                dialog.dismiss()
 //            navController.clearBackStack(R.id.switchAccountFragment)
 //            navController.popBackStack(R.id.switchAccountFragment,true)
-           val size= navController.backQueue.size
-            Log.e("stackSize", "showDialog:$size " )
-            for (item in 0 until navController.backQueue.size) {
-                navController.popBackStack()
-            }
-            navController.navigate(R.id.signInFragment)
+                val size= navController.backQueue.size
+                Log.e("stackSize", "showDialog:$size " )
+                for (item in 0 until navController.backQueue.size) {
+                    navController.popBackStack()
+                }
+                navController.navigate(R.id.signInFragment)
 //            startActivity(Intent(this@BaseActivity,BaseActivity::class.java))
 //            this.finishAffinity()
 
-        }
+            },3000)
 
         dialog.show()
     }
