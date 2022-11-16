@@ -3,6 +3,7 @@ package com.arhamsoft.deskilz.ui.fragment.navBarFragments
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -24,6 +25,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.util.concurrent.TimeUnit
 
 
 class FragmentMatchScore : Fragment() {
@@ -31,6 +33,8 @@ class FragmentMatchScore : Fragment() {
     lateinit var binding:FragmentMatchScoreBinding
     lateinit var loading:LoadingDialog
     var u_id:String? =null
+    lateinit var time: CountDownTimer
+
     var progressionList:ArrayList<ProgressPost> = ArrayList()
     var gameCustomDataList: ArrayList<CustomPlayerModelData> = ArrayList()
     private lateinit var prog:HashMap<*,*>
@@ -65,25 +69,10 @@ class FragmentMatchScore : Fragment() {
         val intent = Intent(requireContext(), myClass)
         someActivity.launch(intent)
 
-
+        countdownTimer()
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-
-
-
-
-//            findNavController().navigate(R.id.)
-
-
-
-
-
-
-        }
 
 
     private fun getGameCustomData(){
@@ -159,6 +148,44 @@ class FragmentMatchScore : Fragment() {
 
     }
 
+    private fun countdownTimer() {
+        time = object : CountDownTimer(5000, 1000) {
+
+            // Callback function, fired on regular interval
+            override fun onTick(millisUntilFinished: Long) {
+
+                //Convert milliseconds into hour,minute and seconds
+                //Convert milliseconds into hour,minute and seconds
+                val hms = java.lang.String.format(
+                    "%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(millisUntilFinished),
+
+                    TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished) - TimeUnit.HOURS.toMinutes(
+                        TimeUnit.MILLISECONDS.toHours(millisUntilFinished)
+                    ),
+                    TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) - TimeUnit.MINUTES.toSeconds(
+                        TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished)
+                    )
+                )
+                binding.btnText.text = hms //set text
+
+
+//                binding.countdown.text = ""+millisUntilFinished / 1000
+            }
+
+            // Callback function, fired
+            // when the time is up
+            override fun onFinish() {
+                activity?.runOnUiThread {
+                navigateTO()}
+
+            }
+        }
+    }
+
+    private fun navigateTO(){
+        findNavController().navigate(R.id.action_fragmentMatchScore_to_dashboardActivity)
+    }
+
 
 
     private fun updateScore() {
@@ -174,9 +201,13 @@ class FragmentMatchScore : Fragment() {
                         activity?.runOnUiThread {
 
                         if (t.status ==1) {
+                            time.start()
                             StaticFields.toastClass(t.message)
+
                             binding.btnSubmit.setOnClickListener {
-                                findNavController().navigate(R.id.action_fragmentMatchScore_to_dashboardActivity)
+                                time.cancel()
+
+                                    navigateTO()
                             }
 //                                binding.score.text = t.data.matchScore
                         }
