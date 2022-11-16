@@ -2,6 +2,8 @@ package com.arhamsoft.deskilz.ui.fragment
 
 import android.app.Activity
 import android.os.Bundle
+import android.text.TextUtils
+import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -113,9 +115,16 @@ class SignUpFragment : Fragment() {
                 binding.repassword.error = "repass Field is Empty"
 
             } else if (binding.password.text.toString() != binding.repassword.text.toString()) {
-                Toast.makeText(requireContext(), "You Have Entered a Wrong Re-Password", Toast.LENGTH_SHORT)
-                    .show()
-            } else if (binding.password.text.toString() == binding.repassword.text.toString()) {
+                StaticFields.toastClass("You Have Entered a Wrong Re-Password")
+            }else if(!binding.consentCheck.isChecked){
+                StaticFields.toastClass("Accept terms and condition in order to continue")
+            }
+            else if (!(isValidEmail(binding.mail.text.toString()))) {
+                binding.mail.error = "Email Format is Incorrect"
+                binding.mail.requestFocus()
+
+            }
+            else if (binding.password.text.toString() == binding.repassword.text.toString()) {
 
 //                NetworkRepo.signupsuccessLiveData = MutableLiveData()
 
@@ -165,4 +174,13 @@ class SignUpFragment : Fragment() {
         }
 
     }
+
+    fun isValidEmail(target: CharSequence): Boolean {
+        return if (TextUtils.isEmpty(target)) {
+            false
+        } else {
+            Patterns.EMAIL_ADDRESS.matcher(target).matches()
+        }
+    }
+
 }

@@ -60,10 +60,11 @@
             android:layout_gravity="center"
             android:orientation="vertical">
 
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/crownlarge" />
+            <ImageView
+                android:layout_width="@dimen/size_200dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/crownlarge" />
 
 
             <RelativeLayout
@@ -77,11 +78,13 @@
                 <EditText
                     android:id="@+id/mail"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_40sdp"
-                    android:layout_marginStart="@dimen/_40sdp"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:layout_marginEnd="@dimen/_40sdp"
+                    android:layout_height="@dimen/size_50dp"
+                    android:layout_marginStart="@dimen/size_50dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="@dimen/size_50dp"
                     android:alpha=".6"
+                    android:maxLines="1"
+                    android:inputType="text"
                     android:background="@drawable/edit_text_deisgn"
                     android:fontFamily="@font/poppins_regular"
                     android:hint="Username or Email"
@@ -93,12 +96,12 @@
                 <EditText
                     android:id="@+id/password"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_40sdp"
+                    android:layout_height="@dimen/size_50dp"
                     android:layout_below="@id/mail"
-                    android:layout_marginStart="@dimen/_40sdp"
-
+                    android:layout_marginStart="@dimen/size_50dp"
+                    android:maxLines="1"
                     android:layout_marginTop="10dp"
-                    android:layout_marginEnd="@dimen/_40sdp"
+                    android:layout_marginEnd="@dimen/size_50dp"
                     android:alpha=".6"
                     android:background="@drawable/edit_text_deisgn"
                     android:fontFamily="@font/poppins_regular"
@@ -115,7 +118,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/password"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginTop="@dimen/_40sdp">
+                    android:layout_marginTop="@dimen/size_50dp">
 
                     <ImageView
                         android:layout_width="match_parent"
