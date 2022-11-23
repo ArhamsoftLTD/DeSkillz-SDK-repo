@@ -1,14 +1,15 @@
 package com.arhamsoft.deskilz.networking.networkModels
 
 data class UserDetailedInfoModelData(
-    val deskillzLevel: Long,
-    val currentGameRank: Long,
+    val deskillzLevel: Int,
+    val deskillzCoin: Int,
+    val trophies: Int,
+    val currentGameRank: Int,
     val currentGameImag: String,
-    val progressXp: Long,
-    val userWin: Long,
-    val userLoose: Long,
-    val winStreak: Long,
-    val trophies: List<Trophy>,
+    val progressXp: Int,
+    val userWin: Int,
+    val userLoose: Int,
+    val winStreak: Int,
     val userPlayedGamesInfo: List<UserPlayedGamesInfo>,
     val userData: UpdateProfileModelData
 )

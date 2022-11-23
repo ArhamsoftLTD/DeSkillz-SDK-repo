@@ -1,11 +1,13 @@
 package com.arhamsoft.deskilz.ui.fragment.navBarFragments
 
+import android.animation.ObjectAnimator
 import android.app.Activity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.DecelerateInterpolator
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
@@ -74,11 +76,20 @@ class ProfileFragment : Fragment() {
 
         binding.recycleListTrophies.adapter = rvAdapter
 
-    trophyList = ArrayList()
-    for (i in 1 until 10){
-        trophyList.add("trophy")
-    }
+        trophyList = ArrayList()
+        for (i in 1 until 10) {
+            trophyList.add("trophy")
+        }
         rvAdapter.setData(trophyList)
+
+        val animation = ObjectAnimator.ofInt(binding.trophiesBar, "progress", 12)
+        animation.duration = 700 // 0.5 second
+        animation.interpolator = DecelerateInterpolator()
+        animation.start()
+
+//        val anim = ProgressAnim(binding.trophiesBar, 0.0f, 12.0f)
+//                                anim.duration = 1000
+//                                binding.deskillzLevelBar.startAnimation(anim)
 
         binding.backtoDashboard.setOnClickListener {
             findNavController().popBackStack()
@@ -88,14 +99,14 @@ class ProfileFragment : Fragment() {
             findNavController().navigate(R.id.action_profileFragment_to_updateProfileFragment)
         }
 
-        CoroutineScope(Dispatchers.IO).launch {
+//        CoroutineScope(Dispatchers.IO).launch {
 //            val user = UserDatabase.getDatabase(requireContext()).userDao().getUser()
 //            if (user != null) {
 //                u_id = user.userId
 //            }
             getUserDetailedInfo()
 
-        }
+//        }
 
     }
 
@@ -120,44 +131,52 @@ class ProfileFragment : Fragment() {
             NetworkRepo.getUserDetailedInfo(
                 URLConstant.u_id!!,
                 object : NetworkListener<UserDetailedInfoModel> {
-                    override fun successFul(t: UserDetailedInfoModel) {
+                    override fun successFul(userDetailedInfoModel: UserDetailedInfoModel) {
                         loading.isDismiss()
-                        if (t.status == 1) {
+                        if (userDetailedInfoModel.status == 1) {
 
                             activity?.runOnUiThread {
 
-                                sharedPreference.saveValue("USERIMG", t.data.userData.userImage)
-                                sharedPreference.saveValue("USERNAME", t.data.userData.userName)
-                                sharedPreference.saveValue("SHOUTOUT", t.data.userData.userShoutOut)
+                                sharedPreference.saveValue(
+                                    "USERIMG",
+                                    userDetailedInfoModel.data.userData.userImage
+                                )
+                                sharedPreference.saveValue("USERNAME", userDetailedInfoModel.data.userData.userName)
+                                sharedPreference.saveValue("SHOUTOUT", userDetailedInfoModel.data.userData.userShoutOut)
 
-                                binding.userImg.load(t.data.userData.userImage) {
+                                binding.userImg.load(userDetailedInfoModel.data.userData.userImage) {
                                     placeholder(R.drawable.ic_baseline_person_24)
                                     error(R.drawable.ic_baseline_person_24)
                                 }
-                                binding.Flag.load(t.data.userData.userCountryFlag)
-                                binding.userName.text = t.data.userData.userName
-                                binding.progressXp.text = t.data.deskillzLevel.toString()
-                                binding.progressXp2.text = "1"
-                                binding.progressXp3.text = t.data.currentGameRank.toString()
-                                binding.coinNo.text = t.data.progressXp.toString()
+                                binding.Flag.load(userDetailedInfoModel.data.userData.userCountryFlag)
+                                binding.userName.text = userDetailedInfoModel.data.userData.userName
+                                binding.deskillzLevel.text = userDetailedInfoModel.data.deskillzLevel.toString()
+
+                                ObjectAnimator.ofInt(binding.deskillzLevelBar, "progress", userDetailedInfoModel.data.deskillzLevel)
+                                    .setDuration(500)
+                                    .start()
+//                                val anim = ProgressAnim(binding.deskillzLevelBar, 0.0f, 25.0f)
+//                                anim.duration = 300
+//                                binding.deskillzLevelBar.startAnimation(anim)
+                                binding.gameRank.text = userDetailedInfoModel.data.currentGameRank.toString()
+                                ObjectAnimator.ofInt(binding.gameRankBar, "progress", userDetailedInfoModel.data.currentGameRank)
+                                    .setDuration(500)
+                                    .start()
+                                binding.progressXp3.text = userDetailedInfoModel.data.currentGameRank.toString()
+                                binding.coinNo.text = userDetailedInfoModel.data.progressXp.toString()
 //                                binding.ticketsNo.text = "0"
                                 binding.dollar.text = "0.0"
+                                binding.shoutout.text = userDetailedInfoModel.data.userData.userShoutOut
 
-                                binding.winStreak.text = t.data.winStreak.toString()
-                                binding.matchesWon.text = t.data.userWin.toString()
-                                binding.shoutout.text = t.data.userData.userShoutOut
-                                binding.win.text = t.data.userWin.toString()
-                                binding.lose.text = t.data.userLoose.toString()
-
+                                binding.winStreak.text = userDetailedInfoModel.data.winStreak.toString()
+                                binding.matchesWon.text = userDetailedInfoModel.data.userWin.toString()
+//                                    binding.shoutout.text = t.data.userData.userShoutOut
+                                binding.win.text = userDetailedInfoModel.data.userWin.toString()
+                                binding.lose.text = userDetailedInfoModel.data.userLoose.toString()
 
                             }
-
                         }
-
-
                     }
-
-
                     override fun failure() {
                         loading.isDismiss()
 

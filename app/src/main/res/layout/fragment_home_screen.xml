@@ -172,18 +172,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="@dimen/size_10dp"
-                    android:layout_marginStart="@dimen/size_20dp"
-                    android:layout_marginEnd="@dimen/size_20dp">
+                    android:layout_margin="@dimen/size_20dp"
+                    android:orientation="horizontal">
 
                     <RelativeLayout
                         android:id="@+id/deskillzLevelLayout"
                         android:layout_width="0dp"
                         android:layout_height="@dimen/size_150dp"
-                        android:layout_marginEnd="@dimen/size_5dp"
                         android:layout_weight="1"
                         android:background="@drawable/background_layout_white_rounded"
+
                         android:orientation="vertical"
                         android:padding="@dimen/size_5dp">
 
@@ -195,13 +193,13 @@
                             android:src="@drawable/d_level_large" />
 
                         <ProgressBar
-                            android:id="@+id/progressbar"
+                            android:id="@+id/deskillzLevelBar"
                             style="?android:attr/progressBarStyleHorizontal"
                             android:layout_width="@dimen/size_120dp"
                             android:layout_height="@dimen/size_100dp"
                             android:layout_centerHorizontal="true"
                             android:max="100"
-                            android:progress="40"
+                            android:progress="100"
                             android:progressDrawable="@drawable/progress_design" />
 
                         <RelativeLayout
@@ -213,11 +211,12 @@
                             android:backgroundTint="#D52116">
 
                             <TextView
+                                android:id="@+id/deskillzLevel"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_centerInParent="true"
                                 android:fontFamily="@font/titan_one_regular"
-                                android:text="4"
+                                android:text="0"
                                 android:textColor="@color/white" />
 
                         </RelativeLayout>
@@ -229,18 +228,22 @@
                             android:layout_centerHorizontal="true"
                             android:layout_marginBottom="@dimen/_5sdp"
                             android:text="Deskillz Level"
+                            android:gravity="center"
+                            android:lines="1"
                             android:textStyle="bold" />
 
                     </RelativeLayout>
+
+
 
                     <RelativeLayout
                         android:id="@+id/battleFieldLayout"
                         android:layout_width="0dp"
                         android:layout_height="@dimen/size_150dp"
-                        android:layout_marginEnd="@dimen/_5sdp"
                         android:layout_weight="1"
-                        android:background="@drawable/background_layout_white_rounded"
+                        android:layout_marginStart="@dimen/size_5dp"
                         android:orientation="vertical"
+                        android:background="@drawable/background_layout_white_rounded"
                         android:padding="@dimen/size_5dp">
 
                         <ImageView
@@ -251,15 +254,15 @@
                             android:src="@drawable/bflarge" />
 
                         <ProgressBar
-                            android:id="@+id/progressBar2"
+                            android:id="@+id/gameRankBar"
                             style="?android:attr/progressBarStyleHorizontal"
                             android:layout_width="@dimen/size_120dp"
                             android:layout_height="@dimen/size_100dp"
                             android:layout_centerHorizontal="true"
                             android:max="100"
-                            android:progress="40"
+                            android:progress="100"
                             android:progressDrawable="@drawable/progress_design"
-                            android:progressTint="#51FCDF" />
+                            />
 
                         <RelativeLayout
                             android:layout_width="@dimen/size_30dp"
@@ -270,11 +273,12 @@
                             android:backgroundTint="#51FCDF">
 
                             <TextView
+                                android:id="@+id/gameRank"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_centerInParent="true"
                                 android:fontFamily="@font/titan_one_regular"
-                                android:text="4"
+                                android:text="0"
                                 android:textColor="@color/black" />
                         </RelativeLayout>
 
@@ -284,16 +288,22 @@
                             android:layout_alignParentBottom="true"
                             android:layout_centerHorizontal="true"
                             android:layout_marginBottom="@dimen/_5sdp"
-                            android:text="Battlefield"
+                            android:text="Game Rank"
+                            android:gravity="center"
+                            android:lines="1"
                             android:textStyle="bold" />
 
                     </RelativeLayout>
+
+
 
                     <RelativeLayout
                         android:id="@+id/bronzeTiersLayout"
                         android:layout_width="0dp"
                         android:layout_height="@dimen/size_150dp"
                         android:layout_weight="1"
+                        android:layout_marginStart="@dimen/size_5dp"
+
                         android:background="@drawable/background_layout_white_rounded"
                         android:orientation="vertical"
                         android:padding="@dimen/size_5dp">
@@ -312,9 +322,9 @@
                             android:layout_height="@dimen/size_100dp"
                             android:layout_centerHorizontal="true"
                             android:max="100"
-                            android:progress="40"
+                            android:progress="100"
                             android:progressDrawable="@drawable/progress_design"
-                            android:progressTint="#A73C11" />
+                            />
 
                         <RelativeLayout
                             android:layout_width="@dimen/size_30dp"
@@ -325,11 +335,12 @@
                             android:backgroundTint="#A73C11">
 
                             <TextView
+                                android:id="@+id/progressXp3"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_centerInParent="true"
                                 android:fontFamily="@font/titan_one_regular"
-                                android:text="4"
+                                android:text="-"
                                 android:textColor="@color/white" />
 
                         </RelativeLayout>
@@ -340,12 +351,15 @@
                             android:layout_alignParentBottom="true"
                             android:layout_centerHorizontal="true"
                             android:layout_marginBottom="@dimen/_5sdp"
-                            android:text="Bronze Tier"
+                            android:text="Level"
+                            android:gravity="center"
+                            android:lines="1"
                             android:textStyle="bold" />
 
                     </RelativeLayout>
 
                 </LinearLayout>
+
 
             </LinearLayout>
 

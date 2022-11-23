@@ -185,7 +185,7 @@
     <com.sdk.bottomsdktextandbglib.BottomBar
         android:id="@+id/bottomNavigation"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_50sdp"
+        android:layout_height="@dimen/size_50dp"
         android:layout_alignParentBottom="true"
         app:backgroundColor="@color/transparent_black_hex_66"
         app:indicatorDrawable="@drawable/bnbackgroundlarge"

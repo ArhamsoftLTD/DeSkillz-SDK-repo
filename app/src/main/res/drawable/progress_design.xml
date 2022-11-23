@@ -12,13 +12,18 @@
             android:useLevel="false">
             <solid android:color="#DDD" />
         </shape>
+
     </item>
     <!--Adding our second item-->
+
     <item>
         <!--Rotation degree of Ring is made from 270 to 270-->
         <rotate
-            android:fromDegrees="30"
-            android:toDegrees="180">
+            android:fromDegrees="90"
+            android:pivotX="50%"
+            android:pivotY="50%"
+            android:toDegrees="90">
+
             <!--The main attribute used here is android:useLevel="true" in
              shape tag. Also gradient is added to set the startColor and
              endColor of the ring.-->
@@ -26,9 +31,21 @@
                 android:shape="ring"
                 android:thicknessRatio="16"
                 android:useLevel="true">
+
+
+                <rotate
+                    android:fromDegrees="0"
+                    android:pivotX="50%"
+                    android:pivotY="50%"
+                    android:toDegrees="360" />
+
                 <solid android:color="#D52116"/>
 
             </shape>
+
         </rotate>
     </item>
+
+
+
 </layer-list>

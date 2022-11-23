@@ -1,5 +1,6 @@
 package com.arhamsoft.deskilz.ui.fragment.navBarFragments
 
+import android.animation.ObjectAnimator
 import android.app.Activity
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,6 +12,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.arhamsoft.deskilz.R
 import com.arhamsoft.deskilz.databinding.FragmentHomeScreenBinding
 import com.arhamsoft.deskilz.domain.listeners.NetworkListener
@@ -76,6 +78,7 @@ class HomeScreenFragment : Fragment() {
             loading.startLoading()
 //        URLConstant.check = false
 //        getGameCustomData()
+            getUserDetailedInfo()
             getWaitingList()
             getMatchesRecord(0,false)
         }
@@ -153,6 +156,70 @@ class HomeScreenFragment : Fragment() {
 
     }
 
+    private fun getUserDetailedInfo() {
+        CoroutineScope(Dispatchers.IO).launch {
+
+            NetworkRepo.getUserDetailedInfo(
+                URLConstant.u_id!!,
+                object : NetworkListener<UserDetailedInfoModel> {
+                    override fun successFul(userDetailedInfoModel: UserDetailedInfoModel) {
+                        loading.isDismiss()
+                        if (userDetailedInfoModel.status == 1) {
+
+                            activity?.runOnUiThread {
+
+//                                sharedPreference.saveValue(
+//                                    "USERIMG",
+//                                    userDetailedInfoModel.data.userData.userImage
+//                                )
+//                                sharedPreference.saveValue("USERNAME", userDetailedInfoModel.data.userData.userName)
+//                                sharedPreference.saveValue("SHOUTOUT", userDetailedInfoModel.data.userData.userShoutOut)
+
+//                                binding.userImg.load(userDetailedInfoModel.data.userData.userImage) {
+//                                    placeholder(R.drawable.ic_baseline_person_24)
+//                                    error(R.drawable.ic_baseline_person_24)
+//                                }
+//                                binding.Flag.load(userDetailedInfoModel.data.userData.userCountryFlag)
+//                                binding.userName.text = userDetailedInfoModel.data.userData.userName
+                                binding.deskillzLevel.text = userDetailedInfoModel.data.deskillzLevel.toString()
+
+                                ObjectAnimator.ofInt(binding.deskillzLevelBar, "progress", userDetailedInfoModel.data.deskillzLevel)
+                                    .setDuration(500)
+                                    .start()
+//                                val anim = ProgressAnim(binding.deskillzLevelBar, 0.0f, 25.0f)
+//                                anim.duration = 300
+//                                binding.deskillzLevelBar.startAnimation(anim)
+                                binding.gameRank.text = userDetailedInfoModel.data.currentGameRank.toString()
+                                ObjectAnimator.ofInt(binding.gameRankBar, "progress", userDetailedInfoModel.data.currentGameRank)
+                                    .setDuration(500)
+                                    .start()
+//                                binding.progressXp3.text = userDetailedInfoModel.data.currentGameRank.toString()
+//                                binding.coinNo.text = userDetailedInfoModel.data.progressXp.toString()
+////                                binding.ticketsNo.text = "0"
+//                                binding.dollar.text = "0.0"
+//                                binding.shoutout.text = userDetailedInfoModel.data.userData.userShoutOut
+//
+//                                binding.winStreak.text = userDetailedInfoModel.data.winStreak.toString()
+//                                binding.matchesWon.text = userDetailedInfoModel.data.userWin.toString()
+////                                    binding.shoutout.text = t.data.userData.userShoutOut
+//                                binding.win.text = userDetailedInfoModel.data.userWin.toString()
+//                                binding.lose.text = userDetailedInfoModel.data.userLoose.toString()
+
+                            }
+                        }
+                    }
+                    override fun failure() {
+                        loading.isDismiss()
+
+                        activity?.runOnUiThread {
+                            StaticFields.toastClass("Api syncing fail user detail info ")
+                        }
+                    }
+                }
+            )
+        }
+
+    }
 
 
     private fun getMatchesRecord(off: Int, isLoadMore: Boolean){
