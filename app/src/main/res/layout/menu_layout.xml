@@ -43,6 +43,7 @@
             android:layout_width="@dimen/size_80dp"
             android:layout_height="@dimen/size_80dp"
             android:layout_margin="10dp"
+            android:padding="5dp"
             android:background="@drawable/ic_img_layout"
             android:src="@drawable/ic_baseline_person_24"/>
 

@@ -77,6 +77,7 @@
                     android:id="@+id/userImg"
                     android:layout_width="@dimen/size_80dp"
                     android:layout_height="@dimen/size_80dp"
+                    android:padding="5dp"
                     android:background="@drawable/ic_img_layout"
                     android:src="@drawable/ic_baseline_person_24" />
 
@@ -100,7 +101,7 @@
                         android:layout_width="40dp"
                         android:layout_height="30dp"
                         android:layout_marginTop="5dp"
-                        android:background="@color/white" />
+                        android:background="@drawable/country_icon" />
 
                 </LinearLayout>
 

@@ -17,64 +17,65 @@
         >
 
 
-<!--    <EditText-->
-<!--        android:id="@+id/search"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_marginStart="@dimen/size_20dp"-->
-<!--        android:layout_marginEnd="@dimen/size_20dp"-->
-<!--        android:layout_height="@dimen/size_40dp"-->
-<!--        android:layout_marginTop="@dimen/size_15dp"-->
-<!--        android:layout_gravity="center_horizontal"-->
-<!--        android:background="@drawable/searchview_background"-->
-<!--        android:drawableStart="@drawable/ic_search_sm"-->
-<!--        android:paddingStart="@dimen/_10sdp"-->
-<!--        app:iconifiedByDefault="false"-->
-<!--        app:queryBackground="@android:color/transparent"-->
-<!--        app:queryHint="Search" />-->
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_marginStart="@dimen/size_20dp"
+        android:layout_marginEnd="@dimen/size_20dp"
+        android:layout_height="@dimen/size_50dp"
+        android:layout_marginTop="@dimen/size_15dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/searchview_background"
+        android:drawableStart="@drawable/ic_search_sm"
+        android:paddingStart="@dimen/_10sdp"
+        app:iconifiedByDefault="false"
+        app:queryBackground="@android:color/transparent"
+        app:queryHint="Search" />
 
 
 
-<!--    <RelativeLayout-->
-<!--        android:layout_marginTop="@dimen/size_5dp"-->
-<!--        android:id="@+id/addFriend"-->
-<!--        android:layout_gravity="center"-->
-<!--        android:layout_width="@dimen/_220sdp"-->
-<!--        android:layout_height="wrap_content">-->
+    <RelativeLayout
+        android:layout_marginTop="@dimen/size_10dp"
+        android:id="@+id/addFriend"
+        android:layout_marginStart="@dimen/size_20dp"
+        android:layout_marginEnd="@dimen/size_20dp"
+        android:layout_width="match_parent"
+        android:layout_height="55dp">
 
-<!--        <com.arhamsoft.deskilz.ui.backGroundLayout.BackGroundLayoutView-->
-<!--            android:layout_width="match_parent"-->
+        <com.arhamsoft.deskilz.ui.backGroundLayout.BackGroundLayoutView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:apply_gradient="1"
+            app:cornersValue="@dimen/size_10dp"
+            app:corners_side="0"
+            app:gradient1="@color/blue1"
+            app:gradient2="@color/blue2"
+            app:lower_cut_value="@dimen/size_15dp"
+            app:upper_cut_value="@dimen/size_15dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:fontFamily="@font/titan_one_regular"
+            android:text="  Add Friends"
+            android:drawableStart="@drawable/ic_baseline_person_add_alt_1_24"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_15sdp"
+            android:textStyle="bold" />
+
+
+
+
+    </RelativeLayout>
+
+<!--        <ImageView-->
+<!--            android:id="@+id/addFriend"-->
+<!--            android:layout_width="@dimen/size_50dp"-->
 <!--            android:layout_height="@dimen/size_40dp"-->
-<!--            app:apply_gradient="1"-->
-<!--            app:cornersValue="@dimen/size_10dp"-->
-<!--            app:corners_side="0"-->
-<!--            app:gradient1="@color/blue1"-->
-<!--            app:gradient2="@color/blue2"-->
-<!--            app:lower_cut_value="@dimen/size_15dp"-->
-<!--            app:upper_cut_value="@dimen/size_15dp" />-->
-
-<!--        <TextView-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_centerInParent="true"-->
-<!--            android:fontFamily="@font/titan_one_regular"-->
-<!--            android:text="AddFriends"-->
-<!--            android:textColor="@color/white"-->
-<!--            android:textSize="@dimen/_15sdp"-->
-<!--            android:textStyle="bold" />-->
-
-
-
-
-<!--    </RelativeLayout>-->
-
-        <ImageView
-            android:id="@+id/addFriend"
-            android:layout_width="@dimen/size_50dp"
-            android:layout_height="@dimen/size_40dp"
-            android:layout_gravity="end"
-            android:layout_marginEnd="@dimen/size_10dp"
-            android:layout_marginTop="@dimen/size_10dp"
-            android:src="@drawable/ic_baseline_person_add_alt_1_24" />
+<!--            android:layout_gravity="end"-->
+<!--            android:layout_marginEnd="@dimen/size_10dp"-->
+<!--            android:layout_marginTop="@dimen/size_10dp"-->
+<!--            android:src="@drawable/ic_baseline_person_add_alt_1_24" />-->
 
 
         <LinearLayout
@@ -116,6 +117,7 @@
             android:id="@+id/channel"
             android:layout_width="match_parent"
             android:orientation="vertical"
+            android:layout_marginTop="5dp"
             android:layout_height="wrap_content">
 
 
@@ -140,7 +142,7 @@
                 android:layout_width="@dimen/size_50dp"
                 android:layout_height="@dimen/size_50dp"
                 android:layout_alignParentTop="true"
-                android:src="@drawable/ic_baseline_person_24" />
+                android:src="@mipmap/ic_launcher" />
 
 
             <TextView
@@ -148,10 +150,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_5sdp"
-                android:layout_toEndOf="@id/userPicReq"
                 android:padding="@dimen/_5sdp"
+                android:text="@string/app_name"
+                android:layout_gravity="center_vertical"
+                android:fontFamily="@font/titan_one_regular"
 
-                android:text="(Game Name)"
                 android:textColor="@color/white"
                 android:textSize="@dimen/_15sdp" />
 

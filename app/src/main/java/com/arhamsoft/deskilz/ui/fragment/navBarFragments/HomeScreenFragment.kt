@@ -150,9 +150,9 @@ class HomeScreenFragment : Fragment() {
             navController.navigate(R.id.action_dashboardActivity_to_levelScreenFragment)
         }
 
-        binding.bronzeTiersLayout.setOnClickListener {
-            navController.navigate(R.id.action_dashboardActivity_to_rewardFragment)
-        }
+//        binding.bronzeTiersLayout.setOnClickListener {
+//            navController.navigate(R.id.action_dashboardActivity_to_rewardFragment)
+//        }
 
     }
 

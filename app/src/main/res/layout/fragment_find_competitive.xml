@@ -153,7 +153,7 @@
                     android:fontFamily="@font/titan_one_regular"
                     android:text="VS"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/text_size_25sp" />
+                    android:textSize="@dimen/text_size_30sp" />
 
             </RelativeLayout>
 
@@ -364,6 +364,7 @@
                         android:layout_centerInParent="true"
                         android:fontFamily="@font/titan_one_regular"
                         android:padding="@dimen/size_5dp"
+                        android:gravity="center"
                         android:text="BEGIN MATCH NOW"
                         android:textColor="@color/white"
                         android:textSize="@dimen/text_size_20sp" />

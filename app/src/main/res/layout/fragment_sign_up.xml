@@ -30,6 +30,8 @@
             android:textColor="@color/white"
             android:textSize="@dimen/_17sdp" />
 
+
+
         <ImageView
             android:id="@+id/poweredLogo"
             android:layout_width="wrap_content"
@@ -108,7 +110,7 @@
                     android:inputType="text"
                     android:textColor="@color/white"
                     android:paddingStart="@dimen/size_10dp"
-                    android:textColorHint="@color/white"
+                    android:textColorHint="@color/lightGrey"
                     android:textSize="@dimen/text_size_15sp"
                     android:fontFamily="@font/poppins_regular"
                     android:background="@drawable/edit_text_deisgn"
@@ -128,7 +130,7 @@
                     android:inputType="text"
 
                     android:paddingStart="@dimen/_10sdp"
-                    android:textColorHint="@color/white"
+                    android:textColorHint="@color/lightGrey"
                     android:textSize="@dimen/text_size_15sp"
                     android:fontFamily="@font/poppins_regular"
                     android:background="@drawable/edit_text_deisgn"
@@ -146,7 +148,7 @@
                     android:textColor="@color/white"
                     android:maxLines="1"
                     android:paddingStart="@dimen/size_10dp"
-                    android:textColorHint="@color/white"
+                    android:textColorHint="@color/lightGrey"
                     android:textSize="@dimen/text_size_15sp"
                     android:inputType="textPassword"
                     android:fontFamily="@font/poppins_regular"
@@ -165,7 +167,7 @@
                     android:layout_marginEnd="@dimen/size_50dp"
                     android:hint="Re-enter Your Password"
                     android:paddingStart="@dimen/size_10dp"
-                    android:textColorHint="@color/white"
+                    android:textColorHint="@color/lightGrey"
                     android:textSize="@dimen/text_size_15sp"
                     android:fontFamily="@font/poppins_regular"
                     android:background="@drawable/edit_text_deisgn" />
