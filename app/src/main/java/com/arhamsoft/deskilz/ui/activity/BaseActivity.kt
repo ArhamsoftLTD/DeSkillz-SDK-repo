@@ -49,6 +49,10 @@ open class BaseActivity : AppCompatActivity(), LogoutInterface {
         super.onCreate(savedInstanceState)
         binding = ActivityBaseBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        //hide status bar
+        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
+        actionBar?.hide()
+
 
         packageManager.getApplicationInfo(packageName, PackageManager.GET_META_DATA).apply {
             StaticFields.key = metaData.getString("GameId").toString()

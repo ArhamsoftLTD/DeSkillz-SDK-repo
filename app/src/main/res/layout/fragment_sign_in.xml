@@ -64,7 +64,7 @@
                 android:layout_width="@dimen/size_200dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:src="@drawable/crownlarge" />
+                android:src="@mipmap/ic_launcher" />
 
 
             <RelativeLayout
