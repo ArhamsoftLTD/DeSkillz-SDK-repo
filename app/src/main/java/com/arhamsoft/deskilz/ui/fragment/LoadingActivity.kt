@@ -22,6 +22,7 @@ import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.annotation.Nullable
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
@@ -125,7 +126,56 @@ class LoadingActivity : Fragment() {
             override fun onAnimationEnd(p0: Animator?) {
                 if (apiHit){
                     if (sharedPreference.isLogin("LOGIN")) {
-                        navController.navigate(R.id.action_loadingActivity_to_dashboardActivity)
+                        if (activity?.intent?.extras != null) {
+                            val bundle2 = bundleOf()
+
+                            val map = HashMap<String, String>()
+
+                            for (key in activity?.intent?.extras!!.keySet()) {
+                                activity?.intent?.extras!!.getString(key)?.let { map.put(key, it) }
+                            }
+
+                            if (map["notificationType"]?.toInt() == 4){
+                                navController.navigate(R.id.dashboardActivity)
+
+                            }
+                            else if (map["notificationType"]?.toInt() == 6){
+                                navController.navigate(R.id.dashboardActivity)
+
+                            }
+                            else if (map["notificationType"]?.toInt() == 5){
+                                navController.navigate(R.id.action_splashFragment_to_chatHeadsFragment)
+                            }
+                            else if (map["notificationType"]?.toInt() == 3){
+                                sharedPreference.saveLogin("LOGIN", false)
+                                navController.navigate(R.id.signInFragment)
+                            }
+                            else if (map["notificationType"]?.toInt() == 0){
+                                bundle2.putInt("GLOBAL_CHAT", 1)
+
+                                navController.navigate(R.id.action_splashFragment_to_chatFragment,bundle2)
+
+                            }
+                            else if (map["notificationType"]?.toInt() == 1){
+                                bundle2.putInt("GLOBAL_CHAT", 2)
+                                bundle2.putSerializable("FRIEND_ID", map["fromId"])
+                                navController.navigate(R.id.action_splashFragment_to_chatFragment,bundle2)
+
+                            }
+                            else{
+                                navController.navigate(R.id.action_loadingActivity_to_dashboardActivity)
+
+
+                            }
+                        }else {
+
+
+                            navController.navigate(R.id.action_loadingActivity_to_dashboardActivity)
+
+                        }
+
+
+
                     }
                     else{
                         navController.navigate(R.id.action_loadingActivity_to_signInFragment)

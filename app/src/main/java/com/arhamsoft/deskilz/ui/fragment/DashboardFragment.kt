@@ -209,6 +209,11 @@ class DashboardFragment : Fragment() {
 
             navController.navigate(R.id.action_dashboardActivity_to_notificationsFragment)
         }
+
+        binding.bellIcon.setOnClickListener {
+            navController.navigate(R.id.action_dashboardActivity_to_notificationsFragment)
+        }
+
         binding.menu.accountSettings.setOnClickListener {
             binding.menu.menuLayout.visibility = View.GONE
 
