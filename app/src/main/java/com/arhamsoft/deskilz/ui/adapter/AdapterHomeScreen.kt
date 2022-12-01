@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.arhamsoft.deskilz.R
 import com.arhamsoft.deskilz.databinding.RowHomeScreenBinding
-import com.arhamsoft.deskilz.domain.models.WinLossModel
 import com.arhamsoft.deskilz.networking.networkModels.GetMatchesRecord
 import com.arhamsoft.deskilz.networking.networkModels.GetMatchesRecordData
 

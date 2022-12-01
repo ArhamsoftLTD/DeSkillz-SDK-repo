@@ -20,7 +20,7 @@ object StaticFields {
     var key : String = "0"
 
 
-
+    // native method which will be called from native game android
     fun startSDK(context: Context){
 
         context.startActivity(Intent(context,BaseActivity::class.java))

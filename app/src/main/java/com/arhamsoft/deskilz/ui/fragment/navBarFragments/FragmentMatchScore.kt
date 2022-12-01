@@ -5,14 +5,13 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import coil.load
-import com.alphaCareInc.app.room.UserDatabase
 import com.arhamsoft.deskilz.R
 import com.arhamsoft.deskilz.databinding.FragmentMatchScoreBinding
 import com.arhamsoft.deskilz.domain.listeners.NetworkListener
@@ -21,10 +20,10 @@ import com.arhamsoft.deskilz.networking.networkModels.*
 import com.arhamsoft.deskilz.networking.retrofit.URLConstant
 import com.arhamsoft.deskilz.utils.LoadingDialog
 import com.arhamsoft.deskilz.utils.StaticFields
+import com.unity3d.player.UnityPlayer
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.util.concurrent.TimeUnit
 
 
@@ -34,7 +33,8 @@ class FragmentMatchScore : Fragment() {
     lateinit var loading:LoadingDialog
     var u_id:String? =null
     lateinit var time: CountDownTimer
-
+     var mUnityPlayer // don't change the name of this variable; referenced from native code
+            : UnityPlayer? = null
     var progressionList:ArrayList<ProgressPost> = ArrayList()
     var gameCustomDataList: ArrayList<CustomPlayerModelData> = ArrayList()
     private lateinit var prog:HashMap<*,*>
@@ -48,7 +48,7 @@ class FragmentMatchScore : Fragment() {
             Log.d("dataResult", data.toString())
 
 //            loading.startLoading()
-
+            countdownTimer()
             getGameCustomData()
             loading.startLoading()
             updateScore()
@@ -64,12 +64,23 @@ class FragmentMatchScore : Fragment() {
     ): View? {
         binding= FragmentMatchScoreBinding.inflate(LayoutInflater.from(context))
         loading = LoadingDialog(requireContext() as Activity)
+//
+//         //// for native
+//        val myClass = Class.forName(URLConstant.gameActivity)
+//        val intent = Intent(requireContext(), myClass)
+//        someActivity.launch(intent)
+//
+//
 
-        val myClass = Class.forName(URLConstant.gameActivity)
+        //for unity
+        val myClass = Class.forName("com.unity3d.player.UnityPlayerActivity")
         val intent = Intent(requireContext(), myClass)
         someActivity.launch(intent)
 
-        countdownTimer()
+        UnityPlayer.UnitySendMessage("MainMenuUI", "LoadScene", "")
+
+
+
         return binding.root
     }
 
@@ -282,4 +293,6 @@ class FragmentMatchScore : Fragment() {
         binding.score.text = URLConstant.score.toString()
 
     }
+
+
 }
