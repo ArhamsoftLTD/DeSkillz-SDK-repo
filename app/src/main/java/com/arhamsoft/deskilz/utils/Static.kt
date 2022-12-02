@@ -6,8 +6,8 @@ import android.content.Intent
 import androidx.navigation.findNavController
 import com.arhamsoft.deskilz.R
 import com.arhamsoft.deskilz.ui.activity.BaseActivity
-import com.unity3d.player.UnityPlayer
-import com.unity3d.player.UnityPlayerActivity
+//import com.unity3d.player.UnityPlayer
+//import com.unity3d.player.UnityPlayerActivity
 
 
 class Static : Activity() {
@@ -36,10 +36,10 @@ class Static : Activity() {
 //        URLConstant.score = Score.toLong()
         intent.putExtra("matchScore",Score.toLong());
         setResult(RESULT_OK, intent)
-        UnityPlayer.currentActivity.runOnUiThread {
-            UnityPlayerActivity().mUnityPlayer.quit()
-            UnityPlayer.currentActivity.finish()
-        }
+//        UnityPlayer.currentActivity.runOnUiThread {
+//            UnityPlayerActivity().mUnityPlayer.quit()
+//            UnityPlayer.currentActivity.finish()
+//        }
     }
 
 
