@@ -56,18 +56,18 @@ open class BaseActivity : AppCompatActivity(), LogoutInterface {
         //hide status bar
 
 //
-//
-//        packageManager.getApplicationInfo(packageName, PackageManager.GET_META_DATA).apply {
-//            StaticFields.key = metaData.getString("GameId").toString()
-//            Log.e("gameKeyStringOnCreate2", "onCreate:${StaticFields.key}..String " )
-//
-//            if (StaticFields.key.isEmpty() || StaticFields.key == "null") {
-//                StaticFields.key = metaData.getInt("GameId").toString()
-//                Log.e("gameKeyIntOnCreate2", "onCreate:${StaticFields.key}..Int " )
-//
-//            }
-//            URLConstant.gameActivity = metaData.getString("gameActivity").toString()
-//        }
+
+        packageManager.getApplicationInfo(packageName, PackageManager.GET_META_DATA).apply {
+            StaticFields.key = metaData.getString("GameId").toString()
+            Log.e("gameKeyStringOnCreate2", "onCreate:${StaticFields.key}..String " )
+
+            if (StaticFields.key.isEmpty() || StaticFields.key == "null") {
+                StaticFields.key = metaData.getInt("GameId").toString()
+                Log.e("gameKeyIntOnCreate2", "onCreate:${StaticFields.key}..Int " )
+
+            }
+            URLConstant.gameActivity = metaData.getString("gameActivity").toString()
+        }
         val fragmentHost = supportFragmentManager.findFragmentById(binding.navGraph.id) as NavHostFragment
         navController = fragmentHost.navController
 

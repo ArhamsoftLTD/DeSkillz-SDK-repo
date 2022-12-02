@@ -33,8 +33,8 @@ class FragmentMatchScore : Fragment() {
     lateinit var loading:LoadingDialog
     var u_id:String? =null
     lateinit var time: CountDownTimer
-     var mUnityPlayer // don't change the name of this variable; referenced from native code
-            : UnityPlayer? = null
+//     var mUnityPlayer // don't change the name of this variable; referenced from native code
+//            : UnityPlayer? = null
     var progressionList:ArrayList<ProgressPost> = ArrayList()
     var gameCustomDataList: ArrayList<CustomPlayerModelData> = ArrayList()
     private lateinit var prog:HashMap<*,*>
@@ -43,15 +43,16 @@ class FragmentMatchScore : Fragment() {
     ) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
             val data = result.data
-            URLConstant.score= data?.extras?.get("matchScore") as Long
-            prog =  data.extras?.get("progression") as HashMap<*,*>
-            Log.d("dataResult", data.toString())
 
-//            loading.startLoading()
-            countdownTimer()
-            getGameCustomData()
-            loading.startLoading()
-            updateScore()
+                URLConstant.score= data?.extras?.get("matchScore") as Long
+                prog =  data.extras?.get("progression") as HashMap<*,*>
+                Log.d("dataResult", data.toString())
+
+
+                countdownTimer()
+                getGameCustomData()
+                loading.startLoading()
+                updateScore()
 
         }
     }
@@ -64,20 +65,21 @@ class FragmentMatchScore : Fragment() {
     ): View? {
         binding= FragmentMatchScoreBinding.inflate(LayoutInflater.from(context))
         loading = LoadingDialog(requireContext() as Activity)
-//
-//         //// for native
-//        val myClass = Class.forName(URLConstant.gameActivity)
-//        val intent = Intent(requireContext(), myClass)
-//        someActivity.launch(intent)
-//
-//
 
-        //for unity
-        val myClass = Class.forName("com.unity3d.player.UnityPlayerActivity")
+
+//
+         //// for native
+        val myClass = Class.forName(URLConstant.gameActivity)
         val intent = Intent(requireContext(), myClass)
         someActivity.launch(intent)
+//
+//
 
-        UnityPlayer.UnitySendMessage("MainMenuUI", "LoadScene", "")
+//        //for unity
+//        val myClass = Class.forName("com.unity3d.player.UnityPlayerActivity")
+//        val intent = Intent(requireContext(), myClass)
+//        someActivity.launch(intent)
+//        UnityPlayer.UnitySendMessage("MainMenuUI", "LoadScene", "")
 
 
 

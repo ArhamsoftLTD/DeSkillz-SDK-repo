@@ -72,7 +72,7 @@ object URLConstant {
     var player_count:Long? = 0L
     var joinType:Int = 9
     var currentLoginId:Int = 0
-    var score:Long=85
+    var score:Long=0
     var gameActivity:String = ""
 
 

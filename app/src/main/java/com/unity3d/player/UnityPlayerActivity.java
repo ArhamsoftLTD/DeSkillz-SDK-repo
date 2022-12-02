@@ -15,7 +15,7 @@ import android.os.Process;
 
 public class UnityPlayerActivity extends Activity implements IUnityPlayerLifecycleEvents
 {
-    protected UnityPlayer mUnityPlayer; // don't change the name of this variable; referenced from native code
+    public UnityPlayer mUnityPlayer; // don't change the name of this variable; referenced from native code
 
     // Override this in your custom UnityPlayerActivity to tweak the command line arguments passed to the Unity Android Player
     // The command line arguments are passed as a string, separated by spaces
@@ -28,13 +28,13 @@ public class UnityPlayerActivity extends Activity implements IUnityPlayerLifecyc
     {
         return cmdLine;
     }
-
+    public static Activity fa;
     // Setup activity layout
     @Override protected void onCreate(Bundle savedInstanceState)
     {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
-
+            fa = this;
         String cmdLine = updateUnityCommandLineArguments(getIntent().getStringExtra("unity"));
         getIntent().putExtra("unity", cmdLine);
 
