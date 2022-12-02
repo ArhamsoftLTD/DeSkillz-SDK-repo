@@ -19,6 +19,14 @@
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/ic_app_icon_deskillz" />
 
+        <activity
+            android:name=".ui.activity.BaseActivity"
+            android:exported="true">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+
         <service
             android:name=".services.MyFirebaseMessagingService"
             android:exported="true">
@@ -28,13 +36,7 @@
         </service>
 <!--<meta-data android:name="unityplayer.UnityActivity" android:value="true"/>-->
 
-        <activity
-            android:name=".ui.activity.BaseActivity"
-            android:exported="true">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
+
 
 <!--        <activity android:name="com.unity3d.player.UnityPlayerActivity"-->
 <!--            android:exported="true"/>-->
