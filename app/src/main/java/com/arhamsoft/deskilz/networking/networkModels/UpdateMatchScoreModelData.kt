@@ -4,7 +4,7 @@ data class UpdateMatchScoreModelData(
     val matchID: String,
     val tournamentName: String,
     val gameImage: String,
-    val gameGenre: String,
+    val gameGenre: List<GameGenre>,
     val gameInstructions: String,
     val gamePlatform: Long,
     val matchScore: String,
