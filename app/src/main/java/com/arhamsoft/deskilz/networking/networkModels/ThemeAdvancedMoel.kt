@@ -3,7 +3,7 @@ package com.arhamsoft.deskilz.networking.networkModels
 data class ThemeAdvancedMoel(
     val cellAlternativeBackGroundColor: String,
 
-    val OpacityNone: Long,
+    val OpacityNone: Double,
 
     val playerActivityIndicatorColor: String,
     val statusBarViewBackgroundColor: String,
