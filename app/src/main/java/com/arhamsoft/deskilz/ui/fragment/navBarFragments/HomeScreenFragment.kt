@@ -183,6 +183,8 @@ class HomeScreenFragment : Fragment() {
 //                                binding.userName.text = userDetailedInfoModel.data.userData.userName
                                 binding.deskillzLevel.text = userDetailedInfoModel.data.deskillzLevel.toString()
 
+
+
                                 ObjectAnimator.ofInt(binding.deskillzLevelBar, "progress", userDetailedInfoModel.data.deskillzLevel)
                                     .setDuration(500)
                                     .start()

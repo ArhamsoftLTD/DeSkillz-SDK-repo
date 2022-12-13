@@ -16,21 +16,13 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.ResponseBody
 
+
+
 object NetworkRepo {
 
     private var retrofitClient = RetrofitClient.getInstance()
+
     private val callApi = CallApi.getInstance()
-    var signupsuccessLiveData: MutableLiveData<SignUpModel> = MutableLiveData()
-    var forgotsuccessLiveData: MutableLiveData<ForgotModel> = MutableLiveData()
-    //    var firebasesuccessLiveData: MutableLiveData<StatusModel> = MutableLiveData()
-//    var logoutsuccessLiveData: MutableLiveData<StatusModel> = MutableLiveData()
-    var loginsuccessLiveData: MutableLiveData<LoginModel> = MutableLiveData()
-    //    var generateSuccessLiveData: MutableLiveData<GenerateCodeModel> = MutableLiveData()
-    var errorLiveData: MutableLiveData<ErrorModel> = MutableLiveData()
-
-
-
-
 
 
     suspend fun register(
@@ -41,21 +33,27 @@ object NetworkRepo {
         listener: NetworkListener<SignUpModel>
 
     ) {
-        callApi.callApi(
-            retrofitClient.register(userName,userEmail,password,country),
-            object : ResponseHandler<SignUpModel> {
-                override fun success(model: SignUpModel) {
-                    model.let {
-                        listener.successFul(it)
+        try {
+            callApi.callApi(
+                retrofitClient.register(userName, userEmail, password, country),
+                object : ResponseHandler<SignUpModel> {
+                    override fun success(model: SignUpModel) {
+                        model.let {
+                            listener.successFul(it)
+                        }
+
                     }
 
+                    override fun failure(error: Any) {
+                        listener.failure()
+                    }
                 }
+            )
+        } catch (e: Exception) {
 
-                override fun failure(error: Any) {
-                    listener.failure()
-                }
-            }
-        )
+            Log.e("exception", "APi = $e ")
+            listener.failure()
+        }
     }
 
 
@@ -69,22 +67,29 @@ object NetworkRepo {
         listener: NetworkListener<LoginModel>
 
     ) {
-        callApi.callApi(
-            retrofitClient.login(email, password, deviceId,fcmToken),
-            object : ResponseHandler<LoginModel> {
-                override fun success(model: LoginModel) {
-                    model.let {
-                        listener.successFul(it)
+        try {
+            callApi.callApi(
+                retrofitClient.login(email, password, deviceId, fcmToken),
+                object : ResponseHandler<LoginModel> {
+                    override fun success(model: LoginModel) {
+                        model.let {
+                            listener.successFul(it)
+                        }
+
                     }
 
+                    override fun failure(error: Any) {
+                        listener.failure()
+                    }
                 }
+            )
+        } catch (e: Exception) {
 
-                override fun failure(error: Any) {
-                    listener.failure()
-                }
-            }
-        )
+            Log.e("exception", "APi = $e ")
+            listener.failure()
+        }
     }
+
 
 
     suspend fun switchAcc(
@@ -94,21 +99,27 @@ object NetworkRepo {
         listener: NetworkListener<LoginModel>
 
     ) {
-        callApi.callApi(
-            retrofitClient.switchAcc(userId,latsUserId,fcmToken),
-            object : ResponseHandler<LoginModel> {
-                override fun success(model: LoginModel) {
-                    model.let {
-                        listener.successFul(it)
+        try {
+            callApi.callApi(
+                retrofitClient.switchAcc(userId, latsUserId, fcmToken),
+                object : ResponseHandler<LoginModel> {
+                    override fun success(model: LoginModel) {
+                        model.let {
+                            listener.successFul(it)
+                        }
+
                     }
 
+                    override fun failure(error: Any) {
+                        listener.failure()
+                    }
                 }
+            )
+        } catch (e: Exception) {
 
-                override fun failure(error: Any) {
-                    listener.failure()
-                }
-            }
-        )
+            Log.e("exception", "APi = $e ")
+            listener.failure()
+        }
     }
 
 
@@ -118,7 +129,7 @@ object NetworkRepo {
         listener: NetworkListener<ForgotModel>
 
     ) {
-        callApi.callApi(
+        try{ callApi.callApi(
             retrofitClient.forgotPass(email,d_id),
             object : ResponseHandler<ForgotModel> {
                 override fun success(model: ForgotModel) {
@@ -132,6 +143,11 @@ object NetworkRepo {
                 }
             }
         )
+        }catch (e: Exception) {
+
+            Log.e("exception", "APi = $e ")
+            listener.failure()
+        }
     }
 
 
@@ -139,7 +155,7 @@ object NetworkRepo {
         gameID:String,
         listener: NetworkListener<ForgotModel>
     ) {
-        callApi.callApi(
+        try{ callApi.callApi(
             retrofitClient.coreLoop(gameID),
             object : ResponseHandler<ForgotModel> {
                 override fun success(model: ForgotModel) {
@@ -155,6 +171,11 @@ object NetworkRepo {
                 }
             }
         )
+        }catch (e: Exception) {
+
+            Log.e("exception", "APi = $e ")
+            listener.failure()
+        }
     }
 
     suspend fun updateProfile(
@@ -164,7 +185,7 @@ object NetworkRepo {
         img: MultipartBody.Part,
         listener: NetworkListener<UpdateProfileModel>
     ) {
-        callApi.callApi(
+        try{ callApi.callApi(
             retrofitClient.updateProfile(
                 userID.toRequestBody("text/plain".toMediaTypeOrNull()),
                 userName.toRequestBody("text/plain".toMediaTypeOrNull()),
@@ -184,13 +205,18 @@ object NetworkRepo {
                 }
             }
         )
+        }catch (e: Exception) {
+
+            Log.e("exception", "APi = $e ")
+            listener.failure()
+        }
     }
 
     suspend fun getAllUsers(
         model: ChatPost,
         listener: NetworkListener<GetAllUsersModel>
     ) {
-        callApi.callApi(
+        try{ callApi.callApi(
             retrofitClient.getAllUsers(model.limit,model.offset,model.userId),
             object : ResponseHandler<GetAllUsersModel> {
                 override fun success(model: GetAllUsersModel) {
@@ -206,6 +232,11 @@ object NetworkRepo {
                 }
             }
         )
+        }catch (e: Exception) {
+
+            Log.e("exception", "APi = $e ")
+            listener.failure()
+        }
     }
 
 
@@ -216,7 +247,7 @@ object NetworkRepo {
         description:String,
         listener: NetworkListener<ForgotModel>
     ) {
-        callApi.callApi(
+        try{ callApi.callApi(
             retrofitClient.report(userId,matchID,category,description),
             object : ResponseHandler<ForgotModel> {
                 override fun success(model: ForgotModel) {
@@ -231,6 +262,11 @@ object NetworkRepo {
                 }
             }
         )
+        }catch (e: Exception) {
+
+            Log.e("exception", "APi = $e ")
+            listener.failure()
+        }
     }
 
     suspend fun participateTournament(
@@ -239,7 +275,7 @@ object NetworkRepo {
         transactionHash:String,
         listener: NetworkListener<ForgotModel>
     ) {
-        callApi.callApi(
+        try{ callApi.callApi(
             retrofitClient.participate(userId,tournamentId,transactionHash),
             object : ResponseHandler<ForgotModel> {
                 override fun success(model: ForgotModel) {
@@ -253,13 +289,18 @@ object NetworkRepo {
                 }
             }
         )
+        }catch (e: Exception) {
+
+            Log.e("exception", "APi = $e ")
+            listener.failure()
+        }
     }
 
     suspend fun getMatchesRecord(
         model: ChatPost,
         listener: NetworkListener<GetMatchesRecord>
     ) {
-        callApi.callApi(
+        try{ callApi.callApi(
             retrofitClient.getMatchesRecord(model.limit,model.offset,model.userId),
             object : ResponseHandler<GetMatchesRecord> {
                 override fun success(model: GetMatchesRecord) {
@@ -274,13 +315,18 @@ object NetworkRepo {
                 }
             }
         )
+        }catch (e: Exception) {
+
+            Log.e("exception", "APi = $e ")
+            listener.failure()
+        }
     }
 
     suspend fun receiveNotifications(
         model: ChatPost,
         listener: NetworkListener<NotificationModel>
     ) {
-        callApi.callApi(
+        try{ callApi.callApi(
             retrofitClient.receiveNotifications(model.limit,model.offset,model.userId),
             object : ResponseHandler<NotificationModel> {
                 override fun success(model: NotificationModel) {
@@ -295,12 +341,17 @@ object NetworkRepo {
                 }
             }
         )
+        }catch (e: Exception) {
+
+            Log.e("exception", "APi = $e ")
+            listener.failure()
+        }
     }
 
     suspend fun tokenExchange(
         listener: NetworkListener<TokenExchangeModel>
     ) {
-        callApi.callApi(
+        try{ callApi.callApi(
             retrofitClient.tokenExchange(),
             object : ResponseHandler<TokenExchangeModel> {
                 override fun success(model: TokenExchangeModel) {
@@ -315,6 +366,11 @@ object NetworkRepo {
                 }
             }
         )
+        }catch (e: Exception) {
+
+            Log.e("exception", "APi = $e ")
+            listener.failure()
+        }
     }
 
     suspend fun sendMsgOne2one(
@@ -324,7 +380,7 @@ object NetworkRepo {
         userToID: String,
         listener: NetworkListener<SendMsgModel>
     ) {
-        callApi.callApi(
+        try{ callApi.callApi(
             retrofitClient.sendMsgOne(userFromID,message,chatType,userToID),
             object : ResponseHandler<SendMsgModel> {
                 override fun success(model: SendMsgModel) {
@@ -340,6 +396,11 @@ object NetworkRepo {
                 }
             }
         )
+        }catch (e: Exception) {
+
+            Log.e("exception", "APi = $e ")
+            listener.failure()
+        }
     }
 
 
@@ -349,7 +410,7 @@ object NetworkRepo {
         chatType: Int,
         listener: NetworkListener<SendMsgModel>
     ) {
-        callApi.callApi(
+        try{ callApi.callApi(
             retrofitClient.sendMsgGroup(userFromID,message,chatType),
             object : ResponseHandler<SendMsgModel> {
                 override fun success(model: SendMsgModel) {
@@ -365,6 +426,11 @@ object NetworkRepo {
                 }
             }
         )
+        }catch (e: Exception) {
+
+            Log.e("exception", "APi = $e ")
+            listener.failure()
+        }
     }
 
     suspend fun getPlayerAccount(
@@ -383,7 +449,6 @@ object NetworkRepo {
                     }
 
                     override fun failure(error: Any) {
-
                         listener.failure()
                     }
                 }
@@ -391,7 +456,7 @@ object NetworkRepo {
         }
         catch (e:Exception){
 
-            Log.e("exception", "APi:$e ")
+            Log.e("exception", "APi = $e ")
             listener.failure()
         }
     }
@@ -401,7 +466,7 @@ object NetworkRepo {
         playerId:String,
         listener: NetworkListener<AddFriendModel>
     ) {
-        callApi.callApi(
+        try{ callApi.callApi(
             retrofitClient.addFriend(userId,playerId),
             object : ResponseHandler<AddFriendModel> {
                 override fun success(model: AddFriendModel) {
@@ -416,6 +481,11 @@ object NetworkRepo {
                 }
             }
         )
+        }catch (e: Exception) {
+
+            Log.e("exception", "APi = $e ")
+            listener.failure()
+        }
     }
 
 
@@ -424,7 +494,7 @@ object NetworkRepo {
         playerId:String,
         listener: NetworkListener<ForgotModel>
     ) {
-        callApi.callApi(
+        try{ callApi.callApi(
             retrofitClient.checkFriend(userId,playerId),
             object : ResponseHandler<ForgotModel> {
                 override fun success(model: ForgotModel) {
@@ -438,6 +508,11 @@ object NetworkRepo {
                 }
             }
         )
+        }catch (e: Exception) {
+
+            Log.e("exception", "APi = $e ")
+            listener.failure()
+        }
     }
 
     suspend fun getRandomPlayer(
@@ -445,7 +520,7 @@ object NetworkRepo {
         tournamentId:String,
         listener: NetworkListener<GetRandomPlayerModel>
     ) {
-        callApi.callApi(
+        try{ callApi.callApi(
             retrofitClient.getRandomPlayer(userId,tournamentId),
             object : ResponseHandler<GetRandomPlayerModel> {
                 override fun success(model: GetRandomPlayerModel) {
@@ -460,6 +535,11 @@ object NetworkRepo {
                 }
             }
         )
+        }catch (e: Exception) {
+
+            Log.e("exception", "APi = $e ")
+            listener.failure()
+        }
     }
 
     suspend fun checkTournamentParticipation(
@@ -467,7 +547,7 @@ object NetworkRepo {
         tournamentId:String,
         listener: NetworkListener<ForgotModel>
     ) {
-        callApi.callApi(
+        try{ callApi.callApi(
             retrofitClient.checkTournamentParticipation(userId,tournamentId),
             object : ResponseHandler<ForgotModel> {
                 override fun success(model: ForgotModel) {
@@ -482,6 +562,11 @@ object NetworkRepo {
                 }
             }
         )
+        }catch (e: Exception) {
+
+            Log.e("exception", "APi = $e ")
+            listener.failure()
+        }
     }
 
 
@@ -489,7 +574,7 @@ object NetworkRepo {
         model:ChatPost,
         listener: NetworkListener<GetChatsModel>
     ) {
-        callApi.callApi(
+        try{ callApi.callApi(
             retrofitClient.getChats(model.limit,model.offset),
             object : ResponseHandler<GetChatsModel> {
                 override fun success(model: GetChatsModel) {
@@ -504,6 +589,11 @@ object NetworkRepo {
                 }
             }
         )
+        }catch (e: Exception) {
+
+            Log.e("exception", "APi = $e ")
+            listener.failure()
+        }
     }
 
 
@@ -511,7 +601,7 @@ object NetworkRepo {
         model:ChatPost,
         listener: NetworkListener<GetFriendRequestListModel>
     ) {
-        callApi.callApi(
+        try{ callApi.callApi(
             retrofitClient.getRequest(model.limit,model.offset,model.userId),
             object : ResponseHandler<GetFriendRequestListModel> {
                 override fun success(model: GetFriendRequestListModel) {
@@ -526,14 +616,22 @@ object NetworkRepo {
                 }
             }
         )
+        }catch (e: Exception) {
+
+            Log.e("exception", "APi = $e ")
+            listener.failure()
+        }
     }
+
+
+
     suspend fun acceptFriendReq(
         userId: String,
         playerId: String,
         isAccepted: Boolean,
         listener: NetworkListener<AcceptFriendModel>
     ) {
-        callApi.callApi(
+        try{ callApi.callApi(
             retrofitClient.acceptFriend(userId,playerId,isAccepted),
             object : ResponseHandler<AcceptFriendModel> {
                 override fun success(model: AcceptFriendModel) {
@@ -548,6 +646,11 @@ object NetworkRepo {
                 }
             }
         )
+        }catch (e: Exception) {
+
+            Log.e("exception", "APi = $e ")
+            listener.failure()
+        }
     }
 
     suspend fun redeemPoints(
@@ -555,7 +658,7 @@ object NetworkRepo {
         loyaltyPoints: String,
         listener: NetworkListener<RedeemPointsModel>
     ) {
-        callApi.callApi(
+        try{ callApi.callApi(
             retrofitClient.redeemPoints(userId, loyaltyPoints),
             object : ResponseHandler<RedeemPointsModel> {
                 override fun success(model: RedeemPointsModel) {
@@ -569,6 +672,11 @@ object NetworkRepo {
                 }
             }
         )
+        }catch (e: Exception) {
+
+            Log.e("exception", "APi = $e ")
+            listener.failure()
+        }
     }
 
 
@@ -576,7 +684,7 @@ object NetworkRepo {
         model:ChatPost,
         listener: NetworkListener<GetChatsHeadModel>
     ) {
-        callApi.callApi(
+        try{ callApi.callApi(
             retrofitClient.getChatsHead(model.limit,model.offset,model.userId),
             object : ResponseHandler<GetChatsHeadModel> {
                 override fun success(model: GetChatsHeadModel) {
@@ -591,6 +699,11 @@ object NetworkRepo {
                 }
             }
         )
+        }catch (e: Exception) {
+
+            Log.e("exception", "APi = $e ")
+            listener.failure()
+        }
     }
 
 
@@ -598,7 +711,7 @@ object NetworkRepo {
         model:ChatPost,
         listener: NetworkListener<PlayerRankingModel>
     ) {
-        callApi.callApi(
+        try{ callApi.callApi(
             retrofitClient.getPlayerRanking(model.limit,model.offset,model.userId),
             object : ResponseHandler<PlayerRankingModel> {
                 override fun success(model: PlayerRankingModel) {
@@ -612,12 +725,17 @@ object NetworkRepo {
                 }
             }
         )
+        }catch (e: Exception) {
+
+            Log.e("exception", "APi = $e ")
+            listener.failure()
+        }
     }
 
     suspend fun getMatches(
         listener: NetworkListener<GetTournaments>
     ) {
-        callApi.callApi(
+        try{ callApi.callApi(
             retrofitClient.getMatches(),
             object : ResponseHandler<GetTournaments> {
                 override fun success(model: GetTournaments) {
@@ -632,11 +750,19 @@ object NetworkRepo {
                 }
             }
         )
+        }catch (e: Exception) {
+
+            Log.e("exception", "APi = $e ")
+            listener.failure()
+        }
     }
+
+
+
     suspend fun getTheme(
         listener: NetworkListener<ThemeModel>
     ) {
-        callApi.callApi(
+        try{ callApi.callApi(
             retrofitClient.getTheme(),
             object : ResponseHandler<ThemeModel> {
                 override fun success(model: ThemeModel) {
@@ -651,12 +777,19 @@ object NetworkRepo {
                 }
             }
         )
+        }catch (e: Exception) {
+
+            Log.e("exception", "APi = $e ")
+            listener.failure()
+        }
     }
+
+
     suspend fun getRewards(
         userId: String,
         listener: NetworkListener<GetRewards>
     ) {
-        callApi.callApi(
+        try{ callApi.callApi(
             retrofitClient.getRewards(userId),
             object : ResponseHandler<GetRewards> {
                 override fun success(model: GetRewards) {
@@ -671,6 +804,11 @@ object NetworkRepo {
                 }
             }
         )
+        }catch (e: Exception) {
+
+            Log.e("exception", "APi = $e ")
+            listener.failure()
+        }
     }
 
 
@@ -680,7 +818,7 @@ object NetworkRepo {
         matchID: String,
         listener: NetworkListener<UpdateMatchScoreModel>
     ) {
-        callApi.callApi(
+        try{ callApi.callApi(
             retrofitClient.updateMatchScore(score, matchID, userId),
             object : ResponseHandler<UpdateMatchScoreModel> {
                 override fun success(model: UpdateMatchScoreModel) {
@@ -694,6 +832,11 @@ object NetworkRepo {
                 }
             }
         )
+        }catch (e: Exception) {
+
+            Log.e("exception", "APi = $e ")
+            listener.failure()
+        }
     }
 
     suspend fun getAvailPromoCode(
@@ -701,7 +844,7 @@ object NetworkRepo {
         promoCode:String,
         listener: NetworkListener<GetRewards>
     ) {
-        callApi.callApi(
+        try{ callApi.callApi(
             retrofitClient.getAvailPromoCode(userId,promoCode),
             object : ResponseHandler<GetRewards> {
                 override fun success(model: GetRewards) {
@@ -715,26 +858,38 @@ object NetworkRepo {
                 }
             }
         )
+        }catch (e: Exception) {
+
+            Log.e("exception", "APi = $e ")
+            listener.failure()
+        }
     }
 
     suspend fun getUserDetailedInfo(
         userId: String,
         listener: NetworkListener<UserDetailedInfoModel>
     ) {
-        callApi.callApi(
-            retrofitClient.getuserDetailedInfo(userId),
-            object : ResponseHandler<UserDetailedInfoModel> {
-                override fun success(model: UserDetailedInfoModel) {
-                    model.let {
-                        listener.successFul(it)
+        try {
+            callApi.callApi(
+                retrofitClient.getuserDetailedInfo(userId),
+                object : ResponseHandler<UserDetailedInfoModel> {
+                    override fun success(model: UserDetailedInfoModel) {
+                        model.let {
+                            listener.successFul(it)
+                        }
+                    }
+
+                    override fun failure(error: Any) {
+                        listener.failure()
                     }
                 }
+            )
+        }
+        catch (e:Exception){
 
-                override fun failure(error: Any) {
-                    listener.failure()
-                }
-            }
-        )
+            Log.e("exception", "APi:$e ")
+            listener.failure()
+        }
     }
 
 //    suspend fun getPlayerWaitingList(
@@ -761,7 +916,7 @@ object NetworkRepo {
         model: MarketLoadMorePost,
         listener: NetworkListener<GetMarketLoadMoreModel>
     ) {
-        callApi.callApi(
+        try{ callApi.callApi(
             retrofitClient.getMarketLoadMore(model.marketId,model.limit,model.offset),
             object : ResponseHandler<GetMarketLoadMoreModel> {
                 override fun success(model: GetMarketLoadMoreModel) {
@@ -776,13 +931,18 @@ object NetworkRepo {
                 }
             }
         )
+        }catch (e: Exception) {
+
+            Log.e("exception", "APi = $e ")
+            listener.failure()
+        }
     }
 
     suspend fun getMarket(
         limit:Int,
         listener: NetworkListener<GetMarketLoadMoreModel>
     ) {
-        callApi.callApi(
+        try{ callApi.callApi(
             retrofitClient.getmarket(limit),
             object : ResponseHandler<GetMarketLoadMoreModel> {
                 override fun success(model: GetMarketLoadMoreModel) {
@@ -797,6 +957,11 @@ object NetworkRepo {
                 }
             }
         )
+        }catch (e: Exception) {
+
+            Log.e("exception", "APi = $e ")
+            listener.failure()
+        }
     }
 
 
@@ -804,7 +969,7 @@ object NetworkRepo {
         userId: String,
         listener: NetworkListener<PlayerWaitingModel>
     ) {
-        callApi.callApi(
+        try{ callApi.callApi(
             retrofitClient.playerWaitingList(userId),
             object : ResponseHandler<PlayerWaitingModel> {
                 override fun success(model: PlayerWaitingModel) {
@@ -818,13 +983,18 @@ object NetworkRepo {
                 }
             }
         )
+        }catch (e: Exception) {
+
+            Log.e("exception", "APi = $e ")
+            listener.failure()
+        }
     }
 
 
     suspend fun getEvent(
         listener: NetworkListener<EventsModel>
     ) {
-        callApi.callApi(
+        try{ callApi.callApi(
             retrofitClient.getEvents(URLConstant.long,URLConstant.lat),
             object : ResponseHandler<EventsModel> {
                 override fun success(model: EventsModel) {
@@ -838,13 +1008,18 @@ object NetworkRepo {
                 }
             }
         )
+        }catch (e: Exception) {
+
+            Log.e("exception", "APi = $e ")
+            listener.failure()
+        }
     }
 
 
     suspend fun getGameCustomData(
         listener: NetworkListener<CustomPlayerModel>
     ) {
-        callApi.callApi(
+        try{ callApi.callApi(
             retrofitClient.getGameCustomData(),
             object : ResponseHandler<CustomPlayerModel> {
                 override fun success(model: CustomPlayerModel) {
@@ -858,6 +1033,11 @@ object NetworkRepo {
                 }
             }
         )
+        }catch (e: Exception) {
+
+            Log.e("exception", "APi = $e ")
+            listener.failure()
+        }
     }
 
 //    suspend fun getProgressionData(
@@ -897,7 +1077,7 @@ object NetworkRepo {
 
         val gson: JsonObject = JsonParser.parseString(Gson().toJson(checked)).asJsonObject
 
-        callApi.callApi(
+        try{ callApi.callApi(
             retrofitClient.getProgressionData(gson),
             object : ResponseHandler<ProgressionModel> {
                 override fun success(model: ProgressionModel) {
@@ -911,6 +1091,11 @@ object NetworkRepo {
                 }
             }
         )
+        }catch (e: Exception) {
+
+            Log.e("exception", "APi = $e ")
+            listener.failure()
+        }
     }
 
     fun updateRetrofitClientInstance() {
@@ -921,7 +1106,7 @@ object NetworkRepo {
         userId: String,
         listener: NetworkListener<ForgotModel>
     ) {
-        callApi.callApi(
+        try{ callApi.callApi(
             retrofitClient.logoutUser(userId),
             object : ResponseHandler<ForgotModel> {
                 override fun success(model: ForgotModel) {
@@ -936,14 +1121,21 @@ object NetworkRepo {
                 }
 
             })
+        }catch (e: Exception) {
+
+            Log.e("exception", "APi = $e ")
+            listener.failure()
+        }
     }
+
+
     suspend fun changePassword(
         userId: String,
         oldPassword:String,
         newPassword:String,
         listener: NetworkListener<ForgotModel>
     ) {
-        callApi.callApi(
+        try{ callApi.callApi(
             retrofitClient.changePassword(userId,oldPassword,newPassword),
             object : ResponseHandler<ForgotModel> {
                 override fun success(model: ForgotModel) {
@@ -958,6 +1150,11 @@ object NetworkRepo {
                 }
 
             })
+        }catch (e: Exception) {
+
+            Log.e("exception", "APi = $e ")
+            listener.failure()
+        }
     }
 
 }
