@@ -67,7 +67,7 @@ class PlayScreenFragment : Fragment() {
             loading.startLoading()
 //        URLConstant.check = false
             getTournaments()
-            getEvents()
+//            getEvents()
         }
 
 

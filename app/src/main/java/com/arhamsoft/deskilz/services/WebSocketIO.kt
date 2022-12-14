@@ -19,7 +19,7 @@ object SocketHandler {
             options.path = "/socket.io/?EIO=4&"
 //            options.port = 8081
 
-            mSocket = IO.socket("https://deskillz.arhamsoft.org/",options)
+            mSocket = IO.socket("https://deskillz-dev.arhamsoft.org/",options)
 
 //              /////for headers
 
