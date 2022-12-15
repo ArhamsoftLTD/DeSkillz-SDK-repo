@@ -49,7 +49,7 @@ class ReportPlayerFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         binding = FragmentReportPlayerBinding.inflate(LayoutInflater.from(context))
-    loading= LoadingDialog(requireContext() as Activity)
+        loading= LoadingDialog(requireContext() as Activity)
         choiceSpinner()
         val bundle = arguments
         if (bundle != null) {

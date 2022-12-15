@@ -107,7 +107,7 @@ class SignInFragment : Fragment() {
 
     fun cancelNotification() {
         val ns = NOTIFICATION_SERVICE
-        val nMgr = activity!!.applicationContext.getSystemService(ns) as NotificationManager
+        val nMgr = activity?.applicationContext?.getSystemService(ns) as NotificationManager
         if(nMgr.activeNotifications.isNotEmpty()){
             nMgr.cancelAll()
 
