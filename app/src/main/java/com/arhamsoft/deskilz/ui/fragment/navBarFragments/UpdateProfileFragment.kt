@@ -158,9 +158,11 @@ class UpdateProfileFragment : Fragment() {
                     binding.shoutout.error = "Shoutout Field is Empty"
 
                 } else {
-//                if (filePart == null){
-//                    filePar
-//                }
+                if (filePart == null){
+                    val attachmentEmpty: RequestBody= " ".toRequestBody("text/plain".toMediaTypeOrNull());
+
+                    filePart = createFormData("attachment", "empty", attachmentEmpty);
+                }
                     loading.startLoading()
                     updateProfile()
                 }

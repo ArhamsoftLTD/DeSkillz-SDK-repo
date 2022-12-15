@@ -259,7 +259,7 @@ class LoadingActivity : Fragment() {
 
 
                             } else {
-                                StaticFields.toastClass("${t.message}")
+//                                StaticFields.toastClass("${t.message}")
                             }
 
                             if (!binding.lottieLoader.isAnimating) {
