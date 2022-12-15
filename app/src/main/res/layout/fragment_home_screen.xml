@@ -351,7 +351,7 @@
                             android:layout_alignParentBottom="true"
                             android:layout_centerHorizontal="true"
                             android:layout_marginBottom="@dimen/_5sdp"
-                            android:text="Level"
+                            android:text="Trophies"
                             android:gravity="center"
                             android:lines="1"
                             android:textStyle="bold" />
