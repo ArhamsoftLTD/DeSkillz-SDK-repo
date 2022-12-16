@@ -252,6 +252,9 @@
         <action
             android:id="@+id/action_profileFragment_to_updateProfileFragment"
             app:destination="@id/updateProfileFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_trophyScreenDetailFragment"
+            app:destination="@id/trophyScreenDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/updateProfileFragment"

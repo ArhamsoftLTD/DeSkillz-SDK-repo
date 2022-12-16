@@ -158,13 +158,16 @@ class UpdateProfileFragment : Fragment() {
                     binding.shoutout.error = "Shoutout Field is Empty"
 
                 } else {
-                if (filePart == null){
-                    val attachmentEmpty: RequestBody= " ".toRequestBody("text/plain".toMediaTypeOrNull());
+                    if (filePart == null){
 
-                    filePart = createFormData("attachment", "empty", attachmentEmpty);
-                }
-                    loading.startLoading()
-                    updateProfile()
+                        loading.startLoading()
+                        updateProfileWoImg()
+                    }
+                    else{
+                        loading.startLoading()
+                        updateProfile()
+                    }
+
                 }
             }
         }
@@ -251,5 +254,40 @@ class UpdateProfileFragment : Fragment() {
         }
 
     }
+
+    private fun updateProfileWoImg() {
+        CoroutineScope(Dispatchers.IO).launch {
+            NetworkRepo.updateProfileWoImg(
+                URLConstant.u_id!!,
+                binding.etname.text.toString(),
+                binding.shoutout.text.toString(),
+                object : NetworkListener<UpdateProfileModel> {
+                    override fun successFul(t: UpdateProfileModel) {
+                        loading.isDismiss()
+                        if (t.status == 1) {
+
+                            activity?.runOnUiThread {
+                                sharedPreference.saveValue("USERIMG", t.data.userImage)
+                                sharedPreference.saveValue("USERNAME", t.data.userName)
+                                sharedPreference.saveValue("SHOUTOUT", t.data.userShoutOut)
+
+                                StaticFields.toastClass(t.message)
+                                findNavController().popBackStack()
+
+                            }
+                        }
+                    }
+                    override fun failure() {
+                        loading.isDismiss()
+
+                        activity?.runOnUiThread {
+                            StaticFields.toastClass("Api syncing fail update profile ")
+                        }
+                    }
+                }
+            )
+        }
+    }
+
 
 }

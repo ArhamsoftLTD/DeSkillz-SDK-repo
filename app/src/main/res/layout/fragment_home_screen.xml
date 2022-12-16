@@ -216,7 +216,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_centerInParent="true"
                                 android:fontFamily="@font/titan_one_regular"
-                                android:text="0"
+                                android:text="-"
                                 android:textColor="@color/white" />
 
                         </RelativeLayout>
@@ -278,7 +278,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_centerInParent="true"
                                 android:fontFamily="@font/titan_one_regular"
-                                android:text="0"
+                                android:text="-"
                                 android:textColor="@color/black" />
                         </RelativeLayout>
 
@@ -335,7 +335,7 @@
                             android:backgroundTint="#A73C11">
 
                             <TextView
-                                android:id="@+id/progressXp3"
+                                android:id="@+id/trophies"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_centerInParent="true"

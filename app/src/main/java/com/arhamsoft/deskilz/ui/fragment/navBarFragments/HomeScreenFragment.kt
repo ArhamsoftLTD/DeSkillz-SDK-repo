@@ -36,15 +36,15 @@ class HomeScreenFragment : Fragment() {
     private lateinit var binding: FragmentHomeScreenBinding
     private lateinit var adapterHomeScreen: AdapterHomeScreen
     private lateinit var navController: NavController
-    lateinit var loading:LoadingDialog
+    lateinit var loading: LoadingDialog
     lateinit var recyclerView: RecyclerView
     lateinit var rvLoadMore: RecyclerViewLoadMoreScroll
-    var completedList:ArrayList<GetMatchesRecordData> = ArrayList()
+    var completedList: ArrayList<GetMatchesRecordData> = ArrayList()
     private lateinit var connection: InternetConLiveData
     private lateinit var rvAdapter: RVAdapterPlayersWaiting
 
-    var requestList:ArrayList<PlayerWaitingModelData> = ArrayList()
-    var u_id:String? = null
+    var requestList: ArrayList<PlayerWaitingModelData> = ArrayList()
+    var u_id: String? = null
 
 
     override fun onCreateView(
@@ -62,7 +62,6 @@ class HomeScreenFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
-
 //        CoroutineScope(Dispatchers.IO).launch {
 //            val user = UserDatabase.getDatabase(requireContext()).userDao().getUser()
 //            if (user != null) {
@@ -71,16 +70,15 @@ class HomeScreenFragment : Fragment() {
 //        }
 //        checkNetworkConnection()
 
-        if (!(StaticFields.isNetworkConnected(requireContext()))){
+        if (!(StaticFields.isNetworkConnected(requireContext()))) {
             StaticFields.toastClass("Check your network connection")
-        }
-        else{
+        } else {
             loading.startLoading()
 //        URLConstant.check = false
 //        getGameCustomData()
             getUserDetailedInfo()
             getWaitingList()
-            getMatchesRecord(0,false)
+            getMatchesRecord(0, false)
         }
 
 
@@ -88,51 +86,53 @@ class HomeScreenFragment : Fragment() {
 
 //        initScrollListener()
 
-        adapterHomeScreen = AdapterHomeScreen(object : AdapterHomeScreen.OnItemClickListenerHandler {
+        adapterHomeScreen =
+            AdapterHomeScreen(object : AdapterHomeScreen.OnItemClickListenerHandler {
 
-            override fun onItemClicked(click: GetMatchesRecordData, position: Int) {
+                override fun onItemClicked(click: GetMatchesRecordData, position: Int) {
 
 
-
-                val bundle = bundleOf()
-                bundle.putSerializable("MATCHRECORDOBJECT",click)
+                    val bundle = bundleOf()
+                    bundle.putSerializable("MATCHRECORDOBJECT", click)
 //                bundle.putString("MATCHID",click.matchId)
 //                bundle.putLong("TICKETS",click.cash)
 //                bundle.putLong("XPOPPONENT",click.xpValueOther)
 //                bundle.putLong("XPUSER",click.xpValueUser)
 
 
-                navController.navigate(R.id.action_dashboardActivity_to_gameResultFragment, bundle)
-            }
+                    navController.navigate(
+                        R.id.action_dashboardActivity_to_gameResultFragment,
+                        bundle
+                    )
+                }
 
-        })
+            })
         binding.recycleListHome.adapter = adapterHomeScreen
 
 
-        rvAdapter = RVAdapterPlayersWaiting(object : RVAdapterPlayersWaiting.OnItemClickListenerHandler {
-            override fun onItemClicked(click: Any, position: Int) {
+        rvAdapter =
+            RVAdapterPlayersWaiting(object : RVAdapterPlayersWaiting.OnItemClickListenerHandler {
+                override fun onItemClicked(click: Any, position: Int) {
 
 //                findNavController().navigate(R.id.action_pendingRequestFragment_to_findCompetitiveFragment)
 
-            }
-        })
+                }
+            })
 
         binding.recycleListRequest.adapter = rvAdapter
 
-
-
     }
-    private fun checkNetworkConnection(){
+
+    private fun checkNetworkConnection() {
 
         connection = InternetConLiveData(requireContext())
 
         connection.observe(viewLifecycleOwner) { isConnected ->
 
-            if (isConnected){
+            if (isConnected) {
                 binding.noint.noInternet.visibility = View.GONE
 
-            }
-            else {
+            } else {
                 binding.noint.noInternet.visibility = View.VISIBLE
 
             }
@@ -183,8 +183,6 @@ class HomeScreenFragment : Fragment() {
 //                                binding.userName.text = userDetailedInfoModel.data.userData.userName
                                 binding.deskillzLevel.text = userDetailedInfoModel.data.deskillzLevel.toString()
 
-
-
                                 ObjectAnimator.ofInt(binding.deskillzLevelBar, "progress", userDetailedInfoModel.data.deskillzLevel)
                                     .setDuration(500)
                                     .start()
@@ -193,6 +191,13 @@ class HomeScreenFragment : Fragment() {
 //                                binding.deskillzLevelBar.startAnimation(anim)
                                 binding.gameRank.text = userDetailedInfoModel.data.currentGameRank.toString()
                                 ObjectAnimator.ofInt(binding.gameRankBar, "progress", userDetailedInfoModel.data.currentGameRank)
+                                    .setDuration(500)
+                                    .start()
+
+
+
+                                binding.trophies.text = userDetailedInfoModel.data.earnedTrophies.size.toString()
+                                ObjectAnimator.ofInt(binding.progressBar3, "progress", userDetailedInfoModel.data.earnedTrophies.size)
                                     .setDuration(500)
                                     .start()
 //                                binding.progressXp3.text = userDetailedInfoModel.data.currentGameRank.toString()
@@ -224,7 +229,7 @@ class HomeScreenFragment : Fragment() {
     }
 
 
-    private fun getMatchesRecord(off: Int, isLoadMore: Boolean){
+    private fun getMatchesRecord(off: Int, isLoadMore: Boolean) {
 
 
         val checked = ChatPost(
@@ -242,9 +247,6 @@ class HomeScreenFragment : Fragment() {
                         if (t.status == 1) {
 
 
-
-
-
                             activity?.runOnUiThread {
 
                                 if (t.data.isNotEmpty()) {
@@ -260,18 +262,16 @@ class HomeScreenFragment : Fragment() {
 //                                }
 
 //                                binding.progressBar.visibility = View.GONE
-                                }
-                                else{
+                                } else {
 
                                     adapterHomeScreen.setData(completedList)
                                 }
-
-
                             }
 //                                URLConstant.check = true
                         }
 
                     }
+
                     override fun failure() {
                         loading.isDismiss()
 
@@ -286,7 +286,8 @@ class HomeScreenFragment : Fragment() {
     }
 
     private fun initScrollListener() {
-        rvLoadMore = RecyclerViewLoadMoreScroll(binding.recycleListHome.layoutManager as LinearLayoutManager)
+        rvLoadMore =
+            RecyclerViewLoadMoreScroll(binding.recycleListHome.layoutManager as LinearLayoutManager)
         rvLoadMore.setOnLoadMoreListener(object : OnLoadMoreListener {
             override fun onLoadMore() {
                 loadMore()
@@ -305,8 +306,7 @@ class HomeScreenFragment : Fragment() {
     }
 
 
-
-    private fun getWaitingList(){
+    private fun getWaitingList() {
 
         CoroutineScope(Dispatchers.IO).launch {
             NetworkRepo.playerWaiting(
@@ -325,14 +325,14 @@ class HomeScreenFragment : Fragment() {
                                     requestList.reverse()
 
                                     rvAdapter.setData(requestList)
-                                }
-                                else{
+                                } else {
                                     binding.ongoingLayout.visibility = View.GONE
 //                                    rvAdapter.setData(requestList)
                                 }
                             }
                         }
                     }
+
                     override fun failure() {
                         loading.isDismiss()
 
@@ -343,12 +343,5 @@ class HomeScreenFragment : Fragment() {
                 }
             )
         }
-
-
     }
-
-
-
-
-
 }

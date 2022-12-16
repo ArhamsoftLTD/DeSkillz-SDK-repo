@@ -9,30 +9,28 @@ import coil.load
 import com.arhamsoft.deskilz.R
 import com.arhamsoft.deskilz.databinding.AdapterOpponentlistViewBinding
 import com.arhamsoft.deskilz.databinding.AdapterTrophiesViewBinding
+import com.arhamsoft.deskilz.databinding.AdpaterTrophyDetailBinding
 import com.arhamsoft.deskilz.databinding.RowHomeScreenBinding
-import com.arhamsoft.deskilz.networking.networkModels.EarnedTrophiesModel
-import com.arhamsoft.deskilz.networking.networkModels.GetMatchesRecord
-import com.arhamsoft.deskilz.networking.networkModels.GetMatchesRecordData
-import com.arhamsoft.deskilz.networking.networkModels.ListofOpponentModel
+import com.arhamsoft.deskilz.networking.networkModels.*
 
-class AdapterTrophies(var listener: OnItemClickListenerHandler
-): RecyclerView.Adapter<AdapterTrophies.Holder>() {
-    private var sList: ArrayList<EarnedTrophiesModel> = ArrayList()
+class AdapterAllTrophies(var listener: OnItemClickListenerHandler
+): RecyclerView.Adapter<AdapterAllTrophies.Holder>() {
+    private var sList: ArrayList<AllTrophiesModel> = ArrayList()
 
 
 
-    fun setData(slist: ArrayList<EarnedTrophiesModel>) {
+    fun setData(slist: ArrayList<AllTrophiesModel>) {
         this.sList = slist
         notifyDataSetChanged()
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AdapterTrophies.Holder {
-        val binding = AdapterTrophiesViewBinding.inflate(LayoutInflater.from(parent.context),
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AdapterAllTrophies.Holder {
+        val binding = AdpaterTrophyDetailBinding.inflate(LayoutInflater.from(parent.context),
             parent, false)
         return Holder(binding)
     }
 
-    override fun onBindViewHolder(holder: AdapterTrophies.Holder, position: Int) {
+    override fun onBindViewHolder(holder: AdapterAllTrophies.Holder, position: Int) {
 
 
         if (sList.isNullOrEmpty()) {
@@ -48,8 +46,8 @@ class AdapterTrophies(var listener: OnItemClickListenerHandler
 //
 
             holder.binding.trophy.load(123){
-                placeholder(R.drawable.trophy_lar)
-                error(R.drawable.trophy_lar)
+                    placeholder(R.drawable.trophy_lar)
+                    error(R.drawable.trophy_lar)
             }
 
             holder.binding.trophyName.text = listPos.name
@@ -80,8 +78,8 @@ class AdapterTrophies(var listener: OnItemClickListenerHandler
     }else  sList.size
 
 
-    class Holder(val binding: AdapterTrophiesViewBinding): RecyclerView.ViewHolder(binding.root) {
-        fun onBind(model: EarnedTrophiesModel, listener:OnItemClickListenerHandler, position: Int) {
+    class Holder(val binding: AdpaterTrophyDetailBinding): RecyclerView.ViewHolder(binding.root) {
+        fun onBind(model: AllTrophiesModel, listener:OnItemClickListenerHandler , position: Int) {
 
             binding.trophy.setOnClickListener {
                 listener.onItemClicked(model,position)
@@ -90,7 +88,7 @@ class AdapterTrophies(var listener: OnItemClickListenerHandler
     }
 
     interface OnItemClickListenerHandler {
-        fun onItemClicked(click: EarnedTrophiesModel, position: Int)
+        fun onItemClicked(click:AllTrophiesModel,position: Int)
     }
 
 }

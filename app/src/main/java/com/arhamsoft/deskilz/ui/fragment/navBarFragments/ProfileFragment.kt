@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.DecelerateInterpolator
+import androidx.core.os.bundleOf
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
@@ -16,11 +17,14 @@ import com.arhamsoft.deskilz.R
 import com.arhamsoft.deskilz.databinding.FragmentProfileBinding
 import com.arhamsoft.deskilz.domain.listeners.NetworkListener
 import com.arhamsoft.deskilz.domain.repository.NetworkRepo
+import com.arhamsoft.deskilz.networking.networkModels.EarnedTrophiesModel
 import com.arhamsoft.deskilz.networking.networkModels.UserDetailedInfoModel
 import com.arhamsoft.deskilz.networking.retrofit.URLConstant
+import com.arhamsoft.deskilz.ui.adapter.AdapterAllTrophies
 import com.arhamsoft.deskilz.ui.adapter.AdapterTrophies
 import com.arhamsoft.deskilz.utils.LoadingDialog
 import com.arhamsoft.deskilz.utils.StaticFields
+import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -34,7 +38,8 @@ class ProfileFragment : Fragment() {
     lateinit var sharedPreference: CustomSharedPreference
 
     lateinit var rvAdapter: AdapterTrophies
-    var trophyList: ArrayList<String> = ArrayList()
+    var trophyList: ArrayList<EarnedTrophiesModel> = ArrayList()
+
 
     private var u_id: String? = " "
 
@@ -65,27 +70,24 @@ class ProfileFragment : Fragment() {
 //        }
 
 
+
         binding.recycleListTrophies.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
 
         rvAdapter = AdapterTrophies(object : AdapterTrophies.OnItemClickListenerHandler {
-            override fun onItemClicked(click: String, position: Int) {
+            override fun onItemClicked(click: EarnedTrophiesModel, position: Int) {
 
             }
         })
 
         binding.recycleListTrophies.adapter = rvAdapter
 
-        trophyList = ArrayList()
-        for (i in 1 until 10) {
-            trophyList.add("trophy")
-        }
-        rvAdapter.setData(trophyList)
 
-        val animation = ObjectAnimator.ofInt(binding.trophiesBar, "progress", 12)
-        animation.duration = 700 // 0.5 second
-        animation.interpolator = DecelerateInterpolator()
-        animation.start()
+
+//        val animation = ObjectAnimator.ofInt(binding.trophiesBar, "progress", 12)
+//        animation.duration = 700 // 0.5 second
+//        animation.interpolator = DecelerateInterpolator()
+//        animation.start()
 
 //        val anim = ProgressAnim(binding.trophiesBar, 0.0f, 12.0f)
 //                                anim.duration = 1000
@@ -99,14 +101,14 @@ class ProfileFragment : Fragment() {
             findNavController().navigate(R.id.action_profileFragment_to_updateProfileFragment)
         }
 
-//        CoroutineScope(Dispatchers.IO).launch {
+        CoroutineScope(Dispatchers.IO).launch {
 //            val user = UserDatabase.getDatabase(requireContext()).userDao().getUser()
 //            if (user != null) {
 //                u_id = user.userId
 //            }
             getUserDetailedInfo()
 
-//        }
+        }
 
     }
 
@@ -144,6 +146,21 @@ class ProfileFragment : Fragment() {
                                 sharedPreference.saveValue("USERNAME", userDetailedInfoModel.data.userData.userName)
                                 sharedPreference.saveValue("SHOUTOUT", userDetailedInfoModel.data.userData.userShoutOut)
 
+                                trophyList.addAll(userDetailedInfoModel.data.earnedTrophies)
+                                rvAdapter.setData(trophyList)
+                                trophyList = ArrayList()
+
+                                binding.allTrophies.setOnClickListener {
+//                                    URLConstant.allTrophy = ArrayList()
+//                                    URLConstant.allTrophy.addAll( userDetailedInfoModel.data.allTrophies as ArrayList<AllTrophiesModel>)
+//                                    URLConstant.earnedTrophy = userDetailedInfoModel.data.earnedTrophies as ArrayList<EarnedTrophiesModel>
+
+                                    val bundle = bundleOf()
+                                    bundle.putString("allTrophyList", Gson().toJson(userDetailedInfoModel.data.allTrophies))
+                                    bundle.putString("earnedTrophyList", Gson().toJson(userDetailedInfoModel.data.earnedTrophies))
+                                    findNavController().navigate(R.id.action_profileFragment_to_trophyScreenDetailFragment,bundle)
+                                }
+
                                 binding.userImg.load(userDetailedInfoModel.data.userData.userImage) {
                                     placeholder(R.drawable.ic_baseline_person_24)
                                     error(R.drawable.ic_baseline_person_24)
@@ -162,7 +179,12 @@ class ProfileFragment : Fragment() {
                                 ObjectAnimator.ofInt(binding.gameRankBar, "progress", userDetailedInfoModel.data.currentGameRank)
                                     .setDuration(500)
                                     .start()
-                                binding.progressXp3.text = userDetailedInfoModel.data.currentGameRank.toString()
+
+                                binding.trophies.text = userDetailedInfoModel.data.earnedTrophies.size.toString()
+                                ObjectAnimator.ofInt(binding.progressBar3, "progress", userDetailedInfoModel.data.earnedTrophies.size)
+                                    .setDuration(500)
+                                    .start()
+
                                 binding.coinNo.text = userDetailedInfoModel.data.progressXp.toString()
 //                                binding.ticketsNo.text = "0"
                                 binding.dollar.text = "0.0"

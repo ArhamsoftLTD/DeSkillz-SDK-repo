@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="@dimen/size_10dp"
+    android:id="@+id/trophyLayout"
     android:layout_margin="@dimen/size_10dp"
     android:background="@drawable/background_layout_white_rounded">
 
@@ -17,10 +18,11 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:layout_gravity="center_vertical"
             android:orientation="vertical" >
 
             <TextView
-                android:id="@+id/rowTitle"
+                android:id="@+id/trophyName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Win 3 practice tournaments."
@@ -28,29 +30,34 @@
                 android:fontFamily="@font/titan_one_regular"
                 android:textSize="@dimen/text_size_18sp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Win 3 practice tournaments."
-                android:textColor="@color/gray_text"
-                android:layout_marginTop="@dimen/size_10dp"
-                android:fontFamily="@font/poppins_regular"
-                android:textSize="@dimen/text_size_15sp" />
+            <!--            <TextView-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:text="Win 3 practice tournaments."-->
+            <!--                android:textColor="@color/gray_text"-->
+            <!--                android:layout_marginTop="@dimen/size_10dp"-->
+            <!--                android:fontFamily="@font/poppins_regular"-->
+            <!--                android:textSize="@dimen/text_size_15sp" />-->
 
         </LinearLayout>
 
         <ImageView
+            android:id="@+id/trophy"
             android:layout_width="@dimen/size_50dp"
             android:layout_height="@dimen/size_50dp"
-            android:src="@drawable/cart_gift_icon"
+            android:src="@drawable/trophy_lar"
             android:layout_marginStart="@dimen/size_30dp"/>
 
     </LinearLayout>
 
-    <androidx.core.widget.ContentLoadingProgressBar
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/size_10dp"
-        android:max="100"
-        android:progress="20" />
+    <TextView
+        android:visibility="gone"
+        android:id="@+id/noData"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        android:text="No Data"
+        android:layout_gravity="center"/>
 
 </LinearLayout>

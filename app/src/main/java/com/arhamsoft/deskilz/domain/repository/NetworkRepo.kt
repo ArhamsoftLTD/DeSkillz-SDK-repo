@@ -679,6 +679,40 @@ object NetworkRepo {
         }
     }
 
+    suspend fun updateProfileWoImg(
+        userID: String,
+        userName:String,
+        shoutout:String,
+        listener: NetworkListener<UpdateProfileModel>
+    ) {
+        try {
+            callApi.callApi(
+                retrofitClient.updateProfileWOImg(
+                    userID,
+                    userName,
+                    shoutout,
+                ),
+                object : ResponseHandler<UpdateProfileModel> {
+                    override fun success(model: UpdateProfileModel) {
+                        model.let {
+                            listener.successFul(it)
+                        }
+
+                    }
+
+                    override fun failure(error: Any) {
+                        listener.failure()
+                    }
+                }
+            )
+        }
+        catch (e: Exception) {
+
+            Log.e("exception", "APi = $e ")
+            listener.failure()
+        }
+    }
+
 
     suspend fun getChatsHeads(
         model:ChatPost,

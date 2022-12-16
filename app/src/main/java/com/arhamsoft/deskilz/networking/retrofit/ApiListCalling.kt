@@ -78,6 +78,14 @@ interface ApiListCalling {
     ): Response<RedeemPointsModel>
 
     @FormUrlEncoded
+    @POST(URLConstant.updateProfileUrl)
+    suspend fun updateProfileWOImg(
+        @Field("userId") userId: String,
+        @Field("userName") userName:String,
+        @Field("userShoutOut") userShoutOut:String,
+    ): Response<UpdateProfileModel>
+
+    @FormUrlEncoded
     @POST(URLConstant.getRequest)
     suspend fun getRequest(
         @Field("limit") limit:Int,

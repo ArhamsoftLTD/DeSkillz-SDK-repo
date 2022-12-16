@@ -3,7 +3,8 @@
     android:orientation="vertical"
     android:layout_width="@dimen/size_80dp"
     android:background="@color/white"
-    android:layout_height="@dimen/size_100dp">
+
+    android:layout_height="wrap_content">
 
     <LinearLayout
         android:id="@+id/trophyLayout"
@@ -16,18 +17,30 @@
         <ImageView
             android:id="@+id/trophy"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="80dp"
             android:src="@drawable/trophy_lar"/>
+
+
 
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/trophyName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="15sp"
+        android:textColor="@color/black"
+        android:fontFamily="@font/titan_one_regular"
+        android:text=""
+        android:layout_gravity="center"
+        />
 
     <TextView
         android:visibility="gone"
         android:id="@+id/noData"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="30sp"
+        android:textSize="20sp"
         android:textColor="@color/black"
         android:text="No Data"
         android:layout_gravity="center"/>
