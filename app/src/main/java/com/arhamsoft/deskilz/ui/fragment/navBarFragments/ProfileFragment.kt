@@ -40,7 +40,6 @@ class ProfileFragment : Fragment() {
     lateinit var rvAdapter: AdapterTrophies
     var trophyList: ArrayList<EarnedTrophiesModel> = ArrayList()
 
-
     private var u_id: String? = " "
 
     override fun onCreateView(
@@ -151,9 +150,6 @@ class ProfileFragment : Fragment() {
                                 trophyList = ArrayList()
 
                                 binding.allTrophies.setOnClickListener {
-//                                    URLConstant.allTrophy = ArrayList()
-//                                    URLConstant.allTrophy.addAll( userDetailedInfoModel.data.allTrophies as ArrayList<AllTrophiesModel>)
-//                                    URLConstant.earnedTrophy = userDetailedInfoModel.data.earnedTrophies as ArrayList<EarnedTrophiesModel>
 
                                     val bundle = bundleOf()
                                     bundle.putString("allTrophyList", Gson().toJson(userDetailedInfoModel.data.allTrophies))
@@ -185,7 +181,7 @@ class ProfileFragment : Fragment() {
                                     .setDuration(500)
                                     .start()
 
-                                binding.coinNo.text = userDetailedInfoModel.data.progressXp.toString()
+                                binding.coinNo.text = userDetailedInfoModel.data.deskillzCoin.toString()
 //                                binding.ticketsNo.text = "0"
                                 binding.dollar.text = "0.0"
                                 binding.shoutout.text = userDetailedInfoModel.data.userData.userShoutOut

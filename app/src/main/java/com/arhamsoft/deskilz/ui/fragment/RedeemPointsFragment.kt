@@ -25,7 +25,7 @@ import kotlinx.coroutines.launch
 class RedeemPointsFragment : Fragment() {
 
     lateinit var binding: FragmentRedeemPointsBinding
-    lateinit var loading:LoadingDialog
+    lateinit var loading: LoadingDialog
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,49 +40,39 @@ class RedeemPointsFragment : Fragment() {
             findNavController().popBackStack()
         }
 
-  binding.cancelBtn.setOnClickListener {
+        binding.cancelBtn.setOnClickListener {
             findNavController().popBackStack()
         }
 
-        binding.icPt.text =  URLConstant.points
+        binding.icPt.text = URLConstant.points.toString()
 
 
-            binding.convertPoints.setOnClickListener {
+        binding.convertPoints.setOnClickListener {
 
-                if (binding.points.text.isEmpty()){
-                    binding.points.error = "Enter points"
-                }
-                else{
-                    if (URLConstant.points!!.toLong() > 1000){
+            if (binding.points.text.isEmpty()) {
+                binding.points.error = "Enter points"
+            } else {
+                if (URLConstant.points!! > 1000) {
 
-                        if (!(binding.points.text.toString().toLong() >= 1000L)){
-                            StaticFields.toastClass("Entered points are not enough according to current rate")
-                        }
-                        else{
-                            loading.startLoading()
-                            getRedeemPoints()
-
-                        }
+                    if (binding.points.text.toString().toInt() < 1000) {
+                        StaticFields.toastClass("Entered points are not enough according to current rate")
+                    } else {
+                        loading.startLoading()
+                        getRedeemPoints()
 
                     }
-                    else{
-                        StaticFields.toastClass("You don't have enough Points")
-                    }
 
+                } else {
+                    StaticFields.toastClass("You don't have enough Points")
                 }
 
-
-
+            }
         }
-
-
-
-
         return binding.root
     }
 
 
-    private fun getRedeemPoints(){
+    private fun getRedeemPoints() {
 
         CoroutineScope(Dispatchers.IO).launch {
             NetworkRepo.redeemPoints(
@@ -92,26 +82,25 @@ class RedeemPointsFragment : Fragment() {
                     override fun successFul(t: RedeemPointsModel) {
                         activity?.runOnUiThread {
 
-                        loading.isDismiss()
-                        if (t.status == 1) {
+                            loading.isDismiss()
+                            if (t.status == 1) {
 
 
-                            StaticFields.toastClass(t.message)
+                                StaticFields.toastClass(t.message)
 
                                 binding.icPt.text = t.data.remianingLoyaltyPoints.toString()
+                                binding.points.clearFocus()
+                                binding.points.requestFocus()
 
-                                }
-                            else{
-                            StaticFields.toastClass(t.message)
-
-                        }
-
+                            } else {
+                                StaticFields.toastClass(t.message)
+                                binding.points.requestFocus()
 
 
                             }
-
-
+                        }
                     }
+
                     override fun failure() {
                         loading.isDismiss()
 
@@ -124,6 +113,4 @@ class RedeemPointsFragment : Fragment() {
         }
 
     }
-
-
 }

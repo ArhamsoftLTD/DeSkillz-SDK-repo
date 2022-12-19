@@ -51,14 +51,17 @@ class TrophyScreenDetailFragment : Fragment() {
         val bundle = arguments
         if (bundle != null) {
 
-            val obj = bundle.getString("allTrophyList").toString()
-            val obj2 = bundle.getString("earnedTrophyList").toString()
+            val allTrophies = bundle.getString("allTrophyList").toString()
+            val earnedTrophies = bundle.getString("earnedTrophyList").toString()
 
-            val alltrophy = getAppsListInPref(obj)
+            val alltrophy = getAppsListInPref(allTrophies)
+            val earnedTrophy = getAppsListInPref2(earnedTrophies)
 
 
-            trophyList.addAll(alltrophy)
-            rvAdapter.setData(trophyList)
+
+
+//            trophyList.addAll()
+            rvAdapter.setData(alltrophy,earnedTrophy)
 
         }
 

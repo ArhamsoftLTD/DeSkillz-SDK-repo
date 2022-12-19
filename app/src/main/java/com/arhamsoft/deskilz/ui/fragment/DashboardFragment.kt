@@ -299,7 +299,7 @@ class DashboardFragment : Fragment() {
                             activity?.runOnUiThread {
 //                                binding.ticketsNo.text = t.data.userTickets.toString()
                                 binding.coinNo.text = t.data.userDeskillzCurrency.toString()
-                                URLConstant.points = t.data.userDeskillzCurrency.toString()
+                                URLConstant.points = t.data.userDeskillzCurrency
                                 binding.dollar.text = t.data.userDollers.toString()
                             }
                         }

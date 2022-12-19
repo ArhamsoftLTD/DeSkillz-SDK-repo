@@ -12,15 +12,16 @@ import com.arhamsoft.deskilz.databinding.AdapterTrophiesViewBinding
 import com.arhamsoft.deskilz.databinding.AdpaterTrophyDetailBinding
 import com.arhamsoft.deskilz.databinding.RowHomeScreenBinding
 import com.arhamsoft.deskilz.networking.networkModels.*
-
 class AdapterAllTrophies(var listener: OnItemClickListenerHandler
 ): RecyclerView.Adapter<AdapterAllTrophies.Holder>() {
     private var sList: ArrayList<AllTrophiesModel> = ArrayList()
+    private var sList2: ArrayList<EarnedTrophiesModel> = ArrayList()
 
 
 
-    fun setData(slist: ArrayList<AllTrophiesModel>) {
+    fun setData(slist: ArrayList<AllTrophiesModel>,slist2: ArrayList<EarnedTrophiesModel>) {
         this.sList = slist
+        this.sList2 = slist2
         notifyDataSetChanged()
     }
 
@@ -42,12 +43,19 @@ class AdapterAllTrophies(var listener: OnItemClickListenerHandler
 
             holder.binding.noData.visibility = View.GONE
             holder.binding.trophyLayout.visibility = View.VISIBLE
-//
-//
+
+
+            for (item in sList2.indices) {
+                if (listPos.name != sList2[item].name) {
+
+
+                    holder.itemView.alpha = 0.5F
+                }
+            }
 
             holder.binding.trophy.load(123){
-                    placeholder(R.drawable.trophy_lar)
-                    error(R.drawable.trophy_lar)
+                placeholder(R.drawable.trophy_lar)
+                error(R.drawable.trophy_lar)
             }
 
             holder.binding.trophyName.text = listPos.name
