@@ -98,8 +98,10 @@ class PlayScreenFragment : Fragment() {
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         binding.recyclerViewBrackets.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-        binding.recyclerViewEvents.layoutManager =
+        binding.recyclerViewOnetoOne.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+//        binding.recyclerViewEvents.layoutManager =
+//            LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
 
         rvAdapterPractice = RVAdapterPractice(
             requireContext(),
