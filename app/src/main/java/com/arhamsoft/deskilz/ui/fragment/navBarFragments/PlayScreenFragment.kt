@@ -46,10 +46,12 @@ class PlayScreenFragment : Fragment() {
     private var practiceList: ArrayList<GetTournamentsListData> = ArrayList()
     private var eventList: ArrayList<EventsModelData> = ArrayList()
     private var bracketsList: ArrayList<GetTournamentsListData> = ArrayList()
+    private var oneToOneList: ArrayList<GetTournamentsListData> = ArrayList()
     private lateinit var rvAdapterPractice: RVAdapterPractice
     private lateinit var rvAdapterH2H: RVAdapterHeadToHead
     private lateinit var rvAdapterBrackets: RVAdapterBrackets
     private lateinit var rvAdapterEvents: RVAdapterEvents
+    private lateinit var rvAdapterOneToOne: RVAdapterOneToOne
 //    var u_id:String? = ""
 
 
@@ -99,15 +101,14 @@ class PlayScreenFragment : Fragment() {
         binding.recyclerViewEvents.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
 
-
-//
-
         rvAdapterPractice = RVAdapterPractice(
             requireContext(),
             practiceList,
             object : RVAdapterPractice.OnItemClick {
                 override fun onClick(click: GetTournamentsListData, position: Int) {
                     loading.startLoading()
+                    URLConstant.oneToOne = false
+
                     checkTournamentParticipation(click)
 
                 }
@@ -116,25 +117,20 @@ class PlayScreenFragment : Fragment() {
         binding.recyclerViewPractice.adapter = rvAdapterPractice
 
 
-
         rvAdapterH2H = RVAdapterHeadToHead(
             requireContext(),
             headToHeadList,
             object : RVAdapterHeadToHead.OnItemClick {
                 override fun onClick(click: GetTournamentsListData, position: Int) {
                     loading.startLoading()
+                    URLConstant.oneToOne = false
 
                     checkTournamentParticipation(click)
-
-
-//                    showDialog()
-
 
                 }
             })
 
         binding.recyclerViewHeadtoHead.adapter = rvAdapterH2H
-
 
         rvAdapterBrackets = RVAdapterBrackets(
             requireContext(),
@@ -142,6 +138,7 @@ class PlayScreenFragment : Fragment() {
             object : RVAdapterBrackets.OnItemClick {
                 override fun onClick(click: GetTournamentsListData, position: Int) {
                     loading.startLoading()
+                    URLConstant.oneToOne = false
 
                     checkTournamentParticipation(click)
 
@@ -159,10 +156,10 @@ class PlayScreenFragment : Fragment() {
                 override fun onClick(click: EventsModelData, position: Int) {
 //                    val bundle = bundleOf()
 //                    bundle.putSerializable("GET_MATCHES_OBJ",click)
-                    URLConstant.eventId = click.eventID
+//                    URLConstant.eventId = click.eventID
 //                    GetTournamentsListData(false,click.gamePlay,click.eventID,click.eventName,"","",click.entryFee,click.playerCount.toLong(),"","","",
 //                        listOf(PrizesModel("","","","","",0L)))
-                    findNavController().navigate(R.id.action_dashboardActivity_to_findCompetitiveFragment)
+//                    findNavController().navigate(R.id.action_dashboardActivity_to_findCompetitiveFragment)
 
 //                    showDialog()
 
@@ -172,8 +169,19 @@ class PlayScreenFragment : Fragment() {
         binding.recyclerViewEvents.adapter = rvAdapterEvents
 
 
-    }
+        rvAdapterOneToOne = RVAdapterOneToOne(requireContext(), oneToOneList,object : RVAdapterOneToOne.OnItemClick {
+            override fun onClick(click: GetTournamentsListData, position: Int) {
+                URLConstant.oneToOne = true
 
+                checkTournamentParticipation(click)
+
+
+            }
+        })
+
+        binding.recyclerViewOnetoOne.adapter = rvAdapterOneToOne
+
+    }
 
     private fun getEvents() {
         CoroutineScope(Dispatchers.IO).launch {
@@ -226,7 +234,7 @@ class PlayScreenFragment : Fragment() {
     }
 
 
-    private fun checkTournamentParticipation(click:GetTournamentsListData) {
+    private fun checkTournamentParticipation(click: GetTournamentsListData) {
         CoroutineScope(Dispatchers.IO).launch {
             NetworkRepo.checkTournamentParticipation(
                 URLConstant.u_id!!,
@@ -248,16 +256,13 @@ class PlayScreenFragment : Fragment() {
 //                    URLConstant.Fee = click.entryFee
 //                    URLConstant.player_count = click.playerCount
 //                    loading.startLoading()
-                                URLConstant.eventId = ""
 
                                 findNavController().navigate(
                                     R.id.action_dashboardActivity_to_findCompetitiveFragment,
                                     bundle
                                 )
 
-                            }
-
-                            else {
+                            } else {
                                 StaticFields.toastClass("Your Previous Tournament result hasn't announced yet.")
                             }
 
@@ -299,7 +304,6 @@ class PlayScreenFragment : Fragment() {
 
 //                            URLConstant.check = true
 
-
                         }
                     }
 
@@ -328,9 +332,15 @@ class PlayScreenFragment : Fragment() {
             binding.practiceLayout.visibility = View.VISIBLE
 
             practiceList.addAll(t.data.Practice)
-
-
             rvAdapterPractice.addData(practiceList)
+
+        }
+
+        if (t.data.oneToOne.isNotEmpty()) {
+            binding.onetooneLayout.visibility = View.VISIBLE
+
+            oneToOneList.addAll(t.data.oneToOne)
+            rvAdapterOneToOne.addData(oneToOneList)
 
         }
 
@@ -372,8 +382,6 @@ class PlayScreenFragment : Fragment() {
 
 
     }*/
-
-
 }
 
 

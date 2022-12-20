@@ -62,7 +62,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="0.5"
+                android:layout_weight="0.6"
                 android:gravity="center_horizontal"
                 android:orientation="vertical">
 
@@ -83,9 +83,9 @@
                     android:layout_marginTop="@dimen/size_20dp"
                     android:alpha=".6"
                     android:layout_width="@dimen/_280sdp"
-                    android:textAlignment="center"
+                    android:gravity="center"
                     android:layout_height="wrap_content"
-                    android:text="To Compete for cool prizes, contact our support team, and access great customer rewards, please save your account"
+                    android:text="To compete for cool prizes, contact our support team, and access great customer rewards, please save your account"
                     android:textColor="@color/white"
                     android:fontFamily="@font/poppins_regular" />
 
@@ -129,7 +129,7 @@
                     android:maxLines="1"
                     android:inputType="text"
 
-                    android:paddingStart="@dimen/_10sdp"
+                    android:paddingStart="@dimen/size_10dp"
                     android:textColorHint="@color/lightGrey"
                     android:textSize="@dimen/text_size_15sp"
                     android:fontFamily="@font/poppins_regular"

@@ -28,11 +28,11 @@ import java.util.Base64.getDecoder
 import kotlin.collections.ArrayList
 
 
-class RVAdapterHeadToHead(
+class RVAdapterOneToOne(
     var context: Context,
     private var sList: ArrayList<GetTournamentsListData>,
     private var listenerClick: OnItemClick,
-    ) : RecyclerView.Adapter<RVAdapterHeadToHead.ViewHolder>() {
+    ) : RecyclerView.Adapter<RVAdapterOneToOne.ViewHolder>() {
     private lateinit var binding: CardViewHeadtoheadBinding
     private var mContext: Context? = null
     var pic: String? = null
@@ -83,8 +83,6 @@ class RVAdapterHeadToHead(
             error(R.drawable.onedollarlarge)
         }
         holder.bind.tournamentName.text = listPos.tournamentName
-        holder.bind.startTime.text = listPos.startDate
-        holder.bind.endTime.text = listPos.endDate
         holder.bind.entryFee.text = " Entry $${listPos.entryFee} "
         holder.bind.player.text = "${listPos.playerCount} players"
         holder.bind.prize.text = "Prize: ${listPos.winningPrize}"

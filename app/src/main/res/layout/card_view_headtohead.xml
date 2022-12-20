@@ -52,9 +52,23 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/startTime"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Welcome to the pros"
+                        android:maxLines="1"
+                        android:textStyle="bold"
+                        android:text="Start time"
+                        android:textSize="@dimen/size_15dp" />
+
+                    <TextView
+                        android:id="@+id/endTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="End time"
+                        android:textStyle="bold"
+
+                        android:maxLines="1"
+
                         android:textSize="@dimen/size_15dp" />
 
                 </LinearLayout>

@@ -161,7 +161,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginStart="@dimen/size_10dp"
-                        android:text="Player Rank"
+                        android:text="Deskillz Progress"
                         android:textColor="@color/white"
                         android:textSize="@dimen/text_size_18sp"
                         android:textStyle="bold" />
