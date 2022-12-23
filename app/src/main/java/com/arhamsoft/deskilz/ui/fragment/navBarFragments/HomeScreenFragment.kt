@@ -20,6 +20,7 @@ import com.arhamsoft.deskilz.domain.repository.NetworkRepo
 import com.arhamsoft.deskilz.networking.networkModels.*
 import com.arhamsoft.deskilz.networking.retrofit.URLConstant
 import com.arhamsoft.deskilz.ui.adapter.AdapterHomeScreen
+import com.arhamsoft.deskilz.ui.adapter.RVAdapterOngoinOnetoOne
 import com.arhamsoft.deskilz.ui.adapter.RVAdapterPlayersWaiting
 import com.arhamsoft.deskilz.utils.InternetConLiveData
 import com.arhamsoft.deskilz.utils.LoadingDialog
@@ -41,9 +42,9 @@ class HomeScreenFragment : Fragment() {
     lateinit var rvLoadMore: RecyclerViewLoadMoreScroll
     var completedList: ArrayList<GetMatchesRecordData> = ArrayList()
     private lateinit var connection: InternetConLiveData
-    private lateinit var rvAdapter: RVAdapterPlayersWaiting
+    private lateinit var rvAdapterOnetoOne: RVAdapterOngoinOnetoOne
 
-    var requestList: ArrayList<PlayerWaitingModelData> = ArrayList()
+    var oneToOneAndTournamentList: ArrayList<PlayerWaitingModelData> = ArrayList()
     var u_id: String? = null
 
 
@@ -86,6 +87,10 @@ class HomeScreenFragment : Fragment() {
 
 //        initScrollListener()
 
+        binding.recycleListcompleted.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+
+
         adapterHomeScreen =
             AdapterHomeScreen(object : AdapterHomeScreen.OnItemClickListenerHandler {
 
@@ -107,19 +112,10 @@ class HomeScreenFragment : Fragment() {
                 }
 
             })
-        binding.recycleListHome.adapter = adapterHomeScreen
+        binding.recycleListcompleted.adapter = adapterHomeScreen
 
 
-        rvAdapter =
-            RVAdapterPlayersWaiting(object : RVAdapterPlayersWaiting.OnItemClickListenerHandler {
-                override fun onItemClicked(click: Any, position: Int) {
 
-//                findNavController().navigate(R.id.action_pendingRequestFragment_to_findCompetitiveFragment)
-
-                }
-            })
-
-        binding.recycleListRequest.adapter = rvAdapter
 
     }
 
@@ -249,10 +245,11 @@ class HomeScreenFragment : Fragment() {
 
                             activity?.runOnUiThread {
 
-                                if (t.data.isNotEmpty()) {
+                                if (t.data.tournamentRecords.isNotEmpty() || t.data.matchRecords.isNotEmpty()) {
 
 
-                                    completedList.addAll(t.data)
+                                    completedList.addAll(t.data.matchRecords)
+                                    completedList.addAll(t.data.tournamentRecords)
 
                                     completedList.reverse()
                                     adapterHomeScreen.setData(completedList)
@@ -287,13 +284,13 @@ class HomeScreenFragment : Fragment() {
 
     private fun initScrollListener() {
         rvLoadMore =
-            RecyclerViewLoadMoreScroll(binding.recycleListHome.layoutManager as LinearLayoutManager)
+            RecyclerViewLoadMoreScroll(binding.recycleListcompleted.layoutManager as LinearLayoutManager)
         rvLoadMore.setOnLoadMoreListener(object : OnLoadMoreListener {
             override fun onLoadMore() {
                 loadMore()
             }
         })
-        binding.recycleListHome.addOnScrollListener(rvLoadMore)
+        binding.recycleListcompleted.addOnScrollListener(rvLoadMore)
     }
 
     private fun loadMore() {
@@ -316,19 +313,35 @@ class HomeScreenFragment : Fragment() {
                         loading.isDismiss()
                         if (t.status == 1) {
                             activity?.runOnUiThread {
+                                if (t.data.matchRecords.isNotEmpty() || t.data.tournamentRecords.isNotEmpty()) {
 
-                                if (t.data.isNotEmpty()) {
+
                                     binding.ongoingLayout.visibility = View.VISIBLE
 
-                                    requestList.addAll(t.data)
+                                    oneToOneAndTournamentList.addAll(t.data.matchRecords)
+                                    oneToOneAndTournamentList.addAll(t.data.tournamentRecords)
 
-                                    requestList.reverse()
 
-                                    rvAdapter.setData(requestList)
-                                } else {
-                                    binding.ongoingLayout.visibility = View.GONE
-//                                    rvAdapter.setData(requestList)
+                                    binding.recycleListOngoingOneToOne.layoutManager =
+                                        LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+
+                                    rvAdapterOnetoOne = RVAdapterOngoinOnetoOne(object : RVAdapterOngoinOnetoOne.OnItemClickListenerHandler {
+                                        override fun onItemClicked(click: Any, position: Int) {
+                                        }
+                                    })
+
+                                    binding.recycleListOngoingOneToOne.adapter = rvAdapterOnetoOne
+
+                                    oneToOneAndTournamentList.reverse()
+
+                                    rvAdapterOnetoOne.setData(oneToOneAndTournamentList)
                                 }
+                                else{
+                                    binding.ongoingLayout.visibility = View.GONE
+
+
+                                }
+
                             }
                         }
                     }

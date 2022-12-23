@@ -30,7 +30,6 @@ class AdapterAllTrophies(var listener: OnItemClickListenerHandler
             parent, false)
         return Holder(binding)
     }
-
     override fun onBindViewHolder(holder: AdapterAllTrophies.Holder, position: Int) {
 
 
@@ -53,9 +52,42 @@ class AdapterAllTrophies(var listener: OnItemClickListenerHandler
                 }
             }
 
-            holder.binding.trophy.load(123){
-                placeholder(R.drawable.trophy_lar)
-                error(R.drawable.trophy_lar)
+            if (listPos.name.contains("Newbie")){
+                holder.binding.trophy.load(R.drawable.newbie){
+                    placeholder(R.drawable.trophy_lar)
+                    error(R.drawable.trophy_lar)
+                }
+
+            }
+            else if (listPos.name.contains("Loser")){
+                holder.binding.trophy.load(R.drawable.loser){
+                    placeholder(R.drawable.trophy_lar)
+                    error(R.drawable.trophy_lar)
+                }
+            }
+            else if (listPos.name.contains("Loser")){
+                holder.binding.trophy.load(R.drawable.loser){
+                    placeholder(R.drawable.trophy_lar)
+                    error(R.drawable.trophy_lar)
+                }
+            }
+            else if (listPos.name.contains("Eliminator")){
+                holder.binding.trophy.load(R.drawable.eliminator){
+                    placeholder(R.drawable.trophy_lar)
+                    error(R.drawable.trophy_lar)
+                }
+            }
+            else if (listPos.name.contains("Brightest")){
+                holder.binding.trophy.load(R.drawable.brightest){
+                    placeholder(R.drawable.trophy_lar)
+                    error(R.drawable.trophy_lar)
+                }
+            }
+            else{
+                holder.binding.trophy.load(123){
+                    placeholder(R.drawable.trophy_lar)
+                    error(R.drawable.trophy_lar)
+                }
             }
 
             holder.binding.trophyName.text = listPos.name

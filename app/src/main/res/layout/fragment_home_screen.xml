@@ -161,7 +161,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginStart="@dimen/size_10dp"
-                        android:text="Deskillz Progress"
+                        android:text="Player Rank"
                         android:textColor="@color/white"
                         android:textSize="@dimen/text_size_18sp"
                         android:textStyle="bold" />
@@ -351,7 +351,7 @@
                             android:layout_alignParentBottom="true"
                             android:layout_centerHorizontal="true"
                             android:layout_marginBottom="@dimen/_5sdp"
-                            android:text="Trophies"
+                            android:text="Trophy"
                             android:gravity="center"
                             android:lines="1"
                             android:textStyle="bold" />
@@ -389,15 +389,31 @@
                 android:orientation="vertical"
                 android:paddingBottom="10dp">
 
-                <TextView
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="10dp"
-                    android:text="On-Going Matches"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/text_size_18sp"
-                    android:textStyle="bold" />
+                    android:layout_marginTop="@dimen/size_10dp"
+                    android:layout_marginStart="@dimen/size_20dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/size_30dp"
+                        android:layout_height="@dimen/size_30dp"
+                        android:src="@drawable/starlarge" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="@dimen/size_10dp"
+                        android:text="On-Going Matches"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_size_18sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+
 
                 <View
                     android:layout_width="match_parent"
@@ -408,15 +424,14 @@
                     android:background="@color/black" />
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recycleListRequest"
+                    android:id="@+id/recycleListOngoingOneToOne"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/size_10dp"
-                    android:layout_marginTop="20dp"
                     android:layout_marginEnd="@dimen/size_10dp"
                     android:layout_marginBottom="@dimen/size_10dp"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    tools:listitem="@layout/row_pending_request" />
+                    />
 
 
             </LinearLayout>
@@ -470,7 +485,7 @@
                 </LinearLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recycleListHome"
+                    android:id="@+id/recycleListcompleted"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_marginStart="@dimen/size_10dp"
@@ -508,5 +523,6 @@
         </RelativeLayout>
 
     </LinearLayout>
+
 
 </ScrollView>

@@ -47,6 +47,76 @@
 
         </RelativeLayout>
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/size_10dp">
+
+            <com.arhamsoft.deskilz.ui.backGroundLayout.BackGroundLayoutView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:backgroundColorView="@color/gray_bg_color"
+                app:cornersValue="@dimen/size_10dp"
+                app:corners_side="1"
+                app:lower_cut_value="@dimen/size_20dp"
+                app:upper_cut_value="@dimen/size_30dp"
+                android:alpha=".7"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <LinearLayout
+                android:id="@+id/onetooneLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:orientation="vertical"
+                android:visibility="gone"
+
+                android:layout_marginBottom="@dimen/size_10dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/size_10dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_margin="3dp"
+                        android:src="@drawable/eventlarge" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_5sdp"
+                        android:text="One-To-One"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/_17sdp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerViewOne2One"
+                    android:layout_width="match_parent"
+                    android:orientation="vertical"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/size_10dp" />
+
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 
@@ -337,75 +407,6 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/size_10dp">
-
-            <com.arhamsoft.deskilz.ui.backGroundLayout.BackGroundLayoutView
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                app:backgroundColorView="@color/gray_bg_color"
-                app:cornersValue="@dimen/size_10dp"
-                app:corners_side="1"
-                app:lower_cut_value="@dimen/size_20dp"
-                app:upper_cut_value="@dimen/size_30dp"
-                android:alpha=".7"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"/>
-
-            <LinearLayout
-                android:id="@+id/onetooneLayout"
-                android:layout_width="match_parent"
-                android:visibility="gone"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:orientation="vertical"
-                android:layout_marginBottom="@dimen/size_10dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/size_10dp"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:layout_margin="3dp"
-                        android:src="@drawable/eventlarge" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/_5sdp"
-                        android:text="One-To-One"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/_17sdp"
-                        android:textStyle="bold" />
-
-                </LinearLayout>
-
-
-
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerViewOnetoOne"
-                    android:layout_width="match_parent"
-                    android:orientation="vertical"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/size_10dp" />
-
-
-            </LinearLayout>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
         <View
