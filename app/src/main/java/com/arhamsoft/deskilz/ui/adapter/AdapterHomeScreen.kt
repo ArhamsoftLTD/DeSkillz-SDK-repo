@@ -1,5 +1,7 @@
 package com.arhamsoft.deskilz.ui.adapter
 
+import android.annotation.SuppressLint
+import android.graphics.Color
 import android.text.SpannableString
 import android.view.LayoutInflater
 import android.view.View
@@ -28,6 +30,7 @@ class AdapterHomeScreen(var listener: OnItemClickListenerHandler
         return Holder(binding)
     }
 
+    @SuppressLint("ResourceAsColor")
     override fun onBindViewHolder(holder: AdapterHomeScreen.Holder, position: Int) {
 
 
@@ -41,16 +44,20 @@ class AdapterHomeScreen(var listener: OnItemClickListenerHandler
             holder.binding.noData.visibility = View.GONE
             holder.binding.home.visibility = View.VISIBLE
 
-//            holder.binding.matchImg.load(listPos.){
-//                placeholder(R.drawable.onedollarlarge)
-//                error(R.drawable.onedollarlarge)
-//            }
+            holder.binding.matchImg.load(123){
+                placeholder(R.mipmap.ic_launcher)
+                error(R.mipmap.ic_launcher)
+            }
 
-            holder.binding.userStatus.text = if(listPos.isWin){
-                "You Win"
+            holder.binding.tournamentName.text = listPos.matchTitle
+
+            if(listPos.isWin) {
+                holder.binding.userStatus.text = "You Win"
+                holder.binding.userStatus.setTextColor(Color.GREEN)
             }
             else{
-                "You Lost"
+                holder.binding.userStatus.text = "You Lose"
+                holder.binding.userStatus.setTextColor(Color.RED)
             }
 
             if (listPos.listofOpponent.size > 1){
@@ -61,7 +68,8 @@ class AdapterHomeScreen(var listener: OnItemClickListenerHandler
             }
 
 
-            holder.binding.entryFee.text = listPos.entryFee
+
+            holder.binding.entryFee.text = listPos.entryFee.toString()
             holder.binding.time.text = "Time: ${listPos.time}"
 
             holder.onBind(sList[position], listener,position)

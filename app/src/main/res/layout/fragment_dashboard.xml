@@ -20,6 +20,15 @@
             android:layout_marginStart="@dimen/size_10dp"
             android:src="@drawable/menu_bg" />
 
+
+        <ImageView
+            android:id="@+id/bellIcon"
+            android:layout_width="@dimen/size_50dp"
+            android:layout_height="@dimen/size_50dp"
+            android:layout_toStartOf="@id/poweredLogo"
+            android:layout_marginEnd="@dimen/size_10dp"
+            android:src="@drawable/bell" />
+
         <ImageView
             android:id="@+id/poweredLogo"
             android:layout_width="@dimen/size_100dp"

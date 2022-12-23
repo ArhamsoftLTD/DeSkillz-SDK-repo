@@ -16,5 +16,4 @@ data class GetMatchesRecordData(
     val isTournament: Boolean,
     val tournamentName: String
 
-
 ):Serializable

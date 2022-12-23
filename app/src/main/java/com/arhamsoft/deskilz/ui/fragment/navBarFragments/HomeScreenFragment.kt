@@ -12,7 +12,6 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
 import com.arhamsoft.deskilz.R
 import com.arhamsoft.deskilz.databinding.FragmentHomeScreenBinding
 import com.arhamsoft.deskilz.domain.listeners.NetworkListener
@@ -21,7 +20,6 @@ import com.arhamsoft.deskilz.networking.networkModels.*
 import com.arhamsoft.deskilz.networking.retrofit.URLConstant
 import com.arhamsoft.deskilz.ui.adapter.AdapterHomeScreen
 import com.arhamsoft.deskilz.ui.adapter.RVAdapterOngoinOnetoOne
-import com.arhamsoft.deskilz.ui.adapter.RVAdapterPlayersWaiting
 import com.arhamsoft.deskilz.utils.InternetConLiveData
 import com.arhamsoft.deskilz.utils.LoadingDialog
 import com.arhamsoft.deskilz.utils.StaticFields
