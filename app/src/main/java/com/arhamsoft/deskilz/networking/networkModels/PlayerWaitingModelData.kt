@@ -3,7 +3,7 @@ package com.arhamsoft.deskilz.networking.networkModels
 data class PlayerWaitingModelData(
     val _id: String?="",
     val tournamentId: String?="",
-    val remainingTime: Int?=0,
+    val remainingTime: String?="",
     val waitingFor: String?="",
     val entryFee: String?="",
     val winningPrize: String?="",

@@ -89,6 +89,8 @@ class RVAdapterBrackets(
         holder.bind.prize.text = "Prize: ${listPos.winningPrize}"
 
 
+        holder.bind.startTime.text ="Start Time: ${listPos.startDate}"
+        holder.bind.endTime.text ="End Time: ${listPos.endDate}"
 
 
         holder.onBind(listPos, listenerClick, position)

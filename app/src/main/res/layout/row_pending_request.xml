@@ -60,6 +60,7 @@
                     android:textSize="@dimen/text_size_15sp" />
 
                 <TextView
+                    android:id="@+id/vs"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/poppins_regular"
@@ -123,6 +124,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="end"
+                    android:paddingEnd="5dp"
                     android:text="Entry $9"
                     android:textColor="@color/black"
                     android:textStyle="bold" />

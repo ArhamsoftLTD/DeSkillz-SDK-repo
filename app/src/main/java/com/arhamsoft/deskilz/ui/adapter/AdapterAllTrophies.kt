@@ -12,6 +12,8 @@ import com.arhamsoft.deskilz.databinding.AdapterTrophiesViewBinding
 import com.arhamsoft.deskilz.databinding.AdpaterTrophyDetailBinding
 import com.arhamsoft.deskilz.databinding.RowHomeScreenBinding
 import com.arhamsoft.deskilz.networking.networkModels.*
+
+
 class AdapterAllTrophies(var listener: OnItemClickListenerHandler
 ): RecyclerView.Adapter<AdapterAllTrophies.Holder>() {
     private var sList: ArrayList<AllTrophiesModel> = ArrayList()

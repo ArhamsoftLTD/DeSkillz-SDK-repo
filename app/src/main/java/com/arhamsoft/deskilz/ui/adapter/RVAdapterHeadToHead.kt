@@ -83,8 +83,9 @@ class RVAdapterHeadToHead(
             error(R.drawable.onedollarlarge)
         }
         holder.bind.tournamentName.text = listPos.tournamentName
-        holder.bind.startTime.text = listPos.startDate
-        holder.bind.endTime.text = listPos.endDate
+
+        holder.bind.startTime.text ="Start Time: ${listPos.startDate}"
+        holder.bind.endTime.text ="End Time: ${listPos.endDate}"
         holder.bind.entryFee.text = " Entry $${listPos.entryFee} "
         holder.bind.player.text = "${listPos.playerCount} players"
         holder.bind.prize.text = "Prize: ${listPos.winningPrize}"

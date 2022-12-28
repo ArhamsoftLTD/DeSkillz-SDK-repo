@@ -162,19 +162,7 @@ class HomeScreenFragment : Fragment() {
 
                             activity?.runOnUiThread {
 
-//                                sharedPreference.saveValue(
-//                                    "USERIMG",
-//                                    userDetailedInfoModel.data.userData.userImage
-//                                )
-//                                sharedPreference.saveValue("USERNAME", userDetailedInfoModel.data.userData.userName)
-//                                sharedPreference.saveValue("SHOUTOUT", userDetailedInfoModel.data.userData.userShoutOut)
 
-//                                binding.userImg.load(userDetailedInfoModel.data.userData.userImage) {
-//                                    placeholder(R.drawable.ic_baseline_person_24)
-//                                    error(R.drawable.ic_baseline_person_24)
-//                                }
-//                                binding.Flag.load(userDetailedInfoModel.data.userData.userCountryFlag)
-//                                binding.userName.text = userDetailedInfoModel.data.userData.userName
                                 binding.deskillzLevel.text = userDetailedInfoModel.data.deskillzLevel.toString()
 
                                 ObjectAnimator.ofInt(binding.deskillzLevelBar, "progress", userDetailedInfoModel.data.deskillzLevel)
@@ -194,17 +182,7 @@ class HomeScreenFragment : Fragment() {
                                 ObjectAnimator.ofInt(binding.progressBar3, "progress", userDetailedInfoModel.data.earnedTrophies.size)
                                     .setDuration(500)
                                     .start()
-//                                binding.progressXp3.text = userDetailedInfoModel.data.currentGameRank.toString()
-//                                binding.coinNo.text = userDetailedInfoModel.data.progressXp.toString()
-////                                binding.ticketsNo.text = "0"
-//                                binding.dollar.text = "0.0"
-//                                binding.shoutout.text = userDetailedInfoModel.data.userData.userShoutOut
-//
-//                                binding.winStreak.text = userDetailedInfoModel.data.winStreak.toString()
-//                                binding.matchesWon.text = userDetailedInfoModel.data.userWin.toString()
-////                                    binding.shoutout.text = t.data.userData.userShoutOut
-//                                binding.win.text = userDetailedInfoModel.data.userWin.toString()
-//                                binding.lose.text = userDetailedInfoModel.data.userLoose.toString()
+
 
                             }
                         }

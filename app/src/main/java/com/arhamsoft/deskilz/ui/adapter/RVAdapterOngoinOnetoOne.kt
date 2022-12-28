@@ -47,44 +47,33 @@ class RVAdapterOngoinOnetoOne(var listener: OnItemClickListenerHandler
             holder.binding.tournName.text = listPos.tournamentName
             holder.binding.playerFound.text = listPos.waitingFor
 
-            holder.binding.img.load(listPos.tournamentImage){
-                placeholder(R.drawable.onedollarlarge)
-                error(R.drawable.onedollarlarge)
+            if (listPos.tournamentId != null){
+                holder.binding.score.visibility = View.GONE
+                holder.binding.vs.text = "Ends in: ${listPos.remainingTime}"
+                holder.binding.userStatus.text = "Tournament is in Progress"
             }
-//            if (listPos.playerCount >=4){
-//                holder.binding.play.visibility = View.VISIBLE
-//                holder.binding.playerFound.text = "Player Found - Tap to Play"
-//            }
-//            else{
-//                holder.binding.play.visibility = View.GONE
-//                holder.binding.playerFound.text = listPos.waitingFor
-//
-//            }
-//
-//            if (listPos.isPlayed){
-//                holder.binding.score.visibility = View.VISIBLE
-//                holder.binding.score.text = "Previous Score: ${listPos.previousScore}"
-////                holder.binding.prize.visibility =View.GONE
-//                holder.binding.entryFee.visibility = View.GONE
-//                holder.binding.player.visibility = View.GONE
-//            }
-//            else{
-           
+            else{
+                holder.binding.score.visibility = View.VISIBLE
+                holder.binding.userStatus.text = "Match is in Progress"
+
                 holder.binding.score.text = "Your Score: ${listPos.previousScore}"
 
-//                holder.binding.prize.text = "Prize: ${listPos.winningPrize}"
-                holder.binding.entryFee.text = if(listPos.tournamentId == null){
-                    "Fee: Free"
-                }else{
-                    "Fee: ${listPos.entryFee}"
-                }
-                holder.binding.player.text = "Player: ${listPos.playerCount}"
+            }
+
+//            holder.binding.img.load(listPos.tournamentImage){
+//                placeholder(R.drawable.onedollarlarge)
+//                error(R.drawable.onedollarlarge)
 //            }
 
 
 
-//            holder.binding.oppoenetName.text = listPos.usernameOtheruser
-//            holder.binding.entryFee.text = listPos.entryFee
+//                holder.binding.prize.text = "Prize: ${listPos.winningPrize}"
+            holder.binding.entryFee.text = if(listPos.tournamentId == null){
+                "Fee: Free"
+            }else{
+                "Fee: ${listPos.entryFee}"
+            }
+            holder.binding.player.text = "Player: ${listPos.playerCount}"
 
             holder.onBind(sList[position], listener,position)
 
