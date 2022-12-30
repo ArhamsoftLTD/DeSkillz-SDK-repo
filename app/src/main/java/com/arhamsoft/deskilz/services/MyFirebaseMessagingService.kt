@@ -38,7 +38,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         return check.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND ||
                 check.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_VISIBLE
     }
-    @RequiresApi(Build.VERSION_CODES.M)
+
     override fun onMessageReceived(message: RemoteMessage) {
         super.onMessageReceived(message)
         val title = message.notification?.title

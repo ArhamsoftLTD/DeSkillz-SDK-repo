@@ -96,7 +96,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/_5sdp"
-                        android:text="One-To-One"
+                        android:text="Single Player"
                         android:textColor="@color/white"
                         android:textSize="@dimen/_17sdp"
                         android:textStyle="bold" />
@@ -132,7 +132,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:alpha="0.7"
-                app:backgroundColorView="@color/gray_bg_color"
+                app:backgroundColorView="#30070D"
                 app:cornersValue="@dimen/size_10dp"
                 app:corners_side="1"
                 app:lower_cut_value="@dimen/size_20dp"
@@ -143,8 +143,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"/>
 
             <LinearLayout
-                android:id="@+id/eventLayout"
-                android:visibility="gone"
+                android:id="@+id/tournHeading"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
@@ -160,252 +159,244 @@
                     android:layout_margin="@dimen/size_10dp"
                     android:orientation="horizontal">
 
-                    <ImageView
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:layout_margin="3dp"
-                        android:src="@drawable/eventlarge" />
+<!--                    <ImageView-->
+<!--                        android:layout_width="25dp"-->
+<!--                        android:layout_height="25dp"-->
+<!--                        android:layout_margin="3dp"-->
+<!--                        android:src="@drawable/" />-->
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/_5sdp"
-                        android:text="Events"
+                        android:text="Tournaments"
+                        android:paddingStart="@dimen/size_10dp"
                         android:textColor="@color/white"
                         android:textSize="@dimen/_17sdp"
                         android:textStyle="bold" />
 
                 </LinearLayout>
 
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerViewEvents"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/h2h"
                     android:layout_width="match_parent"
-                    android:orientation="vertical"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/size_10dp" />
+                    android:layout_margin="@dimen/size_10dp">
 
+                    <com.arhamsoft.deskilz.ui.backGroundLayout.BackGroundLayoutView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:alpha=".7"
+                        app:backgroundColorView="@color/gray_bg_color"
+                        app:cornersValue="@dimen/size_10dp"
+                        app:corners_side="1"
+                        app:lower_cut_value="@dimen/size_20dp"
+                        app:upper_cut_value="@dimen/size_30dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"/>
 
-            </LinearLayout>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/h2h"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/size_10dp">
-
-            <com.arhamsoft.deskilz.ui.backGroundLayout.BackGroundLayoutView
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:alpha=".7"
-                app:backgroundColorView="@color/gray_bg_color"
-                app:cornersValue="@dimen/size_10dp"
-                app:corners_side="1"
-                app:lower_cut_value="@dimen/size_20dp"
-                app:upper_cut_value="@dimen/size_30dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"/>
-
-            <LinearLayout
-                android:id="@+id/headtoheadLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:layout_centerHorizontal="true"
-                android:orientation="vertical"
-                android:layout_marginBottom="@dimen/size_10dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/size_10dp"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:layout_margin="3dp"
-                        android:src="@drawable/eventlarge" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:id="@+id/headtoheadLayout"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/size_5dp"
-                        android:text="Head to Head"
-                        android:layout_gravity="center"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/text_size_18sp"
-                        android:textStyle="bold" />
+                        android:visibility="gone"
+                        android:layout_centerHorizontal="true"
+                        android:orientation="vertical"
+                        android:layout_marginBottom="@dimen/size_10dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent">
 
-                </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/size_10dp"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:layout_margin="3dp"
+                                android:src="@drawable/eventlarge" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/size_5dp"
+                                android:text="Head to Head"
+                                android:layout_gravity="center"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/text_size_18sp"
+                                android:textStyle="bold" />
+
+                        </LinearLayout>
 
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerViewHeadtoHead"
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/recyclerViewHeadtoHead"
+                            android:layout_width="match_parent"
+                            android:orientation="vertical"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/size_10dp"
+                            />
+
+
+
+                    </LinearLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/brackets"
                     android:layout_width="match_parent"
-                    android:orientation="vertical"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/size_10dp"
-                    />
+                    android:layout_margin="@dimen/size_10dp" >
 
+                    <com.arhamsoft.deskilz.ui.backGroundLayout.BackGroundLayoutView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:alpha=".7"
+                        app:backgroundColorView="@color/gray_bg_color"
+                        app:cornersValue="@dimen/size_10dp"
+                        app:corners_side="1"
+                        app:lower_cut_value="@dimen/size_20dp"
+                        app:upper_cut_value="@dimen/size_30dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"/>
 
-
-            </LinearLayout>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/brackets"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/size_10dp" >
-
-            <com.arhamsoft.deskilz.ui.backGroundLayout.BackGroundLayoutView
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:alpha=".7"
-                app:backgroundColorView="@color/gray_bg_color"
-                app:cornersValue="@dimen/size_10dp"
-                app:corners_side="1"
-                app:lower_cut_value="@dimen/size_20dp"
-                app:upper_cut_value="@dimen/size_30dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"/>
-
-            <LinearLayout
-                android:id="@+id/bracketsLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:layout_centerHorizontal="true"
-                android:orientation="vertical"
-                android:layout_marginBottom="@dimen/size_10dp"
-
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/size_10dp"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:layout_margin="3dp"
-                        android:src="@drawable/eventlarge" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:id="@+id/bracketsLayout"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/size_5dp"
-                        android:text="Brackets"
-                        android:layout_gravity="center"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/text_size_18sp"
-                        android:textStyle="bold" />
+                        android:visibility="gone"
+                        android:layout_centerHorizontal="true"
+                        android:orientation="vertical"
+                        android:layout_marginBottom="@dimen/size_10dp"
 
-                </LinearLayout>
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/size_10dp"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:layout_margin="3dp"
+                                android:src="@drawable/eventlarge" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/size_5dp"
+                                android:text="Brackets"
+                                android:layout_gravity="center"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/text_size_18sp"
+                                android:textStyle="bold" />
+
+                        </LinearLayout>
 
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerViewBrackets"
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/recyclerViewBrackets"
+                            android:layout_width="match_parent"
+                            android:orientation="vertical"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/size_10dp"
+                            />
+
+
+
+                    </LinearLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:orientation="vertical"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/size_10dp"
-                    />
+                    android:layout_margin="@dimen/size_10dp">
 
+                    <com.arhamsoft.deskilz.ui.backGroundLayout.BackGroundLayoutView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        app:backgroundColorView="@color/gray_bg_color"
+                        app:cornersValue="@dimen/size_10dp"
+                        app:corners_side="1"
+                        app:lower_cut_value="@dimen/size_20dp"
+                        app:upper_cut_value="@dimen/size_30dp"
+                        android:alpha=".7"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"/>
 
-
-            </LinearLayout>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/size_10dp">
-
-            <com.arhamsoft.deskilz.ui.backGroundLayout.BackGroundLayoutView
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                app:backgroundColorView="@color/gray_bg_color"
-                app:cornersValue="@dimen/size_10dp"
-                app:corners_side="1"
-                app:lower_cut_value="@dimen/size_20dp"
-                app:upper_cut_value="@dimen/size_30dp"
-                android:alpha=".7"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"/>
-
-            <LinearLayout
-                android:id="@+id/practiceLayout"
-                android:layout_width="match_parent"
-                android:visibility="gone"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:orientation="vertical"
-                android:layout_marginBottom="@dimen/size_10dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/size_10dp"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:layout_margin="3dp"
-                        android:src="@drawable/eventlarge" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:id="@+id/practiceLayout"
+                        android:layout_width="match_parent"
+                        android:visibility="gone"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/_5sdp"
-                        android:text="Practice"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/_17sdp"
-                        android:textStyle="bold" />
+                        android:layout_centerHorizontal="true"
+                        android:orientation="vertical"
+                        android:layout_marginBottom="@dimen/size_10dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent">
 
-                </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/size_10dp"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:layout_margin="3dp"
+                                android:src="@drawable/eventlarge" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/_5sdp"
+                                android:text="Practice"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/_17sdp"
+                                android:textStyle="bold" />
+
+                        </LinearLayout>
 
 
 
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerViewPractice"
-                    android:layout_width="match_parent"
-                    android:orientation="vertical"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/size_10dp" />
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/recyclerViewPractice"
+                            android:layout_width="match_parent"
+                            android:orientation="vertical"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/size_10dp" />
+
+
+                    </LinearLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
 
             </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 
 
