@@ -297,7 +297,7 @@ class ChatFragment : Fragment() {
     }
 
 
-    fun addFriendsApi(playerId:String){
+    private fun addFriendsApi(playerId:String){
 //
 //        val checked = chatPost(
 //            10,
@@ -417,12 +417,12 @@ class ChatFragment : Fragment() {
             Log.e("notconnected", "onCreate:bami ")
         }
 
-        mSocket?.on("joinRoom", { args ->
+        mSocket?.on("joinRoom") { args ->
             Log.e(
                 "JOINROOM",
                 "onCreate:${args.contentToString()} "
             )
-        })
+        }
 
 //    mSocket?.io()?.on("joinRoom", { args ->
 //            Log.e(
@@ -453,12 +453,12 @@ class ChatFragment : Fragment() {
             Log.e("notconnected", "onCreate:bami ")
         }
 
-        mSocket?.on("joinRoom", { args ->
+        mSocket?.on("joinRoom") { args ->
             Log.e(
                 "JOINROOM",
                 "onCreate:${args.contentToString()} "
             )
-        })
+        }
 
     }
 
@@ -567,100 +567,72 @@ class ChatFragment : Fragment() {
     }
 
 
-
-    private fun sendMsgGroupApi() {
-
-        CoroutineScope(Dispatchers.IO).launch {
-            NetworkRepo.sendMsgGroup(
-                "12345",
-                binding.comment.text.toString(),
-                2,
-                object : NetworkListener<SendMsgModel> {
-                    override fun successFul(t: SendMsgModel) {
-
-                        activity?.runOnUiThread {
-                            updateComments.addAll(listOf(t.data))
-                        }
-//                        rvAdapter.addData(updateComments)
-
-
-                    }
-
-                    override fun failure() {
-                    }
-                }
-            )
-        }
-
-    }
-
-
-    fun getChats(off: Int, isLoadMore: Boolean) {
-
-        val checked = ChatPost(
-            50,
-            off + 1,
-        )
-
-        CoroutineScope(Dispatchers.IO).launch {
-            NetworkRepo.getChats(
-                checked,
-                object : NetworkListener<GetChatsModel> {
-                    override fun successFul(t: GetChatsModel) {
-//                        apiHit = true
-
-                        loading.isDismiss()
-
-                        if (t.status == 1) {
-
-
-                            activity?.runOnUiThread {
-
-//                                comments.clear()
-//                                comments.addAll(t.data)
+//    fun getChats(off: Int, isLoadMore: Boolean) {
 //
-//                                rvAdapter.addData(comments)
+//        val checked = ChatPost(
+//            50,
+//            off + 1,
+//        )
 //
-//                                if (isLoadMore) {
-//                                    rvLoadMore.setLoaded()
-//                                }
-                            }
-                        } else {
-                            StaticFields.toastClass(t.message)
-
-                        }
-                    }
-
-                    override fun failure() {
-                        loading.isDismiss()
-                        StaticFields.toastClass("Apisyncing fail get chats")
-
-                    }
-                }
-            )
-        }
-
-    }
-
-    private fun initScrollListener() {
-        rvLoadMore =
-            RecyclerViewLoadMoreScroll(binding.recycleListComment.layoutManager as LinearLayoutManager)
-        rvLoadMore.setOnLoadMoreListener(object : OnLoadMoreListener {
-            override fun onLoadMore() {
-                loadMore()
-            }
-        })
-        binding.recycleListComment.addOnScrollListener(rvLoadMore)
-    }
-
-    private fun loadMore() {
-        CoroutineScope(Dispatchers.IO).launch {
-            withContext(Dispatchers.Main) {
-//                binding.progressBar.visibility = View.VISIBLE
-            }
-//            getChats((comments.size), true)
-        }
-    }
+//        CoroutineScope(Dispatchers.IO).launch {
+//            NetworkRepo.getChats(
+//                checked,
+//                object : NetworkListener<GetChatsModel> {
+//                    override fun successFul(t: GetChatsModel) {
+////                        apiHit = true
+//
+//                        loading.isDismiss()
+//
+//                        if (t.status == 1) {
+//
+//
+//                            activity?.runOnUiThread {
+//
+////                                comments.clear()
+////                                comments.addAll(t.data)
+////
+////                                rvAdapter.addData(comments)
+////
+////                                if (isLoadMore) {
+////                                    rvLoadMore.setLoaded()
+////                                }
+//                            }
+//                        } else {
+//                            StaticFields.toastClass(t.message)
+//
+//                        }
+//                    }
+//
+//                    override fun failure() {
+//                        loading.isDismiss()
+//                        StaticFields.toastClass("Apisyncing fail get chats")
+//
+//                    }
+//                }
+//            )
+//        }
+//
+//    }
+//
+//    private fun initScrollListener() {
+//        rvLoadMore =
+//            RecyclerViewLoadMoreScroll(binding.recycleListComment.layoutManager as LinearLayoutManager)
+//        rvLoadMore.setOnLoadMoreListener(object : OnLoadMoreListener {
+//            override fun onLoadMore() {
+//                loadMore()
+//            }
+//        })
+//        binding.recycleListComment.addOnScrollListener(rvLoadMore)
+//    }
+//
+//    private fun loadMore() {
+//        CoroutineScope(Dispatchers.IO).launch {
+//            withContext(Dispatchers.Main) {
+////                binding.progressBar.visibility = View.VISIBLE
+//            }
+////            getChats((comments.size), true)
+//        }
+//    }
 
 
 

@@ -36,7 +36,6 @@ class RVAdapterComment(
     private var listenerClick: OnItemClick,
     ) : RecyclerView.Adapter<RVAdapterComment.ViewHolder>() {
     private lateinit var binding: CardViewChatBinding
-    private var mContext: Context? = null
     var pic: String? = null
 
 
@@ -66,12 +65,11 @@ class RVAdapterComment(
             LayoutInflater.from(parent.context),
             parent, false
         )
-        mContext = parent.context
 
 
 
 //        this.mContext = context
-        return ViewHolder(binding)
+         return ViewHolder(binding)
     }
 
 //    override fun getItemViewType(position: Int): Int {
@@ -176,26 +174,6 @@ class RVAdapterComment(
             bind.userMsgLayout.setOnClickListener{
                 listener.onUserClick(model,position)
             }
-//            bind.liked.setOnClickListener {
-//                listener.onLiked(model, position)
-//
-//                    bind.unlike.visibility = View.VISIBLE
-//            }
-//
-//            bind.unlike.setOnClickListener {
-//                listener.onUnLiked(model,position)
-//                bind.unlike.visibility = View.GONE
-//
-//            }
-//
-//            bind.share.setOnClickListener {
-//
-//                listener.onShare(model, position)
-//            }
-//
-//            bind.reply.setOnClickListener {
-//                listener.onReply(model, position)
-//            }
         }
     }
 
@@ -203,10 +181,7 @@ class RVAdapterComment(
     interface OnItemClick {
         fun onOthersClick(click:ReceivedDataFromSocket,position: Int)
         fun onUserClick(click:ReceivedDataFromSocket,position: Int)
-//        fun onLiked(comment: GetCommentDataList, position: Int)
-//        fun onShare(comment: GetCommentDataList, position: Int)
-//        fun onReply(comment: GetCommentDataList, position: Int)
-//        fun onUnLiked(comment: GetCommentDataList,position: Int)
+
 
     }
 }

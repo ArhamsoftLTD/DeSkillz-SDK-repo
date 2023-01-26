@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.fragment.navBarFragments.PlayScreenFragment">
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -35,6 +34,9 @@
                 app:gradient2="@color/blue2"
                 app:lower_cut_value="@dimen/size_20dp"
                 app:upper_cut_value="@dimen/size_20dp" />
+
+
+
 
             <TextView
                 android:layout_width="wrap_content"
@@ -121,9 +123,10 @@
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/events"
+            android:id="@+id/mainTournament"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             android:layout_marginTop="@dimen/size_20dp"
             android:layout_marginStart="@dimen/size_10dp"
             android:layout_marginEnd="@dimen/size_10dp">
@@ -159,11 +162,11 @@
                     android:layout_margin="@dimen/size_10dp"
                     android:orientation="horizontal">
 
-<!--                    <ImageView-->
-<!--                        android:layout_width="25dp"-->
-<!--                        android:layout_height="25dp"-->
-<!--                        android:layout_margin="3dp"-->
-<!--                        android:src="@drawable/" />-->
+                    <!--                    <ImageView-->
+                    <!--                        android:layout_width="25dp"-->
+                    <!--                        android:layout_height="25dp"-->
+                    <!--                        android:layout_margin="3dp"-->
+                    <!--                        android:src="@drawable/" />-->
 
                     <TextView
                         android:layout_width="wrap_content"

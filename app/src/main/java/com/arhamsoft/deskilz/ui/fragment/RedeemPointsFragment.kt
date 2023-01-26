@@ -52,7 +52,7 @@ class RedeemPointsFragment : Fragment() {
             if (binding.points.text.isEmpty()) {
                 binding.points.error = "Enter points"
             } else {
-                if (URLConstant.points!! > 1000) {
+                if (URLConstant.points!! > 1000L) {
 
                     if (binding.points.text.toString().toInt() < 1000) {
                         StaticFields.toastClass("Entered points are not enough according to current rate")

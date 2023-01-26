@@ -128,7 +128,7 @@ class PlayScreenFragment : Fragment() {
 
                                 if (t.data.isNotEmpty()) {
 
-                                    binding.eventLayout.visibility = View.GONE
+//                                    binding.eventLayout.visibility = View.GONE
 
                                     eventList.addAll(t.data)
 
@@ -235,6 +235,7 @@ class PlayScreenFragment : Fragment() {
                         if (t.status == 1) {
 
                             activity?.runOnUiThread {
+                                binding.mainTournament.visibility = View.VISIBLE
                                 tournamentsApiDataSet(t)
                             }
 

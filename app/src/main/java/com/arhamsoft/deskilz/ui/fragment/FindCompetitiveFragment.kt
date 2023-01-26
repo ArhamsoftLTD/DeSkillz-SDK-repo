@@ -66,6 +66,16 @@ class FindCompetitiveFragment : Fragment() {
         binding = FragmentFindCompetitiveBinding.inflate(LayoutInflater.from(context))
         loading = LoadingDialog(requireContext() as Activity)
         sharedPreference = CustomSharedPreference(requireContext())
+
+
+        binding.cancelMatch.isClickable = false
+        binding.cancelMatch.isEnabled = false
+        binding.cancelMatch.alpha = 0.5f
+
+
+        binding.exitMatch.isClickable = false
+        binding.exitMatch.isEnabled = false
+        binding.exitMatch.alpha = 0.5f
         return binding.root
     }
 
@@ -114,6 +124,7 @@ class FindCompetitiveFragment : Fragment() {
 
             time.cancel()
             leavePlayer()
+            mSocket?.disconnect()
             findNavController().popBackStack()
 
         }
@@ -122,6 +133,7 @@ class FindCompetitiveFragment : Fragment() {
 
             time.cancel()
             leavePlayer()
+            mSocket?.disconnect()
             findNavController().popBackStack()
         }
 
@@ -182,6 +194,8 @@ class FindCompetitiveFragment : Fragment() {
                         "",
                         0
                     )
+                    SocketHandler.closeConnection()
+
                 }
             }
         }.start()
@@ -234,6 +248,7 @@ class FindCompetitiveFragment : Fragment() {
         dialogBinding.cancelButton2.setOnClickListener {
             time.cancel()
             time.start()
+            connectSocket()
             dialog.dismiss()
         }
         dialogBinding.cancelButton.setOnClickListener {
@@ -242,6 +257,8 @@ class FindCompetitiveFragment : Fragment() {
         dialogBinding.okButton.setOnClickListener {
             if (check == 0) {
                 time.cancel()
+                leavePlayer()
+                mSocket?.disconnect()
                 findNavController().popBackStack()
             }
             dialog.dismiss()
@@ -284,7 +301,7 @@ class FindCompetitiveFragment : Fragment() {
         CoroutineScope(Dispatchers.IO).launch {
             NetworkRepo.participateTournament(
                 URLConstant.u_id!!,
-                click?.tournamentID!!,
+                if(URLConstant.oneToOne){ "" }else{click?.tournamentID!! },
                 "abcd",
                 object : NetworkListener<ForgotModel> {
                     override fun successFul(t: ForgotModel) {
@@ -336,7 +353,7 @@ class FindCompetitiveFragment : Fragment() {
 
 
 
-    private fun connectSocket() {
+    private fun connectSocket(){
         loading.startLoading()
         SocketHandler.setSocket()
         mSocket = SocketHandler.getSocket()
@@ -389,8 +406,17 @@ class FindCompetitiveFragment : Fragment() {
                         val obj1 =
                             gsonobj.fromJson(json.toString(), GetRandomPlayerModelData::class.java)
 
-                        URLConstant.matchId =
-                            obj1?.matchID //is match id pr report hona hai match lkn hum getmatches record k response ki match id pr report kr rahy jo k thk hai hai
+                        URLConstant.matchId = obj1?.matchID
+
+                        binding.cancelMatch.isClickable = true
+                        binding.cancelMatch.isEnabled = true
+                        binding.cancelMatch.alpha = 1.0f
+
+
+                        binding.exitMatch.isClickable = true
+                        binding.exitMatch.isEnabled = true
+                        binding.exitMatch.alpha = 1.0f
+                        //is match id pr report hona hai match lkn hum getmatches record k response ki match id pr report kr rahy jo k thk hai hai
 //                        opponentList.addAll(t.data.listOfOpponents)
 //                        rvAdapter.setData(opponentList)
 //                        StaticFields.toastClass(t.message)
@@ -404,7 +430,9 @@ class FindCompetitiveFragment : Fragment() {
                                     StaticFields.toastClass("Please Wait.")
 
 //                                    loading.startLoading()
-                                    participateInTournament()
+                                    showDialog("Practice match will start in a momment, Please Wait.","Deposit",2)
+
+//                                    participateInTournament()
                                 }
 //                                else{
 //                                    opponentList = ArrayList()
@@ -415,20 +443,20 @@ class FindCompetitiveFragment : Fragment() {
                                 if (obj1?.IsPlayable!! && click?.playerCount?.toInt() == obj1?.playerCount) {
                                     time.cancel()
 //                                    StaticFields.toastClass("Press button to play match.")
-                                    if (URLConstant.oneToOne){
-                                        showDialog(
-                                            "Match fee has been deducted from your account. Match is about to start.",
-                                            "Deposit",
-                                            2
-                                        )
-                                    }
-                                    else{
+//                                    if (URLConstant.oneToOne){
                                         showDialog(
                                             "Match fee has been deducted from your account. Match is about to start.",
                                             "Deposit",
                                             1
                                         )
-                                    }
+//                                    }
+//                                    else{
+//                                        showDialog(
+//                                            "Match fee has been deducted from your account. Match is about to start.",
+//                                            "Deposit",
+//                                            1
+//                                        )
+//                                    }
 
                                 }
 //                                isPlayable = obj1.IsPlayable
@@ -447,20 +475,20 @@ class FindCompetitiveFragment : Fragment() {
                             if (obj1?.IsPlayable!!) {
                                 time.cancel()
 
-                                if (URLConstant.oneToOne){
-                                    showDialog(
-                                        "Match fee has been deducted from your account. Match is about to start.",
-                                        "Deposit",
-                                        2
-                                    )
-                                }
-                                else{
+//                                if (URLConstant.oneToOne){
                                     showDialog(
                                         "Match fee has been deducted from your account. Match is about to start.",
                                         "Deposit",
                                         1
                                     )
-                                }
+//                                }
+//                                else{
+//                                    showDialog(
+//                                        "Match fee has been deducted from your account. Match is about to start.",
+//                                        "Deposit",
+//                                        1
+//                                    )
+//                                }
 //                                StaticFields.toastClass("Its a Non-Live Match. Press button to play match.")
 
 //                                binding.beginMatch.setOnClickListener {
@@ -775,14 +803,14 @@ class FindCompetitiveFragment : Fragment() {
         }
     }
 
-    override fun onPause() {
-
-        leavePlayer()
-        mSocket?.disconnect()
-
-        super.onPause()
-
-    }
+//    override fun onPause() {
+//
+//        leavePlayer()
+//        mSocket?.disconnect()
+//
+//        super.onPause()
+//
+//    }
 }
 
 
