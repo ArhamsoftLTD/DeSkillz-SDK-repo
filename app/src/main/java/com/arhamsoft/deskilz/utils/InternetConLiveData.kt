@@ -34,8 +34,6 @@ class InternetConLiveData(private val connectivityManager: ConnectivityManager):
         override fun onLost(network: Network) {
             super.onLost(network)
             postValue(false)
-//            Snackbar.make(View.inflate(AppController.getContext(),R.layout.snackbar_view,null),
-//                "network unavailable ",Snackbar.LENGTH_INDEFINITE).show()
 
         }
     }

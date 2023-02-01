@@ -53,6 +53,7 @@ class FindCompetitiveFragment : Fragment() {
     lateinit var sharedPreference: CustomSharedPreference
     private var mSocket: Socket? = null
     var isPlayable: Boolean = false
+    var backtoHomeORExitAPP: Boolean = false
     //    var obj1:GetRandomPlayerModelData? = null
 //    var obj2:ListofOpponentModel? = null
     lateinit var gson: JsonObject
@@ -292,6 +293,7 @@ class FindCompetitiveFragment : Fragment() {
 
     fun navigateTo() {
         activity?.runOnUiThread {
+            backtoHomeORExitAPP = true
             findNavController().navigate(R.id.action_findCompetitiveFragment_to_fragmentMatchScore)
         }
     }
@@ -313,6 +315,7 @@ class FindCompetitiveFragment : Fragment() {
 
 
                                 StaticFields.toastClass(t.message)
+                                backtoHomeORExitAPP = true
                                 findNavController().navigate(R.id.action_findCompetitiveFragment_to_fragmentMatchScore)
 
 
@@ -803,14 +806,15 @@ class FindCompetitiveFragment : Fragment() {
         }
     }
 
-//    override fun onPause() {
-//
-//        leavePlayer()
-//        mSocket?.disconnect()
-//
-//        super.onPause()
-//
-//    }
+    override fun onPause() {
+
+        if(!backtoHomeORExitAPP){
+            leavePlayer()
+            mSocket?.disconnect()
+        }
+        super.onPause()
+
+    }
 }
 
 

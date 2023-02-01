@@ -4,11 +4,13 @@ import android.Manifest
 import android.animation.Animator
 import android.app.Activity
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.IntentSender
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
@@ -44,8 +46,11 @@ import com.google.android.gms.tasks.Task
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
+import com.karumi.dexter.listener.PermissionDeniedResponse
+import com.karumi.dexter.listener.PermissionGrantedResponse
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
+import com.karumi.dexter.listener.single.PermissionListener
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -72,39 +77,38 @@ class LoadingActivity : Fragment() {
         navController = findNavController()
         coreLoop()
         loading = LoadingDialog(requireContext() as Activity)
-        if(isLocationEnabled(requireContext())) {
-            Dexter.withContext(requireContext())
-                .withPermissions(
-                    Manifest.permission.READ_EXTERNAL_STORAGE,
-                    Manifest.permission.ACCESS_FINE_LOCATION,
-                    Manifest.permission.ACCESS_COARSE_LOCATION
-                )
-                .withListener(object : MultiplePermissionsListener {
-                    override fun onPermissionsChecked(p0: MultiplePermissionsReport?) {
 
-                        if (p0?.areAllPermissionsGranted() == true) {
 
-                            getLatitudeLongitude()
+        Dexter.withContext(requireContext())
+            .withPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
+            .withListener(object : PermissionListener {
+            override fun onPermissionGranted(p0: PermissionGrantedResponse?) {
 
-                        } else {
-                            Toast.makeText(
-                                requireContext(),
-                                "You have to enable permissions from App settings",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
-                    }
+            }
 
-                    override fun onPermissionRationaleShouldBeShown(
-                        p0: MutableList<PermissionRequest>?,
-                        p1: PermissionToken?
-                    ) {
-                        p1?.continuePermissionRequest()
-                    }
-                })
-                .check()
+            override fun onPermissionDenied(p0: PermissionDeniedResponse?) {
 
-        }
+                if (p0?.isPermanentlyDenied == true){
+                    Toast.makeText(
+                        requireContext(),
+                        "You have to enable permissions from App settings in order for app to work properly",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    showSettingsDialog()
+                }
+
+
+            }
+
+            override fun onPermissionRationaleShouldBeShown(
+                p0: PermissionRequest?,
+                p1: PermissionToken?
+            ) {
+                p1?.continuePermissionRequest()
+
+
+            }
+        }).check()
 
         return binding.root
     }
@@ -203,44 +207,26 @@ class LoadingActivity : Fragment() {
         binding.lottieLoader.playAnimation()
     }
 
+    private fun showSettingsDialog() {
+        val builder = androidx.appcompat.app.AlertDialog.Builder(requireContext())
+        builder.setTitle("Need Permissions")
+        builder.setMessage("This app needs permission. You can grant them in app settings.")
+        builder.setPositiveButton("GOTO SETTINGS",
+            DialogInterface.OnClickListener { dialog, which ->
+                dialog.cancel()
+                openSettings()
+            })
 
-    fun getLatitudeLongitude(){
+        builder.setCancelable(false)
+        builder.show()
+    }
 
-        val locationManager: LocationManager = requireContext().getSystemService(AppCompatActivity.LOCATION_SERVICE) as LocationManager
-
-        val locationListener: LocationListener = object : LocationListener {
-
-            override fun onLocationChanged(location: Location) {
-//
-//                URLConstant.lat = location.latitude
-//                URLConstant.long = location.longitude
-//
-                URLConstant.lat = 27.0
-                URLConstant.long = 78.9
-
-//                URLConstant.getEventsFinalUrl = URLConstant.getEvents + URLConstant.long + URLConstant.lat
-
-
-//                Log.e("location", "Latitute: $latitude ; Longitute: $longitude ; city: $cityName ; country: $country ; address:$address")
-            }
-
-            override fun onProviderEnabled(provider: String) {
-
-            }
-
-            override fun onProviderDisabled(provider: String) {
-
-            }
-
-            override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {
-            }
-        }
-
-        try {
-            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0L, 0.0f, locationListener)
-        } catch (ex:SecurityException) {
-            Toast.makeText(requireContext(), "error in capturing lat/long", Toast.LENGTH_SHORT).show()
-        }
+    // navigating user to app settings
+    private fun openSettings() {
+        val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+        val uri: Uri = Uri.fromParts("package",requireContext().packageName, null)
+        intent.data = uri
+        startActivityForResult(intent, 101)
     }
 
     private fun getThemeApi(){
@@ -283,81 +269,7 @@ class LoadingActivity : Fragment() {
 
     }
 
-    private fun isLocationEnabled(context: Context): Boolean {
-        var locationMode = 0
-        val locationProviders: String
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-//            turnOnLocation()
 
-            try {
-                locationMode =
-                    Settings.Secure.getInt(context.contentResolver, Settings.Secure.LOCATION_MODE)
-                turnOnLocation()
-
-            } catch (e: Settings.SettingNotFoundException) {
-                e.printStackTrace()
-//                turnOnLocation()
-
-            }
-            locationMode != Settings.Secure.LOCATION_MODE_OFF
-        } else {
-//            turnOnLocation()
-            locationProviders =
-                Settings.Secure.getString(context.contentResolver, Settings.Secure.LOCATION_MODE)
-            !TextUtils.isEmpty(locationProviders)
-        }
-    }
-
-
-    private fun turnOnLocation()  {
-
-        locationRequest = LocationRequest.create()
-        locationRequest!!.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
-        locationRequest!!.setInterval(5000)
-        locationRequest!!.setFastestInterval(2000)
-        val builder = LocationSettingsRequest.Builder()
-            .addLocationRequest(locationRequest!!)
-        builder.setAlwaysShow(true)
-        val result: Task<LocationSettingsResponse> = LocationServices.getSettingsClient(
-            requireContext()
-        )
-            .checkLocationSettings(builder.build())
-        result.addOnCompleteListener(OnCompleteListener<LocationSettingsResponse?> { task ->
-            try {
-                val response = task.getResult(ApiException::class.java)
-                Toast.makeText(requireContext(), "GPS Turned on", Toast.LENGTH_SHORT)
-                    .show()
-            } catch (e: ApiException) {
-                when (e.statusCode) {
-                    LocationSettingsStatusCodes.RESOLUTION_REQUIRED -> try {
-                        val resolvableApiException = e as ResolvableApiException
-                        resolvableApiException.startResolutionForResult(
-                            requireActivity(),
-                            REQUEST_CHECK_SETTINGS
-                        )
-                    } catch (ex: IntentSender.SendIntentException) {
-                        ex.printStackTrace()
-                    }
-                    LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE -> {}
-                }
-            }
-        })
-    }
-
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, @Nullable data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == REQUEST_CHECK_SETTINGS) {
-            when (resultCode) {
-                AppCompatActivity.RESULT_OK -> {
-                    Toast.makeText(requireContext(), "GPS is Turned on", Toast.LENGTH_SHORT).show()
-                }
-                AppCompatActivity.RESULT_CANCELED -> {
-                    turnOnLocation()
-                }
-            }
-        }
-    }
 
     private fun coreLoop(){
         CoroutineScope(Dispatchers.IO).launch {

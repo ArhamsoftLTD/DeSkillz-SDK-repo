@@ -56,22 +56,10 @@ class SignInFragment : Fragment() {
         loadingDialog = LoadingDialog(requireContext() as Activity)
         sharedPreference = CustomSharedPreference(requireContext())
 
-//        val notif = activity?.applicationContext?.applicationContext
-//            ?.getSystemService(Context.NOTIFICATION_SERVICE)
-//
-//        NotificationManagerCompat.from(requireContext()).cancelAll()
+
         cancelNotification()
 
         StaticFields.fcmToken()
-//        id = sharedPreference.returnCurrentLoginID("user")
-//
-//
-//        runBlocking {
-//            val user  = UserDatabase.getDatabase(requireContext()).userDao().getUser(id!!)
-//            if (user != null) {
-//                URLConstant.u_id = user.userId
-//            }
-//        }
 
 
         fcmToken = sharedPreference.returnValue("TOKEN")
@@ -208,33 +196,6 @@ class SignInFragment : Fragment() {
         }
     }
 
-//    private fun responseApiLiveData() {
-//
-//        NetworkRepo.loginsuccessLiveData.observe(viewLifecycleOwner) {
-//
-//
-//        }
-//
-//
-//
-//
-//        NetworkRepo.errorLiveData.observe(viewLifecycleOwner) {
-//
-//            if (it.status == 1) {
-//
-//                loadingDialog.isDismiss()
-//
-//                Toast.makeText(
-//                    requireContext(),
-//                    "api syncing failed login ${it.message}",
-//                    Toast.LENGTH_SHORT
-//                ).show()
-//                it.status = 0
-//            }
-//
-//        }
-//    }
-
 
     fun isValidEmail(target: CharSequence): Boolean {
         return if (TextUtils.isEmpty(target)) {
@@ -256,15 +217,11 @@ class SignInFragment : Fragment() {
         dialog.setContentView(dialogBinding.root)
         dialog.setCancelable(false)
 
-//        val yesBtn = dialog.findViewById(R.id.submit_button) as RelativeLayout
-//        val noBtn = dialog.findViewById(R.id.cancel_button) as RelativeLayout
-//        val email = dialog.findViewById(R.id.forgotemail) as EditText
 
 
         dialogBinding.submitButton.setOnClickListener {
 
-//            StaticFields.toastClass(dialogBinding.forgotemail.text.toString())
-//            StaticFields.toastClass(device_id.toString())
+
             loadingDialog.startLoading()
             forgotPassApiCall(dialogBinding.forgotemail.text.toString())
 
@@ -298,15 +255,7 @@ class SignInFragment : Fragment() {
         th.start()
         th.join()
     }
-//
-//    private fun getpreviousData(id:String) {
-//
-//        val th = Thread(Runnable {
-//            NetworkRepo.updateRetrofitClientInstance()
-//        })
-//        th.start()
-//        th.join()
-//    }
+
 
 
 
@@ -326,7 +275,6 @@ class SignInFragment : Fragment() {
 
                             if (t.status == 1) {
                                 StaticFields.toastClass(t.message)
-//                findNavController().navigate(R.id.action_forgotFragment_to_signInFragment)
                             } else {
                                 StaticFields.toastClass(t.message)
 

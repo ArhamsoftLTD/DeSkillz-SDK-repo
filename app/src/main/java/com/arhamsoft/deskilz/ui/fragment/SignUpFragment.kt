@@ -56,42 +56,6 @@ class SignUpFragment : Fragment() {
     }
 
 
-//    private fun responseApiLiveData() {
-//
-//        NetworkRepo.signupsuccessLiveData.observe(viewLifecycleOwner ){
-//
-//            if(it.success == 1){
-//                loading.isDismiss()
-//
-//                Toast.makeText(requireContext(), "${it.message}", Toast.LENGTH_SHORT).show()
-//
-//                findNavController().popBackStack()
-//            }
-//            else{
-//                loading.isDismiss()
-//                Toast.makeText(requireContext(), "${it.message}.", Toast.LENGTH_SHORT).show()
-//                findNavController().popBackStack()
-//
-//
-//            }
-//        }
-//
-//        NetworkRepo.errorLiveData.observe(viewLifecycleOwner){
-//
-//            if (it.status == 1) {
-//
-//                loading.isDismiss()
-//
-//                Toast.makeText(
-//                    requireContext(),
-//                    "api syncing failed signup ${it.message}",
-//                    Toast.LENGTH_SHORT
-//                ).show()
-//                it.status = 0
-//            }
-//
-//        }
-//    }
 
 
     fun registerApiCalling(){
