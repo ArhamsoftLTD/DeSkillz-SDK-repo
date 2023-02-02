@@ -14,17 +14,17 @@
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/_10sdp">
 
-        <ImageView
-            android:id="@+id/backToAccount"
-            android:layout_width="@dimen/_50sdp"
-            android:layout_height="@dimen/_25sdp"
-            android:src="@drawable/back_button" />
+<!--        <ImageView-->
+<!--            android:id="@+id/backToAccount"-->
+<!--            android:layout_width="@dimen/_50sdp"-->
+<!--            android:layout_height="@dimen/_25sdp"-->
+<!--            android:src="@drawable/back_button" />-->
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_10sdp"
-            android:layout_toRightOf="@id/backToAccount"
+            android:padding="3dp"
             android:fontFamily="@font/titan_one_regular"
             android:text="Sign In"
             android:textColor="@color/white"

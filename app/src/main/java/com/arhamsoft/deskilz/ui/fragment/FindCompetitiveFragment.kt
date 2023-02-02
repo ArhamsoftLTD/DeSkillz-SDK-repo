@@ -121,22 +121,7 @@ class FindCompetitiveFragment : Fragment() {
 
         binding.recycleListOpponent.adapter = rvAdapter
 
-        binding.exitMatch.setOnClickListener {
 
-            time.cancel()
-            leavePlayer()
-            mSocket?.disconnect()
-            findNavController().popBackStack()
-
-        }
-
-        binding.cancelMatch.setOnClickListener {
-
-            time.cancel()
-            leavePlayer()
-            mSocket?.disconnect()
-            findNavController().popBackStack()
-        }
 
 //        binding.beginMatch.setOnClickListener {
 //
@@ -377,6 +362,53 @@ class FindCompetitiveFragment : Fragment() {
 
             joinPlayer()
 
+
+            mSocket?.on("left1Match")
+            {
+                    args ->
+
+                activity?.runOnUiThread {
+
+                    try {
+
+                        val json = (args[0] as JSONObject) as JSONObject
+                        val gsonobj = Gson()
+
+                        val obj1 = gsonobj.fromJson(json.toString(), SendMsgModelData::class.java)
+                        if (obj1.leftStatus) {
+
+                            binding.exitMatch.setOnClickListener {
+
+                                time.cancel()
+                                leavePlayer()
+                                mSocket?.disconnect()
+                                findNavController().popBackStack()
+
+                            }
+
+                            binding.cancelMatch.setOnClickListener {
+
+                                time.cancel()
+                                leavePlayer()
+                                mSocket?.disconnect()
+                                findNavController().popBackStack()
+                            }
+
+                        } else {
+                            StaticFields.toastClass("You Can't leave the match now.")
+                        }
+
+                    } catch (e: Exception) {
+                        Log.e(
+                            "exceptionLeftGame=",
+                            "$e"
+                        )
+                    }
+                }
+
+
+            }
+
             mSocket?.on(
                 "tryAgain"
             ) {
@@ -388,6 +420,8 @@ class FindCompetitiveFragment : Fragment() {
 
                 }
             }
+
+
 
 
             mSocket?.on(
@@ -576,8 +610,9 @@ class FindCompetitiveFragment : Fragment() {
                                 StaticFields.toastClass("Its a Non-Live Match. Wait Please.")
                             }
                             rvAdapter.setData(opponentList)
-
                         }
+
+
 
 //                        if (opponentList[index].isLeave!!) {
 //                            for (item in opponentList) {

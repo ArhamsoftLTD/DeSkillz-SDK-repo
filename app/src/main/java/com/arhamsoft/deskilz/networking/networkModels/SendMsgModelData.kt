@@ -2,7 +2,7 @@ package com.arhamsoft.deskilz.networking.networkModels
 
 data class SendMsgModelData(
     val message: String,
-    val status: Boolean,
+    val leftStatus: Boolean= false,
 
     val _id: String,
     val userFromId:String,

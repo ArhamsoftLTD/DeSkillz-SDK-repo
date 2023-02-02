@@ -65,7 +65,7 @@
             android:textColor="@color/black"
             android:textSize="@dimen/text_size_25sp" />
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/size_20dp">
@@ -73,9 +73,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true"
-                android:layout_gravity="center_horizontal"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
                 android:fontFamily="@font/titan_one_regular"
                 android:text="Available Points"
                 android:textColor="@color/gray_text"
@@ -87,6 +86,7 @@
                 android:layout_width="@dimen/size_120dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
+                android:gravity="center"
                 android:background="@drawable/edit_text_deisgn_white"
                 android:fontFamily="@font/titan_one_regular"
                 android:padding="10dp"
@@ -95,7 +95,7 @@
                 android:textColor="@color/blue_text"
                 android:textSize="@dimen/size_20dp" />
 
-        </RelativeLayout>
+        </LinearLayout>
 
         <TextView
             android:layout_width="wrap_content"
@@ -107,7 +107,7 @@
             android:fontFamily="@font/poppins_regular"/>
 
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/size_10dp">
@@ -115,9 +115,9 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true"
-                android:layout_gravity="center_horizontal"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical"
+
                 android:fontFamily="@font/titan_one_regular"
                 android:text="Available BUSDs"
                 android:textColor="@color/gray_text"
@@ -133,11 +133,13 @@
                 android:fontFamily="@font/titan_one_regular"
                 android:padding="10dp"
                 android:text="0"
+                android:gravity="center"
+
                 android:textAlignment="center"
                 android:textColor="@color/blue_text"
                 android:textSize="@dimen/size_20dp" />
 
-        </RelativeLayout>
+        </LinearLayout>
 
 
         <View
