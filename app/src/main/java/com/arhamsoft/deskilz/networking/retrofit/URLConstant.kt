@@ -70,7 +70,7 @@ object URLConstant {
     var userImg: String = ""
     var u_id:String?="0"
     var chatHeadId:String?=""
-    var points:Double?=0.0
+    var points:Float?=0.0f
     var player_count:Long? = 0L
     var joinType:Int = 9
     var currentLoginId:Int = 0

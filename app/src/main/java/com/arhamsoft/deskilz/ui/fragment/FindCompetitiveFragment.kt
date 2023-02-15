@@ -67,7 +67,7 @@ class FindCompetitiveFragment : Fragment() {
         binding = FragmentFindCompetitiveBinding.inflate(LayoutInflater.from(context))
         loading = LoadingDialog(requireContext() as Activity)
         sharedPreference = CustomSharedPreference(requireContext())
-
+        backtoHomeORExitAPP = false
 
         binding.cancelMatch.isClickable = false
         binding.cancelMatch.isEnabled = false
@@ -77,6 +77,8 @@ class FindCompetitiveFragment : Fragment() {
         binding.exitMatch.isClickable = false
         binding.exitMatch.isEnabled = false
         binding.exitMatch.alpha = 0.5f
+
+
         return binding.root
     }
 
@@ -125,24 +127,22 @@ class FindCompetitiveFragment : Fragment() {
 
 
 
-//        binding.beginMatch.setOnClickListener {
-//
-//            if (!(obj1?.IsPlayable!! && click?.playerCount?.toInt() == obj1?.playerCount)) {
-//
-//            }
-//
-//
-//            }
+        binding.exitMatch.setOnClickListener {
 
-//        if (!(URLConstant.tournamentId.isNullOrEmpty())) {
-//
-//            t_id = URLConstant.tournamentId
-//
-//        }
-//            val user = UserDatabase.getDatabase(requireContext()).userDao().getUser()
-//            u_id = user?.userId
-//        loading.startLoading()
-////        selectRandomplayer()
+            time.cancel()
+            leavePlayer()
+            mSocket?.disconnect()
+            findNavController().popBackStack()
+
+        }
+
+        binding.cancelMatch.setOnClickListener {
+
+            time.cancel()
+            leavePlayer()
+            mSocket?.disconnect()
+            findNavController().popBackStack()
+        }
     }
 
 
@@ -404,22 +404,6 @@ class FindCompetitiveFragment : Fragment() {
                         val obj1 = gsonobj.fromJson(json.toString(), SendMsgModelData::class.java)
                         if (obj1.leftStatus) {
 
-                            binding.exitMatch.setOnClickListener {
-
-                                time.cancel()
-                                leavePlayer()
-                                mSocket?.disconnect()
-                                findNavController().popBackStack()
-
-                            }
-
-                            binding.cancelMatch.setOnClickListener {
-
-                                time.cancel()
-                                leavePlayer()
-                                mSocket?.disconnect()
-                                findNavController().popBackStack()
-                            }
 
                         } else {
                             StaticFields.toastClass("You Can't leave the match now.")
@@ -481,29 +465,9 @@ class FindCompetitiveFragment : Fragment() {
                         binding.exitMatch.isEnabled = true
                         binding.exitMatch.alpha = 1.0f
                         //is match id pr report hona hai match lkn hum getmatches record k response ki match id pr report kr rahy jo k thk hai hai
-//                        opponentList.addAll(t.data.listOfOpponents)
-//                        rvAdapter.setData(opponentList)
-//                        StaticFields.toastClass(t.message)
+
+
                         if (click?.gamePlay == 1) {
-
-
-                            if (click!!.isPractice) {
-
-                                if (obj1?.IsPlayable!! && click?.playerCount?.toInt() == obj1?.playerCount) {
-                                    time.cancel()
-                                    StaticFields.toastClass("Please Wait.")
-
-//                                    loading.startLoading()
-                                    showDialog("Practice match will start in a momment, Please Wait.","Deposit",2)
-
-//                                    participateInTournament()
-                                }
-//                                else{
-//                                    opponentList = ArrayList()
-//                                    loading.isDismiss()
-//                                    selectRandomplayer()
-//                                }
-                            } else {
                                 if (obj1?.IsPlayable!! && click?.playerCount?.toInt() == obj1?.playerCount) {
                                     time.cancel()
 //                                    StaticFields.toastClass("Press button to play match.")
@@ -513,66 +477,22 @@ class FindCompetitiveFragment : Fragment() {
                                             "Deposit",
                                             1
                                         )
-//                                    }
-//                                    else{
-//                                        showDialog(
-//                                            "Match fee has been deducted from your account. Match is about to start.",
-//                                            "Deposit",
-//                                            1
-//                                        )
-//                                    }
-
-                                }
-//                                isPlayable = obj1.IsPlayable
-
-//                                else {
-//                                    opponentList = ArrayList()
-//                                    loading.isDismiss()
-//                                    selectRandomplayer()
-//                                }
+//
                             }
-
+                            return@runOnUiThread
                         }
-
-
                         else if (click?.gamePlay == 2) {
                             if (obj1?.IsPlayable!!) {
                                 time.cancel()
 
-//                                if (URLConstant.oneToOne){
                                     showDialog(
                                         "Match fee has been deducted from your account. Match is about to start.",
                                         "Deposit",
                                         1
                                     )
-//                                }
-//                                else{
-//                                    showDialog(
-//                                        "Match fee has been deducted from your account. Match is about to start.",
-//                                        "Deposit",
-//                                        1
-//                                    )
-//                                }
-//                                StaticFields.toastClass("Its a Non-Live Match. Press button to play match.")
-
-//                                binding.beginMatch.setOnClickListener {
-//                                    showDialog(
-//                                        "Match fee has been deducted from your account. Proceed further to start the match.",
-//                                        "Deposit",
-//                                        1
-//                                    )
-//                                }
-                            }
-//                            isPlayable = obj1.IsPlayable
-
-//                            else{
-//                                opponentList = ArrayList()
-//                                loading.isDismiss()
-//                                selectRandomplayer()
-//                            }
-
-//                            URLConstant.playerId = t.data.listOfOpponents
 //
+                            }
+
                         }
 //                            loading.isDismiss()
                     } catch (e: Exception) {
@@ -638,32 +558,6 @@ class FindCompetitiveFragment : Fragment() {
                             }
                             rvAdapter.setData(opponentList)
                         }
-
-
-
-//                        if (opponentList[index].isLeave!!) {
-//                            for (item in opponentList) {
-//
-//                                if (obj2?.opponentId == item.opponentId) {
-//
-//                                    opponentList.remove(item)
-//                                    rvAdapter.setData(opponentList)
-////                                    loading.isDismiss()
-//
-////                                rvAdapter.notifyDataSetChanged()
-//                                }
-//                            }
-//                        } else {
-//                            if (obj2.opponentId != URLConstant.u_id){
-//                                opponentList.add(obj2!!)
-//                                rvAdapter.setData(opponentList)
-////                                loading.isDismiss()
-//                            }
-//                            loading.isDismiss()
-
-
-//                        rvAdapter.notifyDataSetChanged()
-
 
                     } catch (e: Exception) {
                         Log.e(

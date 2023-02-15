@@ -45,7 +45,7 @@ class RedeemPointsFragment : Fragment() {
         }
 
         binding.icPt.text = URLConstant.points.toString()
-        val rate = 1000.0
+        val rate = 1000.0f
 
         binding.convertPoints.setOnClickListener {
 
