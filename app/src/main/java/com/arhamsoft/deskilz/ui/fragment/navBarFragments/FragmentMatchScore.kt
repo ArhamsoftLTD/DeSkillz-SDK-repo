@@ -42,16 +42,25 @@ class FragmentMatchScore : Fragment() {
     ) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
             val data = result.data
+            URLConstant.score= data?.extras?.get("matchScore") as Long
 
-                URLConstant.score= data?.extras?.get("matchScore") as Long
+
+            if (URLConstant.isPractice){
+                binding.btnSubmit.setOnClickListener {
+                    navigateTO()
+                }
+            }
+            else{
                 prog =  data.extras?.get("progression") as HashMap<*,*>
                 Log.d("dataResult", data.toString())
-
-
                 countdownTimer()
                 getGameCustomData()
                 loading.startLoading()
                 updateScore()
+
+            }
+
+
 
         }
     }
@@ -71,16 +80,6 @@ class FragmentMatchScore : Fragment() {
         val myClass = Class.forName(URLConstant.gameActivity)
         val intent = Intent(requireContext(), myClass)
         someActivity.launch(intent)
-//
-//
-
-//        //for unity
-//        val myClass = Class.forName("com.unity3d.player.UnityPlayerActivity")
-//        val intent = Intent(requireContext(), myClass)
-//        someActivity.launch(intent)
-//        UnityPlayer.UnitySendMessage("MainMenuUI", "LoadScene", "")
-
-
 
         return binding.root
     }
@@ -194,8 +193,11 @@ class FragmentMatchScore : Fragment() {
         }
     }
 
-    private fun navigateTO(){
-        findNavController().navigate(R.id.action_fragmentMatchScore_to_dashboardActivity)
+    private fun navigateTO() {
+        activity?.runOnUiThread {
+
+            findNavController().navigate(R.id.action_fragmentMatchScore_to_dashboardActivity)
+        }
     }
 
 

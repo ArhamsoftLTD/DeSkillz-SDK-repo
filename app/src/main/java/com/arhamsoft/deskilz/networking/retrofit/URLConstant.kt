@@ -70,12 +70,14 @@ object URLConstant {
     var userImg: String = ""
     var u_id:String?="0"
     var chatHeadId:String?=""
-    var points:Long?=0
+    var points:Double?=0.0
     var player_count:Long? = 0L
     var joinType:Int = 9
     var currentLoginId:Int = 0
     var score:Long=0
     var gameActivity:String = ""
+    var isPractice: Boolean =false
+
 
 
 }

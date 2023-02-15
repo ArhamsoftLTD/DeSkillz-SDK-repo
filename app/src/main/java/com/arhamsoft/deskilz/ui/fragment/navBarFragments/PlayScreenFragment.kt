@@ -364,10 +364,17 @@ class PlayScreenFragment : Fragment() {
             practiceList,
             object : RVAdapterPractice.OnItemClick {
                 override fun onClick(click: GetTournamentsListData, position: Int) {
-                    loading.startLoading()
                     URLConstant.oneToOne = false
 
-                    checkTournamentParticipation(click)
+                    val obj = Gson().toJson(click)
+
+                    val bundle = bundleOf()
+                    bundle.putSerializable("GET_MATCHES_OBJ", obj)
+
+                    findNavController().navigate(
+                        R.id.action_dashboardActivity_to_findCompetitiveFragment,
+                        bundle
+                    )
 
                 }
             })

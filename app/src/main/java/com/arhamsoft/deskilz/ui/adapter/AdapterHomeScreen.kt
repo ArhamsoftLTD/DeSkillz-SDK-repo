@@ -12,6 +12,9 @@ import com.arhamsoft.deskilz.R
 import com.arhamsoft.deskilz.databinding.RowHomeScreenBinding
 import com.arhamsoft.deskilz.networking.networkModels.GetMatchesRecord
 import com.arhamsoft.deskilz.networking.networkModels.GetMatchesRecordData
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class AdapterHomeScreen(var listener: OnItemClickListenerHandler
 ): RecyclerView.Adapter<AdapterHomeScreen.Holder>() {
@@ -70,7 +73,12 @@ class AdapterHomeScreen(var listener: OnItemClickListenerHandler
 
 
             holder.binding.entryFee.text = listPos.entryFee.toString()
-            holder.binding.time.text = "Time: ${listPos.time}"
+
+            val time = listPos.time.toDate()?.formatTo("dd MM yyyy HH:mm:ss")
+
+
+
+            holder.binding.time.text = "Time: ${time}"
 
             holder.onBind(sList[position], listener,position)
 
@@ -78,6 +86,18 @@ class AdapterHomeScreen(var listener: OnItemClickListenerHandler
 
 
 
+    }
+
+    fun String.toDate(dateFormat: String = "dd/MM/yyyy HH:mm:ss", timeZone: TimeZone = TimeZone.getTimeZone("UTC")): Date? {
+        val parser = SimpleDateFormat(dateFormat, Locale.getDefault())
+        parser.timeZone = timeZone
+        return parser.parse(this)
+    }
+
+    fun Date.formatTo(dateFormat: String, timeZone: TimeZone = TimeZone.getDefault()): String {
+        val formatter = SimpleDateFormat(dateFormat, Locale.getDefault())
+        formatter.timeZone = timeZone
+        return formatter.format(this)
     }
 
     override fun getItemCount(): Int = if(sList.size ==0){

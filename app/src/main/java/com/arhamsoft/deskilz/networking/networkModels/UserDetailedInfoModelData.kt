@@ -2,13 +2,13 @@ package com.arhamsoft.deskilz.networking.networkModels
 
 data class UserDetailedInfoModelData(
     val deskillzLevel: Int,
-    val deskillzCoin: Int,
+    val deskillzCoin: Double,
     val earnedTrophies: List<EarnedTrophiesModel>,
     val allTrophies: List<AllTrophiesModel>,
     val currentGameRank: Int,
     val currentGameImag: String,
 
-    val progressXp: Int,
+//    val progressXp: Int,
 
     val userWin: Int,
     val userLoose: Int,

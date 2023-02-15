@@ -104,7 +104,9 @@ class FindCompetitiveFragment : Fragment() {
             }
         }
 
-        if (!(StaticFields.isNetworkConnected(requireContext()))) {
+        practiceModeCheck()
+
+        if(!(StaticFields.isNetworkConnected(requireContext()))) {
             StaticFields.toastClass("Check your network connection")
         } else {
             connectSocket()
@@ -187,6 +189,31 @@ class FindCompetitiveFragment : Fragment() {
         }.start()
     }
 
+
+    private fun practiceModeCheck(){
+        if (click!!.isPractice) {
+
+            URLConstant.isPractice = click!!.isPractice
+
+            time.cancel()
+            StaticFields.toastClass("Practice Match is about to begin.")
+
+            Handler(Looper.getMainLooper()).postDelayed(
+                Runnable {
+                    showDialog("Practice match will start in a momment, Please Wait.","Deposit",2)
+
+                }, 1500
+            )
+
+            return
+        }
+        else{
+            URLConstant.isPractice = click!!.isPractice
+
+        }
+    }
+
+
     private fun userNameandImg() {
         if (sharedPreference.returnValue("USERIMG") != null
             && sharedPreference.returnValue("USERNAME") != null
@@ -259,13 +286,13 @@ class FindCompetitiveFragment : Fragment() {
                     dialog.dismiss()
                 }, 1500
             )
-
         }
         else if(check == 2){
             Handler(Looper.getMainLooper()).postDelayed(
                 Runnable {
 //                    loading.startLoading()
 //                    participateInOnetoOne()
+
                     navigateTo()
 
                     dialog.dismiss()

@@ -45,14 +45,14 @@ class RedeemPointsFragment : Fragment() {
         }
 
         binding.icPt.text = URLConstant.points.toString()
-
+        val rate = 1000.0
 
         binding.convertPoints.setOnClickListener {
 
             if (binding.points.text.isEmpty()) {
                 binding.points.error = "Enter points"
             } else {
-                if (URLConstant.points!! > 1000L) {
+                if (URLConstant.points!! > rate) {
 
                     if (binding.points.text.toString().toInt() < 1000) {
                         StaticFields.toastClass("Entered points are not enough according to current rate")
