@@ -8,9 +8,45 @@
     android:layout_height="match_parent"
     tools:context=".SwitchAccountFragment">
 
+
+    <RelativeLayout
+        android:id="@+id/top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/_30sdp">
+
+        <ImageView
+            android:id="@+id/backtoaccount"
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="@dimen/_25sdp"
+            android:src="@drawable/ic_baseline_kbackarrow" />
+
+
+
+
+
+        <ImageView
+            android:id="@+id/poweredLogo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="@dimen/_15sdp"
+            android:src="@drawable/poweredlogo" />
+
+
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/break_line"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_below="@+id/top"
+        android:background="@color/greyish" />
+
     <LinearLayout
         android:id="@+id/main"
-        android:layout_width="@dimen/size_300dp"
+        android:layout_width="match_parent"
+        android:layout_marginHorizontal="20dp"
         android:layout_height="@dimen/_350sdp"
         android:orientation="vertical"
         android:layout_centerInParent="true"
@@ -51,7 +87,8 @@
     <Button
         android:id="@+id/gotoLogin"
         android:layout_below="@id/main"
-        android:layout_width="@dimen/size_300dp"
+        android:layout_width="match_parent"
+        android:layout_marginHorizontal="20dp"
         android:layout_marginTop="@dimen/size_20dp"
         android:layout_height="wrap_content"
         android:text="Add New User"

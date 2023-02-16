@@ -44,6 +44,10 @@ class FragmentMatchScore : Fragment() {
             val data = result.data
             URLConstant.score= data?.extras?.get("matchScore") as Long
 
+            if (!(StaticFields.isNetworkConnected(requireContext()))){
+                StaticFields.toastClass("Check your network connection")
+            }
+            else{
 
             if (URLConstant.isPractice){
                 binding.btnSubmit.setOnClickListener {
@@ -59,6 +63,9 @@ class FragmentMatchScore : Fragment() {
                 updateScore()
 
             }
+
+            }
+
 
 
 

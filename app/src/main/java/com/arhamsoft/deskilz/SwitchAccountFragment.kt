@@ -45,6 +45,10 @@ class SwitchAccountFragment : Fragment() {
         binding.gotoLogin.setOnClickListener {
             findNavController().navigate(R.id.action_switchAccountFragment_to_signInFragment)
         }
+
+        binding.backtoaccount.setOnClickListener {
+            findNavController().popBackStack()
+        }
         if (sharedPreference.returnValue("TOKEN") != null){
             fcmToken = sharedPreference.returnValue("TOKEN")
         }

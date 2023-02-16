@@ -55,10 +55,7 @@ class AdapterSwitchAcc(var listener: OnItemClickListenerHandler
                 " Signed out "
             }
 
-            holder.binding.userImg.load(123415){
-                placeholder(R.drawable.ic_baseline_person_24)
-                error(R.drawable.ic_baseline_person_24)
-            }
+
             holder.binding.userEmail.text = if (listPos.userEmail.isNullOrEmpty()){
                 "UnknownPlayer"
             }

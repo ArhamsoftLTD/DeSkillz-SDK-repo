@@ -45,19 +45,15 @@ class RVAdapterOngoinOnetoOne(var listener: OnItemClickListenerHandler
             holder.binding.noData.visibility = View.GONE
             holder.binding.layout.visibility = View.VISIBLE
             holder.binding.tournName.text = listPos.tournamentName
-            holder.binding.playerFound.text = listPos.waitingFor
+            holder.binding.score.text = "Your Score: ${listPos.previousScore}"
+            holder.binding.player.text = "Player: ${listPos.playerCount}"
 
             if (listPos.tournamentId != null){
-                holder.binding.score.visibility = View.GONE
-                holder.binding.vs.text = "Ends in: ${listPos.remainingTime}"
+                holder.binding.remainigtime.text = "Ends in: ${listPos.remainingTime}"
                 holder.binding.userStatus.text = "Tournament is in Progress"
             }
             else{
-                holder.binding.score.visibility = View.VISIBLE
                 holder.binding.userStatus.text = "Match is in Progress"
-
-                holder.binding.score.text = "Your Score: ${listPos.previousScore}"
-
             }
 
 //            holder.binding.img.load(listPos.tournamentImage){
@@ -73,7 +69,6 @@ class RVAdapterOngoinOnetoOne(var listener: OnItemClickListenerHandler
             }else{
                 "Fee: ${listPos.entryFee}"
             }
-            holder.binding.player.text = "Player: ${listPos.playerCount}"
 
             holder.onBind(sList[position], listener,position)
 

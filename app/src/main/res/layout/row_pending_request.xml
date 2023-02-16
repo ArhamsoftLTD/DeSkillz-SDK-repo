@@ -36,7 +36,8 @@
                 android:id="@+id/h2habove"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/size_10dp"
+                android:layout_marginTop="5dp"
+                android:paddingStart="@dimen/size_10dp"
                 android:orientation="vertical">
 
                 <TextView
@@ -60,7 +61,7 @@
                     android:textSize="@dimen/text_size_15sp" />
 
                 <TextView
-                    android:id="@+id/vs"
+                    android:id="@+id/remainigtime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/poppins_regular"
@@ -68,14 +69,14 @@
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_size_12sp" />
 
-                <TextView
-                    android:id="@+id/playerFound"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/poppins_regular"
-                    android:text="abcd"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/text_size_12sp" />
+                <!--                <TextView-->
+                <!--                    android:id="@+id/playerFound"-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:fontFamily="@font/poppins_regular"-->
+                <!--                    android:text="abcd"-->
+                <!--                    android:textColor="@color/black"-->
+                <!--                    android:textSize="@dimen/text_size_12sp" />-->
 
             </LinearLayout>
 
@@ -124,7 +125,6 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="end"
-                    android:paddingEnd="5dp"
                     android:text="Entry $9"
                     android:textColor="@color/black"
                     android:textStyle="bold" />

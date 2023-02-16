@@ -227,7 +227,7 @@ class HomeScreenFragment : Fragment() {
                                     completedList.addAll(t.data.matchRecords)
                                     completedList.addAll(t.data.tournamentRecords)
 
-                                    completedList.reverse()
+//                                    completedList.reverse()
                                     adapterHomeScreen.setData(completedList)
 
 //                                if (isLoadMore) {
@@ -308,7 +308,7 @@ class HomeScreenFragment : Fragment() {
 
                                     binding.recycleListOngoingOneToOne.adapter = rvAdapterOnetoOne
 
-                                    oneToOneAndTournamentList.reverse()
+//                                    oneToOneAndTournamentList.reverse()
 
                                     rvAdapterOnetoOne.setData(oneToOneAndTournamentList)
                                 }
