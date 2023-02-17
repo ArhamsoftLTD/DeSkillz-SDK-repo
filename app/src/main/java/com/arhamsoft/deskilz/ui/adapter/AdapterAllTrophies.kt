@@ -1,16 +1,12 @@
 package com.arhamsoft.deskilz.ui.adapter
 
-import android.text.SpannableString
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.arhamsoft.deskilz.R
-import com.arhamsoft.deskilz.databinding.AdapterOpponentlistViewBinding
-import com.arhamsoft.deskilz.databinding.AdapterTrophiesViewBinding
 import com.arhamsoft.deskilz.databinding.AdpaterTrophyDetailBinding
-import com.arhamsoft.deskilz.databinding.RowHomeScreenBinding
 import com.arhamsoft.deskilz.networking.networkModels.*
 
 
@@ -93,18 +89,6 @@ class AdapterAllTrophies(var listener: OnItemClickListenerHandler
             }
 
             holder.binding.trophyName.text = listPos.name
-
-//            holder.binding.oppoenetImg.load(listPos.opponentImage){
-//                placeholder(R.drawable.ic_baseline_person_24)
-//                error(R.drawable.ic_baseline_person_24)
-//            }
-//            holder.binding.oppoenetName.text = if (listPos.opponentName.isNullOrEmpty()){
-//                "UnknownPlayer"
-//            }
-//            else{
-//                listPos.opponentName
-//            }
-//            holder.binding.oppoenetFlag.load(listPos.)
 
             holder.onBind(sList[position], listener, position)
 

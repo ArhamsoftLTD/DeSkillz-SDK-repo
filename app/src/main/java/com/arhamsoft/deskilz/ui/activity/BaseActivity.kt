@@ -30,23 +30,6 @@ open class BaseActivity : AppCompatActivity(), LogoutInterface {
     private lateinit var navController: NavController
     lateinit var sharedPreference: CustomSharedPreference
 
-//    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
-//        super.onCreate(savedInstanceState, persistentState)
-//        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
-//        actionBar?.hide()
-//        packageManager.getApplicationInfo(packageName, PackageManager.GET_META_DATA).apply {
-//            StaticFields.key = metaData.getString("GameId").toString()
-//            Log.e("gameKeyStringOnCreate1", "onCreate:${StaticFields.key}..String " )
-//            if (StaticFields.key.isEmpty() || StaticFields.key == "null") {
-//                StaticFields.key = metaData.getInt("GameId").toString()
-//                Log.e("gameKeyIntOnCreate1", "onCreate:${StaticFields.key}..Int " )
-//
-//            }
-//            URLConstant.gameActivity = metaData.getString("gameActivity").toString()
-//        }
-//        LogoutHandler.setListener(this)
-//    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityBaseBinding.inflate(layoutInflater)
@@ -55,7 +38,6 @@ open class BaseActivity : AppCompatActivity(), LogoutInterface {
         setContentView(binding.root)
         //hide status bar
 
-//
 
         packageManager.getApplicationInfo(packageName, PackageManager.GET_META_DATA).apply {
             StaticFields.key = metaData.getString("GameId").toString()
@@ -73,36 +55,7 @@ open class BaseActivity : AppCompatActivity(), LogoutInterface {
 
         LogoutHandler.setListener(this)
 
-//        if (intent.extras != null) {
-//            val bundle2 = bundleOf()
-//
-//            val map = HashMap<String, String>()
-//
-//            for (key in intent.extras!!.keySet()) {
-//                intent.extras!!.getString(key)?.let { map.put(key, it) }
-//            }
-//
-//            if (map["notificationType"]!!.toInt() == 4){
-////                navController.navigate(R.id.startSDKFragment)
-//
-//            }
-//            else if (map["notificationType"]!!.toInt() == 3){
-//                sharedPreference.saveLogin("LOGIN", false)
-////                navController.navigate(R.id.startSDKFragment)
-//            }
-//            else if (map["notificationType"]!!.toInt() == 0){
-//                bundle2.putInt("GLOBAL_CHAT", 1)
-//
-////                navController.navigate(R.id.chatFragment)
-//
-//            }
-//            else if (map["notificationType"]!!.toInt() == 1){
-//                bundle2.putInt("GLOBAL_CHAT", 2)
-//                bundle2.putSerializable("FRIEND_ID", map["fromId"])
-////                navController.navigate(R.id.chatFragment)
-//
-//            }
-//        }
+
     }
 
     override fun logoutListener() {
@@ -132,16 +85,14 @@ open class BaseActivity : AppCompatActivity(), LogoutInterface {
         Handler(Looper.getMainLooper()).postDelayed(Runnable {
 
             dialog.dismiss()
-//            navController.clearBackStack(R.id.switchAccountFragment)
-//            navController.popBackStack(R.id.switchAccountFragment,true)
+
             val size= navController.backQueue.size
             Log.e("stackSize", "showDialog:$size " )
             for (item in 0 until navController.backQueue.size) {
                 navController.popBackStack()
             }
             navController.navigate(R.id.signInFragment)
-//            startActivity(Intent(this@BaseActivity,BaseActivity::class.java))
-//            this.finishAffinity()
+
 
         },3000)
 

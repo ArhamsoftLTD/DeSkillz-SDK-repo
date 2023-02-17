@@ -108,10 +108,6 @@ class FragmentMatchScore : Fragment() {
 
                                 gameCustomDataList.addAll(t.data)
 
-//                                val map = HashMap<String, Any>()
-//                                map["AA1"] = 100
-//                                map["test1"] = 200
-
 
                                 for (item in gameCustomDataList){
                                     for (i in prog.keys){
@@ -126,21 +122,6 @@ class FragmentMatchScore : Fragment() {
                                 }
                                 progressionData()
 
-
-//                            activity?.runOnUiThread {
-//                                StaticFields.toastClass("api chal ri hai ")
-//                            }
-
-//                            if (t.data.isNotEmpty()) {
-//                                activity?.runOnUiThread {
-//
-//                                    binding.eventLayout.visibility = View.VISIBLE
-//
-//                                    eventList.addAll(t.data)
-//
-//                                    rvAdapterEvents.addData(eventList)
-//                                }
-//                            }
                             }
                             else{
                                 StaticFields.toastClass(t.message)
@@ -230,7 +211,6 @@ class FragmentMatchScore : Fragment() {
 
                                     navigateTO()
                             }
-//                                binding.score.text = t.data.matchScore
                         }
                         else{
                             StaticFields.toastClass(t.message)
@@ -254,11 +234,6 @@ class FragmentMatchScore : Fragment() {
 
 
     private fun progressionData() {
-
-//        progressionList.add(ProgressPost("Date",32))
-//        progressionList.add(ProgressPost("bool",true))
-//        progressionList.add(ProgressPost("dt",2022-12-19))
-//        progressionList.add(ProgressPost("strin","32"))
 
         CoroutineScope(Dispatchers.IO).launch {
             NetworkRepo.getProgressionData(

@@ -14,14 +14,12 @@ import com.arhamsoft.deskilz.databinding.FragmentResultScreenBinding
 import com.arhamsoft.deskilz.networking.networkModels.GetMatchesRecordData
 import com.arhamsoft.deskilz.networking.networkModels.ListofOpponentsMatchesRecord
 import com.arhamsoft.deskilz.ui.adapter.AdapterResultScreen
-import com.arhamsoft.deskilz.ui.fragment.navBarFragments.HomeScreenFragment
 import com.arhamsoft.deskilz.utils.StaticFields
 
-class GameResultFragment: Fragment() {
+class GameResultFragment : Fragment() {
 
     private lateinit var binding: FragmentResultScreenBinding
-    var click :GetMatchesRecordData? = null
-
+    var click: GetMatchesRecordData? = null
     lateinit var rvAdapter: AdapterResultScreen
 
     override fun onCreateView(
@@ -32,7 +30,8 @@ class GameResultFragment: Fragment() {
         binding = FragmentResultScreenBinding.inflate(layoutInflater)
 
 
-        binding.recycleListresult.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false)
+        binding.recycleListresult.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
 
         rvAdapter = AdapterResultScreen(object : AdapterResultScreen.OnItemClickListenerHandler {
             override fun onItemClicked(click: ListofOpponentsMatchesRecord, position: Int) {
@@ -49,16 +48,10 @@ class GameResultFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        val fragment = HomeScreenFragment()
         val bundle = arguments
         if (bundle != null) {
 
             click = bundle.getSerializable("MATCHRECORDOBJECT") as GetMatchesRecordData
-
-//            val matchId = bundle.getString("MATCHID")
-//            val tickets = bundle.getLong("TICKETS")
-//            val xpOpponent = bundle.getString("XPOPPONENT")
-//            val xpUser= bundle.getString("XPUSER")
 
             binding.position.text = click!!.placePosition
             binding.xpvalueUser.text = click!!.xpValueUser.toString()
@@ -70,7 +63,7 @@ class GameResultFragment: Fragment() {
             rvAdapter.setData(click!!.listofOpponent as ArrayList<ListofOpponentsMatchesRecord>)
 
             Log.e("matchid", "${click!!.matchId} ")
-        }else{
+        } else {
             StaticFields.toastClass("Error while retrieving data.")
         }
 
@@ -78,16 +71,16 @@ class GameResultFragment: Fragment() {
             findNavController().popBackStack()
         }
 
-                binding.gotoReportScreen.setOnClickListener {
-                    val bundle2 = bundleOf()
-                    bundle2.putSerializable("MATCH_ID",click?.matchId)
-            findNavController().navigate(R.id.action_gameResultFragment_to_reportPlayerFragment,bundle2)
+        binding.gotoReportScreen.setOnClickListener {
+            val bundle2 = bundleOf()
+            bundle2.putSerializable("MATCH_ID", click?.matchId)
+            findNavController().navigate(
+                R.id.action_gameResultFragment_to_reportPlayerFragment,
+                bundle2
+            )
         }
 
     }
-
-
-
 
 
 }

@@ -2,10 +2,10 @@ package com.arhamsoft.deskilz.ui.fragment
 
 import android.app.Activity
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import com.arhamsoft.deskilz.databinding.FragmentAcceptFriendReqBinding
 import com.arhamsoft.deskilz.utils.LoadingDialog
 
@@ -13,7 +13,7 @@ import com.arhamsoft.deskilz.utils.LoadingDialog
 class AcceptFriendReqFragment : Fragment() {
 
     lateinit var binding: FragmentAcceptFriendReqBinding
-    lateinit var loading : LoadingDialog
+    lateinit var loading: LoadingDialog
 
 
     override fun onCreateView(

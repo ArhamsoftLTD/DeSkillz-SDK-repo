@@ -3,32 +3,22 @@ package com.arhamsoft.deskilz.ui.fragment
 import android.Manifest
 import android.animation.Animator
 import android.app.Activity
-import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
-import android.content.IntentSender
-import android.location.Location
-import android.location.LocationListener
-import android.location.LocationManager
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.provider.Settings
-import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.Toast
-import androidx.annotation.Nullable
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
-import com.arhamsoft.deskilz.utils.CustomSharedPreference
 import com.arhamsoft.deskilz.R
 import com.arhamsoft.deskilz.databinding.FragmentLoadingScreenBinding
 import com.arhamsoft.deskilz.domain.listeners.NetworkListener
@@ -36,24 +26,20 @@ import com.arhamsoft.deskilz.domain.repository.NetworkRepo
 import com.arhamsoft.deskilz.networking.networkModels.ForgotModel
 import com.arhamsoft.deskilz.networking.networkModels.ThemeModel
 import com.arhamsoft.deskilz.networking.retrofit.URLConstant
+import com.arhamsoft.deskilz.utils.CustomSharedPreference
 import com.arhamsoft.deskilz.utils.LoadingDialog
 import com.arhamsoft.deskilz.utils.StaticFields
-import com.google.android.gms.common.api.ApiException
-import com.google.android.gms.common.api.ResolvableApiException
-import com.google.android.gms.location.*
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.android.gms.tasks.Task
+import com.google.android.gms.location.LocationRequest
 import com.karumi.dexter.Dexter
-import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.PermissionDeniedResponse
 import com.karumi.dexter.listener.PermissionGrantedResponse
 import com.karumi.dexter.listener.PermissionRequest
-import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import com.karumi.dexter.listener.single.PermissionListener
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+
 private const val REQUEST_CHECK_SETTINGS = 10001
 
 
@@ -63,7 +49,6 @@ class LoadingActivity : Fragment() {
     private lateinit var navController: NavController
     private lateinit var sharedPreference: CustomSharedPreference
     lateinit var loading:LoadingDialog
-    private var locationRequest: LocationRequest? = null
 
     var apiHit:Boolean = false
 
@@ -116,9 +101,6 @@ class LoadingActivity : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         sharedPreference = CustomSharedPreference(requireContext())
-
-
-
 
         getThemeApi()
 

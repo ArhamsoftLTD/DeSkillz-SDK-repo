@@ -310,8 +310,8 @@ interface ApiListCalling {
         @Field("tournamentId") tournamentId:String,
     ): Response<ForgotModel>
 
-    @GET(URLConstant.getEvents)
-    suspend fun getEvents(@Query("longitude") long: Double, @Query("latitude") lat: Double): Response<EventsModel>
+//    @GET(URLConstant.getEvents)
+//    suspend fun getEvents(@Query("longitude") long: Double, @Query("latitude") lat: Double): Response<EventsModel>
 
     @Raw
     @POST(URLConstant.getProgressionData)

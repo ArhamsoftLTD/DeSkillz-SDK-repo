@@ -4,11 +4,9 @@ import android.app.Activity
 import android.content.Intent
 import android.database.Cursor
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Base64
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,12 +15,12 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import coil.load
 import com.arhamsoft.deskilz.R
-import com.arhamsoft.deskilz.utils.CustomSharedPreference
 import com.arhamsoft.deskilz.databinding.FragmentUpdateProfileBinding
 import com.arhamsoft.deskilz.domain.listeners.NetworkListener
 import com.arhamsoft.deskilz.domain.repository.NetworkRepo
 import com.arhamsoft.deskilz.networking.networkModels.UpdateProfileModel
 import com.arhamsoft.deskilz.networking.retrofit.URLConstant
+import com.arhamsoft.deskilz.utils.CustomSharedPreference
 import com.arhamsoft.deskilz.utils.LoadingDialog
 import com.arhamsoft.deskilz.utils.StaticFields
 import kotlinx.coroutines.CoroutineScope
@@ -34,22 +32,17 @@ import okhttp3.MultipartBody.Part.Companion.createFormData
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
-import java.io.ByteArrayOutputStream
 import java.io.File
 
 
 class UpdateProfileFragment : Fragment() {
 
-    lateinit var binding:FragmentUpdateProfileBinding
-    lateinit var loading:LoadingDialog
-    private var u_id:String? = " "
-    var bitmap: Bitmap?= null
-    var encodedImage:String? = null
-     var filePart: MultipartBody.Part? = null
+    lateinit var binding: FragmentUpdateProfileBinding
+    lateinit var loading: LoadingDialog
+    var bitmap: Bitmap? = null
+    var filePart: MultipartBody.Part? = null
 
     lateinit var sharedPreference: CustomSharedPreference
-
-
 
 
     override fun onCreateView(
@@ -65,11 +58,11 @@ class UpdateProfileFragment : Fragment() {
         binding.etname.setText(sharedPreference.returnValue("USERNAME"))
         binding.shoutout.setText(sharedPreference.returnValue("SHOUTOUT"))
 
-        if(sharedPreference.returnValue("USERIMG") != null) {
+        if (sharedPreference.returnValue("USERIMG") != null) {
 
-            val img=  sharedPreference.returnValue("USERIMG")
+            val img = sharedPreference.returnValue("USERIMG")
 //            bitmap = byteArray?.let { Imgconvertors.toBitmap(it) }!!
-            binding.uploadpic.load(img){
+            binding.uploadpic.load(img) {
                 placeholder(R.drawable.ic_baseline_person_24)
                 error(R.drawable.ic_baseline_person_24)
             }
@@ -82,48 +75,39 @@ class UpdateProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
-        val setImg =registerForActivityResult(ActivityResultContracts.StartActivityForResult()){ result ->
-            val data: Intent? = result.data
+        val setImg =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                val data: Intent? = result.data
 
-            if (data != null) {
-                bitmap = MediaStore.Images.Media.getBitmap(requireContext().contentResolver, data.data)
-                binding.uploadpic.setImageBitmap(bitmap)
+                if (data != null) {
+                    bitmap = MediaStore.Images.Media.getBitmap(
+                        requireContext().contentResolver,
+                        data.data
+                    )
+                    binding.uploadpic.setImageBitmap(bitmap)
 
-                val selectedImageURI = data.data
-                val imageFile = File(getRealPathFromURI(selectedImageURI!!)!!)
-                if (imageFile != null) {
-                    try {
-                        if (imageFile.exists()) {
+                    val selectedImageURI = data.data
+                    val imageFile = File(getRealPathFromURI(selectedImageURI!!)!!)
+                    if (imageFile != null) {
+                        try {
+                            if (imageFile.exists()) {
 //                multipart/form-data
-                            val fileBody: RequestBody = imageFile.asRequestBody("image/*".toMediaTypeOrNull())
-                            filePart = createFormData("avatar", imageFile.name, fileBody)
+                                val fileBody: RequestBody =
+                                    imageFile.asRequestBody("image/*".toMediaTypeOrNull())
+                                filePart = createFormData("avatar", imageFile.name, fileBody)
+                            }
+                        } catch (e: NullPointerException) {
+                            e.printStackTrace()
                         }
-                    } catch (e: NullPointerException) {
-                        e.printStackTrace()
+                    } else {
+                        val attachmentEmpty: RequestBody =
+                            " ".toRequestBody("text/plain".toMediaTypeOrNull());
+
+                        filePart = createFormData("attachment", "", attachmentEmpty);
                     }
                 }
-                else{
-                    val attachmentEmpty: RequestBody= " ".toRequestBody("text/plain".toMediaTypeOrNull());
-
-                    filePart = createFormData("attachment", "", attachmentEmpty);
-                }
-
-//                val imageUri: Uri? = data.data
-//                val imageStream: InputStream? = requireContext().contentResolver.openInputStream(imageUri!!)
-//                val selectedImage = BitmapFactory.decodeStream(imageStream)
-//                encodedImage = encodeImage(selectedImage)
-//
-////                if (encodedImage!!.contains("/9j") == true){
-//////                    updatedEncodedImage = encodedImage!!.replace("/9j","data:image/jpeg;base64,/9j")
-////
-//                }
-
-
-
 
             }
-
-        }
 
 
         binding.uploadpic.setOnClickListener {
@@ -139,11 +123,6 @@ class UpdateProfileFragment : Fragment() {
         binding.backtoProfile.setOnClickListener {
             findNavController().popBackStack()
         }
-        CoroutineScope(Dispatchers.IO).launch {
-//            val user = UserDatabase.getDatabase(requireContext()).userDao().getUser()
-//            if (user != null) {
-//                u_id = user.userId
-//            }
             binding.updateupbtn.setOnClickListener {
 
                 if (binding.etname.text!!.isEmpty() && binding.shoutout.text!!.isEmpty()) {
@@ -158,29 +137,22 @@ class UpdateProfileFragment : Fragment() {
                     binding.shoutout.error = "Shoutout Field is Empty"
 
                 } else {
-                    if (filePart == null){
+                    if (filePart == null) {
 
                         loading.startLoading()
                         updateProfileWoImg()
-                    }
-                    else{
+                    } else {
                         loading.startLoading()
                         updateProfile()
                     }
 
                 }
-            }
         }
     }
-
-
-//    private fun galleryLauncher(){
-//
-//    }
-
     private fun getRealPathFromURI(contentURI: Uri): String? {
         val result: String?
-        val cursor: Cursor? = requireContext().contentResolver.query(contentURI, null, null, null, null)
+        val cursor: Cursor? =
+            requireContext().contentResolver.query(contentURI, null, null, null, null)
         if (cursor == null) { // Source is Dropbox or other similar local file path
             result = contentURI.path
         } else {
@@ -211,7 +183,7 @@ class UpdateProfileFragment : Fragment() {
 //    }
 
 
-    private fun updateProfile(){
+    private fun updateProfile() {
         CoroutineScope(Dispatchers.IO).launch {
             NetworkRepo.updateProfile(
                 URLConstant.u_id!!,
@@ -221,12 +193,12 @@ class UpdateProfileFragment : Fragment() {
                 object : NetworkListener<UpdateProfileModel> {
                     override fun successFul(t: UpdateProfileModel) {
                         loading.isDismiss()
-                        if(t.status == 1) {
+                        if (t.status == 1) {
 
                             activity?.runOnUiThread {
-                                sharedPreference.saveValue("USERIMG",t.data.userImage)
-                                sharedPreference.saveValue("USERNAME",t.data.userName)
-                                sharedPreference.saveValue("SHOUTOUT",t.data.userShoutOut)
+                                sharedPreference.saveValue("USERIMG", t.data.userImage)
+                                sharedPreference.saveValue("USERNAME", t.data.userName)
+                                sharedPreference.saveValue("SHOUTOUT", t.data.userShoutOut)
 
                                 StaticFields.toastClass(t.message)
                                 findNavController().popBackStack()
@@ -238,8 +210,6 @@ class UpdateProfileFragment : Fragment() {
 
 
                     }
-
-
 
 
                     override fun failure() {
@@ -277,6 +247,7 @@ class UpdateProfileFragment : Fragment() {
                             }
                         }
                     }
+
                     override fun failure() {
                         loading.isDismiss()
 

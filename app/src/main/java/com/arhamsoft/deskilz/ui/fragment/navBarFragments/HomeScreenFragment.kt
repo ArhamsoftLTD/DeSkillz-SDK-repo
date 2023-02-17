@@ -20,11 +20,11 @@ import com.arhamsoft.deskilz.networking.networkModels.*
 import com.arhamsoft.deskilz.networking.retrofit.URLConstant
 import com.arhamsoft.deskilz.ui.adapter.AdapterHomeScreen
 import com.arhamsoft.deskilz.ui.adapter.RVAdapterOngoinOnetoOne
+import com.arhamsoft.deskilz.ui.adapter.RecyclerViewLoadMoreScroll
 import com.arhamsoft.deskilz.utils.InternetConLiveData
 import com.arhamsoft.deskilz.utils.LoadingDialog
 import com.arhamsoft.deskilz.utils.StaticFields
 import com.tablitsolutions.crm.activities.OnLoadMoreListener
-import com.arhamsoft.deskilz.ui.adapter.RecyclerViewLoadMoreScroll
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -61,20 +61,11 @@ class HomeScreenFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
-//        CoroutineScope(Dispatchers.IO).launch {
-//            val user = UserDatabase.getDatabase(requireContext()).userDao().getUser()
-//            if (user != null) {
-//                u_id = user.userId
-//            }
-//        }
-//        checkNetworkConnection()
 
         if (!(StaticFields.isNetworkConnected(requireContext()))) {
             StaticFields.toastClass("Check your network connection")
         } else {
             loading.startLoading()
-//        URLConstant.check = false
-//        getGameCustomData()
             getUserDetailedInfo()
             getWaitingList()
             getMatchesRecord(0, false)
@@ -97,11 +88,6 @@ class HomeScreenFragment : Fragment() {
 
                     val bundle = bundleOf()
                     bundle.putSerializable("MATCHRECORDOBJECT", click)
-//                bundle.putString("MATCHID",click.matchId)
-//                bundle.putLong("TICKETS",click.cash)
-//                bundle.putLong("XPOPPONENT",click.xpValueOther)
-//                bundle.putLong("XPUSER",click.xpValueUser)
-
 
                     navController.navigate(
                         R.id.action_dashboardActivity_to_gameResultFragment,
@@ -116,24 +102,6 @@ class HomeScreenFragment : Fragment() {
 
 
     }
-
-    private fun checkNetworkConnection() {
-
-        connection = InternetConLiveData(requireContext())
-
-        connection.observe(viewLifecycleOwner) { isConnected ->
-
-            if (isConnected) {
-                binding.noint.noInternet.visibility = View.GONE
-
-            } else {
-                binding.noint.noInternet.visibility = View.VISIBLE
-
-            }
-        }
-
-    }
-
 
     private fun initClicks() {
         binding.deskillzLevelLayout.setOnClickListener {

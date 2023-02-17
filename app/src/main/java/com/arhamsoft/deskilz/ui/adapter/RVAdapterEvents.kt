@@ -1,33 +1,13 @@
 package com.arhamsoft.deskilz.ui.adapter
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.os.Build
-import android.os.Handler
-import android.os.Looper
 import android.view.LayoutInflater
-import android.view.ViewGroup
-import androidx.annotation.RequiresApi
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import coil.load
-import android.util.Base64
 import android.view.View
-import com.arhamsoft.deskilz.R
-import com.arhamsoft.deskilz.databinding.CardViewChatBinding
+import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
 import com.arhamsoft.deskilz.databinding.CardViewEventsBinding
-import com.arhamsoft.deskilz.databinding.CardViewHeadtoheadBinding
-import com.arhamsoft.deskilz.databinding.CardViewPracticeBinding
 import com.arhamsoft.deskilz.networking.networkModels.EventsModelData
-import com.arhamsoft.deskilz.networking.networkModels.GetChatsModel
-import com.arhamsoft.deskilz.networking.networkModels.GetChatsModelData
-import com.arhamsoft.deskilz.networking.networkModels.GetTournamentsListData
-
-import java.util.Base64.getDecoder
-import kotlin.collections.ArrayList
 
 
 class RVAdapterEvents(

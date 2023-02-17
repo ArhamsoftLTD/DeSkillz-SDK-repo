@@ -2,12 +2,11 @@ package com.arhamsoft.deskilz.ui.fragment
 
 import android.app.Activity
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.alphaCareInc.app.room.UserDatabase
 import com.arhamsoft.deskilz.R
 import com.arhamsoft.deskilz.databinding.FragmentResetPasswordBinding
 import com.arhamsoft.deskilz.domain.listeners.NetworkListener
@@ -24,7 +23,7 @@ import kotlinx.coroutines.launch
 class ResetPasswordFragment : Fragment() {
 
     lateinit var binding: FragmentResetPasswordBinding
-    var u_id:String? = ""
+    var u_id: String? = ""
     lateinit var loading: LoadingDialog
 
     override fun onCreateView(
@@ -40,13 +39,6 @@ class ResetPasswordFragment : Fragment() {
         binding.backToAccount.setOnClickListener {
             findNavController().popBackStack()
         }
-//        CoroutineScope(Dispatchers.IO).launch {
-//            val user = UserDatabase.getDatabase(requireContext()).userDao().getUser()
-//            if (user != null) {
-//                u_id = user.userId
-//            }
-//        }
-
 
         binding.loginBtn.setOnClickListener {
             if (binding.newPassword.text.isEmpty() && binding.retypeNewPassword.text.isEmpty() && binding.currentPassword.text.isEmpty()) {
@@ -61,18 +53,15 @@ class ResetPasswordFragment : Fragment() {
                 binding.retypeNewPassword.requestFocus()
                 binding.retypeNewPassword.error = "Re-type Password Field is Empty"
 
-            }
-            else if (binding.currentPassword.text!!.isEmpty()) {
+            } else if (binding.currentPassword.text!!.isEmpty()) {
                 binding.currentPassword.requestFocus()
                 binding.currentPassword.error = " Current Password Field is Empty"
 
-            }
-            else{
-                if (binding.newPassword.text.toString() == binding.retypeNewPassword.text.toString()){
+            } else {
+                if (binding.newPassword.text.toString() == binding.retypeNewPassword.text.toString()) {
                     loading.startLoading()
                     callResetPasswordApi()
-                }
-                else{
+                } else {
                     binding.newPassword.error = "Password mismatch"
                     binding.retypeNewPassword.error = "Password mismatch"
                 }
@@ -87,8 +76,7 @@ class ResetPasswordFragment : Fragment() {
     }
 
 
-
-    private fun callResetPasswordApi(){
+    private fun callResetPasswordApi() {
         CoroutineScope(Dispatchers.IO).launch {
             NetworkRepo.changePassword(
                 URLConstant.u_id!!,
@@ -99,13 +87,12 @@ class ResetPasswordFragment : Fragment() {
                         loading.isDismiss()
                         activity?.runOnUiThread {
 
-                        if (t.status==1){
+                            if (t.status == 1) {
                                 StaticFields.toastClass(t.message)
                                 findNavController().navigate(R.id.action_resetPasswordFragment_to_accountSettingFragment)
-                            }
-                            else{
+                            } else {
                                 StaticFields.toastClass(t.message)
-                        }
+                            }
 
                         }
 

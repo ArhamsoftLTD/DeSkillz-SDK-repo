@@ -1,16 +1,13 @@
 package com.arhamsoft.deskilz.ui.adapter
 
-import android.text.SpannableString
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.arhamsoft.deskilz.R
-import com.arhamsoft.deskilz.databinding.RowHomeScreenBinding
 import com.arhamsoft.deskilz.databinding.RowNotificationsBinding
-import com.arhamsoft.deskilz.networking.networkModels.*
+import com.arhamsoft.deskilz.networking.networkModels.NotificationModelData
 
 class RVAdapterNotification(var listener: OnItemClickListenerHandler
 ): RecyclerView.Adapter<RVAdapterNotification.Holder>() {

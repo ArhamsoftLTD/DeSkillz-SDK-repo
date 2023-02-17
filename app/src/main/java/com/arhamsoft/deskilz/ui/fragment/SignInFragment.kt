@@ -13,8 +13,6 @@ import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.Window
-import android.widget.RelativeLayout
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.alphaCareInc.app.room.User
@@ -42,8 +40,8 @@ class SignInFragment : Fragment() {
     private lateinit var database: UserDatabase
     private var device_id: String? = null
     lateinit var sharedPreference: CustomSharedPreference
-    private var fcmToken:String? = null
-    var id:Int?=0
+    private var fcmToken: String? = null
+    var id: Int? = 0
 
 
     override fun onCreateView(
@@ -64,19 +62,15 @@ class SignInFragment : Fragment() {
 
         fcmToken = sharedPreference.returnValue("TOKEN")
 
-        device_id = Settings.Secure.getString(requireContext().contentResolver, Settings.Secure.ANDROID_ID)
-        sharedPreference.saveValue("DEVICE_ID",device_id!!)
+        device_id =
+            Settings.Secure.getString(requireContext().contentResolver, Settings.Secure.ANDROID_ID)
+        sharedPreference.saveValue("DEVICE_ID", device_id!!)
 
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-
-
-
-
 
         binding.loginBtn.setOnClickListener {
             loginApiCall()
@@ -96,7 +90,7 @@ class SignInFragment : Fragment() {
     fun cancelNotification() {
         val ns = NOTIFICATION_SERVICE
         val nMgr = activity?.applicationContext?.getSystemService(ns) as NotificationManager
-        if(nMgr.activeNotifications.isNotEmpty()){
+        if (nMgr.activeNotifications.isNotEmpty()) {
             nMgr.cancelAll()
 
         }
@@ -136,12 +130,11 @@ class SignInFragment : Fragment() {
 
                                 if (t.status == 1) {
 
-                                    if (t.data.userID == URLConstant.u_id){
+                                    if (t.data.userID == URLConstant.u_id) {
                                         loadingDialog.isDismiss()
                                         StaticFields.toastClass("Current User Already Login")
 
-                                    }
-                                    else{
+                                    } else {
 
 
                                         val user = User()
@@ -156,21 +149,12 @@ class SignInFragment : Fragment() {
                                         sharedPreference.saveValue("USERIMG", t.data.userImage)
                                         sharedPreference.saveValue("USERNAME", t.data.userName)
 
-//                URLConstant.userName = it.data.userName
-//                URLConstant.userImg = it.data.userImage
-
                                         sharedPreference.saveLogin("LOGIN", true)
                                         //RetrofitClient.updateInstance()
 
                                         loadingDialog.isDismiss()
 
                                         findNavController().navigate(R.id.action_signInFragment_to_dashboardActivity)
-
-//                if (user.code == 0)
-//                    sharedPreference.saveCodeCheck("CODE", true)
-
-
-//                                    NetworkRepo.loginsuccessLiveData = MutableLiveData()
 
                                     }
 
@@ -227,7 +211,8 @@ class SignInFragment : Fragment() {
 
         }
         dialogBinding.cancelButton.setOnClickListener {
-            dialog.dismiss() }
+            dialog.dismiss()
+        }
         dialog.show()
 
     }
@@ -237,18 +222,17 @@ class SignInFragment : Fragment() {
         val th = Thread(Runnable {
             val already = database.userDao().getPreviousUser(user.userId!!)
 
-            if (already == null){
+            if (already == null) {
                 val returnId = database.userDao().insertUser(user)
                 URLConstant.currentLoginId = returnId.toInt()
-            }
-            else{
+            } else {
                 already.userName = user.userName
                 already.userEmail = user.userEmail
                 already.accessToken = user.accessToken
                 database.userDao().updateUser(already)
                 URLConstant.currentLoginId = already.id
             }
-            sharedPreference.saveCurrentLoginID("user",URLConstant.currentLoginId)
+            sharedPreference.saveCurrentLoginID("user", URLConstant.currentLoginId)
 
             NetworkRepo.updateRetrofitClientInstance()
         })
@@ -257,11 +241,8 @@ class SignInFragment : Fragment() {
     }
 
 
+    fun forgotPassApiCall(mail: String) {
 
-
-    fun forgotPassApiCall(mail:String){
-
-//        loadingDialog.startLoading()
         CoroutineScope(Dispatchers.IO).launch {
             NetworkRepo.forgot(
                 mail,
@@ -289,13 +270,13 @@ class SignInFragment : Fragment() {
 
                             StaticFields.toastClass("api syncing failed forgot pass")
 
-                        }                    }
+                        }
+                    }
                 }
             )
         }
 
     }
-
 
 
 }

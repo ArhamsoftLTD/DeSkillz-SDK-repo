@@ -107,37 +107,12 @@ class RVAdapterOneToOne(
                 listener.onClick(model,position)
             }
 
-
-//            bind.liked.setOnClickListener {
-//                listener.onLiked(model, position)
-//
-//                    bind.unlike.visibility = View.VISIBLE
-//            }
-//
-//            bind.unlike.setOnClickListener {
-//                listener.onUnLiked(model,position)
-//                bind.unlike.visibility = View.GONE
-//
-//            }
-//
-//            bind.share.setOnClickListener {
-//
-//                listener.onShare(model, position)
-//            }
-//
-//            bind.reply.setOnClickListener {
-//                listener.onReply(model, position)
-//            }
         }
     }
 
 
     interface OnItemClick {
         fun onClick(click:GetTournamentsListData,position: Int)
-//        fun onLiked(comment: GetCommentDataList, position: Int)
-//        fun onShare(comment: GetCommentDataList, position: Int)
-//        fun onReply(comment: GetCommentDataList, position: Int)
-//        fun onUnLiked(comment: GetCommentDataList,position: Int)
 
     }
 }

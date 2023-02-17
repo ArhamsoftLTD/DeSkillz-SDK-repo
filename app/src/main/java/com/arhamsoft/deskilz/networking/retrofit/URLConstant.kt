@@ -56,22 +56,12 @@ object URLConstant {
     const val checkUser = "users/check-friend"
 
 
-    var long: Double = 0.0
-    var lat: Double = 0.0
-    var Fee:String =""
-
     lateinit var themeModel: ThemeModel
-//    var userId:String?=""
-    var fcmToken:String?=""
-//    var check:Boolean = false
     var oneToOne: Boolean =false
     var matchId: String? = ""
-    var playerId: String =""
-    var userImg: String = ""
     var u_id:String?="0"
     var chatHeadId:String?=""
     var points:Float?=0.0f
-    var player_count:Long? = 0L
     var joinType:Int = 9
     var currentLoginId:Int = 0
     var score:Long=0

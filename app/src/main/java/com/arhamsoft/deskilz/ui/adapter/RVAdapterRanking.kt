@@ -1,16 +1,14 @@
 package com.arhamsoft.deskilz.ui.adapter
 
-import android.text.SpannableString
-import android.view.Gravity
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.arhamsoft.deskilz.R
-import com.arhamsoft.deskilz.databinding.RowHomeScreenBinding
 import com.arhamsoft.deskilz.databinding.RowNotificationsBinding
-import com.arhamsoft.deskilz.networking.networkModels.*
+import com.arhamsoft.deskilz.networking.networkModels.PlayerRankingModelData
 
 class RVAdapterRanking(var listener: OnItemClickListenerHandler
 ): RecyclerView.Adapter<RVAdapterRanking.Holder>() {
@@ -31,6 +29,7 @@ class RVAdapterRanking(var listener: OnItemClickListenerHandler
         return Holder(binding)
     }
 
+    @SuppressLint("ResourceAsColor")
     override fun onBindViewHolder(holder: RVAdapterRanking.Holder, position: Int) {
 
 
@@ -67,12 +66,6 @@ class RVAdapterRanking(var listener: OnItemClickListenerHandler
                     placeholder(R.drawable.ic_baseline_person_24)
                     error(R.drawable.ic_baseline_person_24)
                 }
-
-
-
-
-//            holder.binding.oppoenetName.text = listPos.usernameOtheruser
-//            holder.binding.entryFee.text = listPos.entryFee
 
                 holder.onBind(sList[position], listener, position)
 

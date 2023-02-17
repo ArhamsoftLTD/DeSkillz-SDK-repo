@@ -9,10 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.MutableLiveData
 import androidx.navigation.fragment.findNavController
-import com.arhamsoft.deskilz.R
-import com.arhamsoft.deskilz.databinding.FragmentSignInBinding
 import com.arhamsoft.deskilz.databinding.FragmentSignUpBinding
 import com.arhamsoft.deskilz.domain.listeners.NetworkListener
 import com.arhamsoft.deskilz.domain.repository.NetworkRepo
@@ -26,7 +23,7 @@ import kotlinx.coroutines.launch
 class SignUpFragment : Fragment() {
 
     private lateinit var binding: FragmentSignUpBinding
-    lateinit var loading:LoadingDialog
+    lateinit var loading: LoadingDialog
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -56,10 +53,7 @@ class SignUpFragment : Fragment() {
     }
 
 
-
-
-    fun registerApiCalling(){
-
+    fun registerApiCalling() {
 
 
         if (binding.mail.text!!.isEmpty() && binding.password.text!!.isEmpty() && binding.repassword.text!!.isEmpty()) {
@@ -69,8 +63,7 @@ class SignUpFragment : Fragment() {
             if (binding.mail.text!!.isEmpty()) {
                 binding.mail.requestFocus()
                 binding.mail.error = "Email Field is Empty"
-            }
-            else if (binding.password.text!!.isEmpty()) {
+            } else if (binding.password.text!!.isEmpty()) {
                 binding.password.requestFocus()
                 binding.password.error = "pass Field is Empty"
 
@@ -80,17 +73,13 @@ class SignUpFragment : Fragment() {
 
             } else if (binding.password.text.toString() != binding.repassword.text.toString()) {
                 StaticFields.toastClass("You Have Entered a Wrong Re-Password")
-            }else if(!binding.consentCheck.isChecked){
+            } else if (!binding.consentCheck.isChecked) {
                 StaticFields.toastClass("Accept terms and condition in order to continue")
-            }
-            else if (!(isValidEmail(binding.mail.text.toString()))) {
+            } else if (!(isValidEmail(binding.mail.text.toString()))) {
                 binding.mail.error = "Email Format is Incorrect"
                 binding.mail.requestFocus()
 
-            }
-            else if (binding.password.text.toString() == binding.repassword.text.toString()) {
-
-//                NetworkRepo.signupsuccessLiveData = MutableLiveData()
+            } else if (binding.password.text.toString() == binding.repassword.text.toString()) {
 
                 loading.startLoading()
                 CoroutineScope(Dispatchers.IO).launch {

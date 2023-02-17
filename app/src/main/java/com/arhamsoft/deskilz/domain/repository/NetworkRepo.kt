@@ -1025,31 +1025,6 @@ object NetworkRepo {
     }
 
 
-    suspend fun getEvent(
-        listener: NetworkListener<EventsModel>
-    ) {
-        try{ callApi.callApi(
-            retrofitClient.getEvents(URLConstant.long,URLConstant.lat),
-            object : ResponseHandler<EventsModel> {
-                override fun success(model: EventsModel) {
-                    model.let {
-                        listener.successFul(it)
-                    }
-                }
-
-                override fun failure(error: Any) {
-                    listener.failure()
-                }
-            }
-        )
-        }catch (e: Exception) {
-
-            Log.e("exception", "APi = $e ")
-            listener.failure()
-        }
-    }
-
-
     suspend fun getGameCustomData(
         listener: NetworkListener<CustomPlayerModel>
     ) {

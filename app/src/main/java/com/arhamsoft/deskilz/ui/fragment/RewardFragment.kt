@@ -13,7 +13,10 @@ import com.arhamsoft.deskilz.R
 import com.arhamsoft.deskilz.databinding.FragmentRewardScreenBinding
 import com.arhamsoft.deskilz.domain.listeners.NetworkListener
 import com.arhamsoft.deskilz.domain.repository.NetworkRepo
-import com.arhamsoft.deskilz.networking.networkModels.*
+import com.arhamsoft.deskilz.networking.networkModels.GetMarketLoadMoreModel
+import com.arhamsoft.deskilz.networking.networkModels.GetMarketLoadMoreModelData
+import com.arhamsoft.deskilz.networking.networkModels.MarketLoadMorePost
+import com.arhamsoft.deskilz.networking.networkModels.ProductInfoModel
 import com.arhamsoft.deskilz.ui.adapter.RVAdapterReward
 import com.arhamsoft.deskilz.ui.adapter.RVAdapterRewardAllCategory
 import com.arhamsoft.deskilz.ui.adapter.RVAdapterRewardAllSubCategory
@@ -24,20 +27,18 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class RewardFragment : Fragment(){
+class RewardFragment : Fragment() {
 
     private lateinit var binding: FragmentRewardScreenBinding
     private lateinit var navController: NavController
-    lateinit var loading : LoadingDialog
-//    lateinit var recyclerView: RecyclerView
-    private var marketList:ArrayList<ProductInfoModel> = ArrayList()
-    private var marketLoadMoreList:ArrayList<GetMarketLoadMoreModelData> = ArrayList()
-    private var m_id:String? =null
-//    lateinit var rvLoadMore: RecyclerViewLoadMoreScroll
+    lateinit var loading: LoadingDialog
+    private var marketList: ArrayList<ProductInfoModel> = ArrayList()
+    private var marketLoadMoreList: ArrayList<GetMarketLoadMoreModelData> = ArrayList()
+    private var m_id: String? = null
     private lateinit var rvAdapter: RVAdapterReward
     private lateinit var rvAdapterAllCategory: RVAdapterRewardAllCategory
     private lateinit var rvAdapterAllSubCategory: RVAdapterRewardAllSubCategory
-    var apiHit:Boolean= false
+    var apiHit: Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -57,55 +58,36 @@ class RewardFragment : Fragment(){
             //onBackPressed()
         }
 
-        if (!(StaticFields.isNetworkConnected(requireContext()))){
+        if (!(StaticFields.isNetworkConnected(requireContext()))) {
             StaticFields.toastClass("Check your network connection")
-        }
-        else{
+        } else {
             if (!(apiHit)) {
                 loading.startLoading()
                 callMarketApi(10)
-                }
+            }
         }
 
-
-//        CoroutineScope(Dispatchers.IO).launch {
-////            val user = UserDatabase.getDatabase(requireContext()).userDao().getUser()
-////            u_id = user.userId
-//            if (!(apiHit)) {
-//                callMarketApi(10)
-//                withContext(Dispatchers.Main) {
-//                    loading.startLoading()
-//                }
-//            }
-//        }
 
         binding.recycleListReward.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
 
-        rvAdapter = RVAdapterReward(requireContext(),marketList,object : RVAdapterReward.OnItemClick {
-            override fun onClick(click: ProductInfoModel, position: Int) {
+        rvAdapter =
+            RVAdapterReward(requireContext(), marketList, object : RVAdapterReward.OnItemClick {
+                override fun onClick(click: ProductInfoModel, position: Int) {
 
-            }
-        })
+                }
+            })
 
         binding.recycleListReward.adapter = rvAdapter
 
-        ////
         binding.recycleListallMarket.layoutManager = LinearLayoutManager(requireContext())
 
         rvAdapterAllCategory = RVAdapterRewardAllCategory(requireContext(),
-            object: RVAdapterRewardAllCategory.OnItemClick {
+            object : RVAdapterRewardAllCategory.OnItemClick {
                 override fun onClick(click: GetMarketLoadMoreModelData, position: Int) {
-//                initScrollListener()
-                    CoroutineScope(Dispatchers.IO).launch {
-//            val user = UserDatabase.getDatabase(requireContext()).userDao().getUser()
-//            u_id = user.userId
-                        m_id = click.marketId
-                        callMarketLoadMoreApi((marketLoadMoreList.size), true, position)
-                        withContext(Dispatchers.Main) {
-                            loading.startLoading()
-                        }
-                    }
+                    m_id = click.marketId
+                    callMarketLoadMoreApi((marketLoadMoreList.size), true, position)
+                    loading.startLoading()
 
                 }
             })
@@ -116,7 +98,7 @@ class RewardFragment : Fragment(){
     }
 
 
-    private fun callMarketApi(limit: Int){
+    private fun callMarketApi(limit: Int) {
 
 //        val checked = MarketLoadMorePost(
 //            10,
@@ -158,7 +140,7 @@ class RewardFragment : Fragment(){
 
     }
 
-    fun callMarketLoadMoreApi(off: Int, isLoadMore: Boolean, position:Int){
+    fun callMarketLoadMoreApi(off: Int, isLoadMore: Boolean, position: Int) {
 
         val checked = MarketLoadMorePost(
             10,
@@ -199,26 +181,6 @@ class RewardFragment : Fragment(){
             )
         }
 
-    }
-
-
-//    private fun initScrollListener() {
-//        rvLoadMore = RecyclerViewLoadMoreScroll(binding.recycleListallMarket.layoutManager as LinearLayoutManager)
-//        rvLoadMore.setOnLoadMoreListener(object : OnLoadMoreListener {
-//            override fun onLoadMore() {
-//                loadMore()
-//            }
-//        })
-//        binding.recycleListallMarket.addOnScrollListener(rvLoadMore)
-//    }
-
-    private fun loadMore() {
-//        CoroutineScope(Dispatchers.IO).launch {
-//            withContext(Dispatchers.Main) {
-////                binding.progressBar.visibility = View.VISIBLE
-//            }
-//            callMarketLoadMoreApi((marketLoadMoreList.size), true)
-//        }
     }
 
 }

@@ -1,18 +1,10 @@
 package com.arhamsoft.deskilz.ui.adapter
 
-import android.text.SpannableString
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
-import com.arhamsoft.deskilz.R
-import com.arhamsoft.deskilz.databinding.RowHomeScreenBinding
-import com.arhamsoft.deskilz.databinding.RowNotificationsBinding
 import com.arhamsoft.deskilz.databinding.RowPendingRequestBinding
-import com.arhamsoft.deskilz.networking.networkModels.GetMatchesRecord
-import com.arhamsoft.deskilz.networking.networkModels.GetMatchesRecordData
-import com.arhamsoft.deskilz.networking.networkModels.PlayerWaitingModel
 import com.arhamsoft.deskilz.networking.networkModels.PlayerWaitingModelData
 
 class RVAdapterOngoinOnetoOne(var listener: OnItemClickListenerHandler
@@ -56,14 +48,6 @@ class RVAdapterOngoinOnetoOne(var listener: OnItemClickListenerHandler
                 holder.binding.userStatus.text = "Match is in Progress"
             }
 
-//            holder.binding.img.load(listPos.tournamentImage){
-//                placeholder(R.drawable.onedollarlarge)
-//                error(R.drawable.onedollarlarge)
-//            }
-
-
-
-//                holder.binding.prize.text = "Prize: ${listPos.winningPrize}"
             holder.binding.entryFee.text = if(listPos.tournamentId == null){
                 "Fee: Free"
             }else{

@@ -1,19 +1,12 @@
 package com.arhamsoft.deskilz.ui.adapter
 
-import android.text.SpannableString
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
 import com.alphaCareInc.app.room.User
-import com.arhamsoft.deskilz.R
-import com.arhamsoft.deskilz.databinding.AdapterOpponentlistViewBinding
 import com.arhamsoft.deskilz.databinding.RowAccountsBinding
-import com.arhamsoft.deskilz.databinding.RowHomeScreenBinding
-import com.arhamsoft.deskilz.networking.networkModels.GetMatchesRecord
-import com.arhamsoft.deskilz.networking.networkModels.GetMatchesRecordData
-import com.arhamsoft.deskilz.networking.networkModels.ListofOpponentModel
+
 import com.arhamsoft.deskilz.networking.retrofit.URLConstant
 
 class AdapterSwitchAcc(var listener: OnItemClickListenerHandler

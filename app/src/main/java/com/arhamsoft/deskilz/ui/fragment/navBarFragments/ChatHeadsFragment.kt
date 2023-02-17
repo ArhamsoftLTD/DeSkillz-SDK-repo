@@ -2,11 +2,11 @@ package com.arhamsoft.deskilz.ui.fragment.navBarFragments
 
 import android.app.Activity
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -18,10 +18,10 @@ import com.arhamsoft.deskilz.networking.networkModels.*
 import com.arhamsoft.deskilz.networking.retrofit.URLConstant
 import com.arhamsoft.deskilz.ui.adapter.RVAdapterChatHeads
 import com.arhamsoft.deskilz.ui.adapter.RVAdapterRequestList
+import com.arhamsoft.deskilz.ui.adapter.RecyclerViewLoadMoreScroll
 import com.arhamsoft.deskilz.utils.LoadingDialog
 import com.arhamsoft.deskilz.utils.StaticFields
 import com.tablitsolutions.crm.activities.OnLoadMoreListener
-import com.arhamsoft.deskilz.ui.adapter.RecyclerViewLoadMoreScroll
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -110,8 +110,7 @@ class ChatHeadsFragment : Fragment() {
 
 
         CoroutineScope(Dispatchers.IO).launch {
-//            val user = UserDatabase.getDatabase(requireContext()).userDao().getUser()
-//            u_id = user.userId
+
             getFriendsReqListApi(0,false)
             getChatsHead(0, false)
             withContext(Dispatchers.Main) {
@@ -126,16 +125,6 @@ class ChatHeadsFragment : Fragment() {
 
         return binding.root
     }
-
-//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        super.onViewCreated(view, savedInstanceState)
-//
-//
-//
-//
-//
-//    }
-
 
     private fun getChatsHead(off: Int, isLoadMore: Boolean){
 

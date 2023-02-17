@@ -2,17 +2,14 @@ package com.arhamsoft.deskilz.ui.fragment
 
 import android.app.Activity
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.arhamsoft.deskilz.R
 import com.arhamsoft.deskilz.databinding.FragmentRedeemPointsBinding
 import com.arhamsoft.deskilz.domain.listeners.NetworkListener
 import com.arhamsoft.deskilz.domain.repository.NetworkRepo
-import com.arhamsoft.deskilz.networking.networkModels.ChatPost
-import com.arhamsoft.deskilz.networking.networkModels.NotificationModel
 import com.arhamsoft.deskilz.networking.networkModels.RedeemPointsModel
 import com.arhamsoft.deskilz.networking.retrofit.URLConstant
 import com.arhamsoft.deskilz.utils.LoadingDialog

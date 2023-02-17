@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.arhamsoft.deskilz.R
 import com.arhamsoft.deskilz.databinding.AdapterOpponentlistViewBinding
-
 import com.arhamsoft.deskilz.networking.networkModels.ListofOpponentModel
 
 class AdapterOpponents(var listener: OnItemClickListenerHandler
@@ -23,10 +22,6 @@ class AdapterOpponents(var listener: OnItemClickListenerHandler
 
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
-//        if (sList.isNullOrEmpty()) {
-//            holder.binding.noData.visibility = View.VISIBLE
-//            holder.binding.competitivePlayer.visibility = View.GONE
-//        }else{
 
             val listPos = sList[position]
 
@@ -43,7 +38,6 @@ class AdapterOpponents(var listener: OnItemClickListenerHandler
             } else {
                 listPos.opponentName
             }
-//            holder.binding.oppoenetFlag.load(listPos.)
 
             holder.onBind(sList[position], listener, position)
 
@@ -55,40 +49,6 @@ class AdapterOpponents(var listener: OnItemClickListenerHandler
             parent, false)
         return Holder(binding)
     }
-
-//    override fun onBindViewHolder(holder: AdapterOpponents.Holder, position: Int) {
-//
-//
-////        if (sList.isNullOrEmpty()){
-////            holder.binding.noData.visibility = View.VISIBLE
-////            holder.binding.competitivePlayer.visibility = View.GONE
-////        }else{
-//
-//            val listPos = sList[position]
-//
-//            holder.binding.noData.visibility = View.GONE
-//            holder.binding.competitivePlayer.visibility = View.VISIBLE
-//
-//
-//            holder.binding.oppoenetImg.load(listPos.opponentImage){
-//                placeholder(R.drawable.ic_baseline_person_24)
-//                error(R.drawable.ic_baseline_person_24)
-//            }
-//            holder.binding.oppoenetName.text = if (listPos.opponentName.isNullOrEmpty()){
-//                "UnknownPlayer"
-//            }
-//            else{
-//                listPos.opponentName
-//            }
-////            holder.binding.oppoenetFlag.load(listPos.)
-//
-//            holder.onBind(sList[position], listener,position)
-//
-//        }
-
-
-
-//    }
 
     override fun getItemCount(): Int =  sList.size
 

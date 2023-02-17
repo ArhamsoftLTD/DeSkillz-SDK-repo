@@ -1,28 +1,17 @@
 package com.arhamsoft.deskilz.ui.adapter
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.os.Build
-import android.os.Handler
-import android.os.Looper
+
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.annotation.RequiresApi
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
-import android.util.Base64
 import android.view.View
 import android.widget.Toast
 import com.arhamsoft.deskilz.R
 import com.arhamsoft.deskilz.databinding.CardGetAllUserListsBinding
-import com.arhamsoft.deskilz.databinding.CardViewChatBinding
 import com.arhamsoft.deskilz.networking.networkModels.*
-
-import java.util.Base64.getDecoder
 import kotlin.collections.ArrayList
 
 

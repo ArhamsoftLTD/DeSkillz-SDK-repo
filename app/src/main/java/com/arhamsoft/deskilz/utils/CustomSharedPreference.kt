@@ -90,16 +90,5 @@ class CustomSharedPreference(context: Context) {
         editor.commit()
     }
 
-////    fun saveLoginData(KEY_NAME: String, obj: User) {
-////
-////        val dsave = sharedPref.edit()
-////
-////        val gson = Gson()
-////
-////        val json = gson.toJson(obj)
-////
-////        dsave.putString(KEY_NAME,json)
-////        dsave.apply()
-////    }
-//
+
 }

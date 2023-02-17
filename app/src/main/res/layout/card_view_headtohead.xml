@@ -27,8 +27,21 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <TextView
+                android:id="@+id/tournamentName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:paddingStart="5dp"
+                android:text="eSports for Everyone"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_size_20sp"
+                android:textStyle="bold" />
+
             <LinearLayout
                 android:id="@+id/h2habove"
+                android:layout_below="@id/tournamentName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -36,20 +49,11 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="3dp"
-                    android:paddingStart="3dp"
+                    android:padding="5dp"
                     android:layout_weight="1"
                     android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/tournamentName"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:maxLines="1"
-                        android:text="eSports for Everyone"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/text_size_25sp"
-                        android:textStyle="bold" />
+
 
                     <TextView
                         android:id="@+id/startTime"
@@ -58,7 +62,7 @@
                         android:maxLines="1"
                         android:textStyle="bold"
                         android:text="Start time"
-                        android:textSize="@dimen/size_15dp" />
+                        android:textSize="@dimen/text_size_15sp" />
 
                     <TextView
                         android:id="@+id/endTime"
@@ -66,10 +70,8 @@
                         android:layout_height="wrap_content"
                         android:text="End time"
                         android:textStyle="bold"
-
                         android:maxLines="1"
-
-                        android:textSize="@dimen/size_15dp" />
+                        android:textSize="@dimen/text_size_15sp" />
 
                 </LinearLayout>
 
@@ -77,9 +79,7 @@
                     android:id="@+id/play"
                     android:layout_width="@dimen/size_50dp"
                     android:layout_height="@dimen/size_50dp"
-                    android:layout_margin="5dp"
-                    android:layout_marginStart="@dimen/size_20dp"
-                    android:padding="5dp"
+                    android:layout_marginEnd="5dp"
                     android:src="@drawable/play_real_time_large" />
 
             </LinearLayout>
@@ -88,6 +88,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/h2habove"
+                android:gravity="bottom"
+
                 android:layout_alignParentBottom="true"
                 android:orientation="horizontal"
                 >

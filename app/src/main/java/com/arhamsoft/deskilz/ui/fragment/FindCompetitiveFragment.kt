@@ -18,7 +18,6 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
-import com.arhamsoft.deskilz.utils.CustomSharedPreference
 import com.arhamsoft.deskilz.R
 import com.arhamsoft.deskilz.databinding.DialogDepositBinding
 import com.arhamsoft.deskilz.databinding.FragmentFindCompetitiveBinding
@@ -28,6 +27,7 @@ import com.arhamsoft.deskilz.networking.networkModels.*
 import com.arhamsoft.deskilz.networking.retrofit.URLConstant
 import com.arhamsoft.deskilz.services.SocketHandler
 import com.arhamsoft.deskilz.ui.adapter.AdapterOpponents
+import com.arhamsoft.deskilz.utils.CustomSharedPreference
 import com.arhamsoft.deskilz.utils.LoadingDialog
 import com.arhamsoft.deskilz.utils.StaticFields
 import com.google.gson.Gson
@@ -47,15 +47,11 @@ class FindCompetitiveFragment : Fragment() {
     lateinit var loading: LoadingDialog
     var u_id: String? = null
     var opponentList: ArrayList<ListofOpponentModel> = ArrayList()
-    var t_id: String? = " "
     private lateinit var rvAdapter: AdapterOpponents
     lateinit var time: CountDownTimer
     lateinit var sharedPreference: CustomSharedPreference
     private var mSocket: Socket? = null
-    var isPlayable: Boolean = false
     var backtoHomeORExitAPP: Boolean = false
-    //    var obj1:GetRandomPlayerModelData? = null
-//    var obj2:ListofOpponentModel? = null
     lateinit var gson: JsonObject
     var click: GetTournamentsListData? = null
 
@@ -94,7 +90,6 @@ class FindCompetitiveFragment : Fragment() {
         val bundle = arguments
         if (bundle != null) {
 
-//            click = bundle.getSerializable("GET_MATCHES_OBJ") as GetTournamentsListData
             click = Gson().fromJson(
                 bundle.getString("GET_MATCHES_OBJ"),
                 GetTournamentsListData::class.java
@@ -108,7 +103,7 @@ class FindCompetitiveFragment : Fragment() {
 
         practiceModeCheck()
 
-        if(!(StaticFields.isNetworkConnected(requireContext()))) {
+        if (!(StaticFields.isNetworkConnected(requireContext()))) {
             StaticFields.toastClass("Check your network connection")
         } else {
             connectSocket()
@@ -124,8 +119,6 @@ class FindCompetitiveFragment : Fragment() {
 
 
         binding.recycleListOpponent.adapter = rvAdapter
-
-
 
         binding.exitMatch.setOnClickListener {
 
@@ -190,7 +183,7 @@ class FindCompetitiveFragment : Fragment() {
     }
 
 
-    private fun practiceModeCheck(){
+    private fun practiceModeCheck() {
         if (click!!.isPractice) {
 
             URLConstant.isPractice = click!!.isPractice
@@ -200,14 +193,13 @@ class FindCompetitiveFragment : Fragment() {
 
             Handler(Looper.getMainLooper()).postDelayed(
                 Runnable {
-                    showDialog("Practice match will start in a momment, Please Wait.","Deposit",2)
+                    showDialog("Practice match will start in a momment, Please Wait.", "Deposit", 2)
 
                 }, 1500
             )
 
             return
-        }
-        else{
+        } else {
             URLConstant.isPractice = click!!.isPractice
 
         }
@@ -281,20 +273,14 @@ class FindCompetitiveFragment : Fragment() {
         if (check == 1) {
             Handler(Looper.getMainLooper()).postDelayed(
                 Runnable {
-//                    loading.startLoading()
                     participateInTournament()
                     dialog.dismiss()
                 }, 1500
             )
-        }
-        else if(check == 2){
+        } else if (check == 2) {
             Handler(Looper.getMainLooper()).postDelayed(
                 Runnable {
-//                    loading.startLoading()
-//                    participateInOnetoOne()
-
                     navigateTo()
-
                     dialog.dismiss()
                 }, 1500
             )
@@ -315,7 +301,11 @@ class FindCompetitiveFragment : Fragment() {
         CoroutineScope(Dispatchers.IO).launch {
             NetworkRepo.participateTournament(
                 URLConstant.u_id!!,
-                if(URLConstant.oneToOne){ "" }else{click?.tournamentID!! },
+                if (URLConstant.oneToOne) {
+                    ""
+                } else {
+                    click?.tournamentID!!
+                },
                 "abcd",
                 object : NetworkListener<ForgotModel> {
                     override fun successFul(t: ForgotModel) {
@@ -331,22 +321,10 @@ class FindCompetitiveFragment : Fragment() {
                                 findNavController().navigate(R.id.action_findCompetitiveFragment_to_fragmentMatchScore)
 
 
-//                                if (t.isParticipated) {
-//                                    StaticFields.toastClass(t.message)
-//                                    findNavController().navigate(R.id.action_dashboardActivity_to_pendingRequestFragment)
-//
-//
-//                                } else {
-//                                    StaticFields.toastClass(t.message)
-//                                    findNavController().navigate(R.id.action_dashboardActivity_to_findCompetitiveFragment)
-//
-//                                }
-
                             } else {
                                 activity?.runOnUiThread {
 
                                     StaticFields.toastClass(t.message)
-//                                    findNavController().navigate(R.id.action_dashboardActivity_to_pendingRequestFragment)
 
                                 }
                             }
@@ -367,8 +345,7 @@ class FindCompetitiveFragment : Fragment() {
     }
 
 
-
-    private fun connectSocket(){
+    private fun connectSocket() {
         loading.startLoading()
         SocketHandler.setSocket()
         mSocket = SocketHandler.getSocket()
@@ -391,8 +368,7 @@ class FindCompetitiveFragment : Fragment() {
 
 
             mSocket?.on("left1Match")
-            {
-                    args ->
+            { args ->
 
                 activity?.runOnUiThread {
 
@@ -422,8 +398,7 @@ class FindCompetitiveFragment : Fragment() {
 
             mSocket?.on(
                 "tryAgain"
-            ) {
-                    args ->
+            ) { args ->
 
                 activity?.runOnUiThread {
 
@@ -443,9 +418,6 @@ class FindCompetitiveFragment : Fragment() {
 
 
                     try {
-//                        receivedChat = ArrayList()
-
-//                    val json = (args[0] as JSONObject).get("data") as JSONObject
 
                         val json = (args[0] as JSONObject) as JSONObject
 //                        roomID = (args[0] as JSONObject).get("roomId") as Int
@@ -468,33 +440,28 @@ class FindCompetitiveFragment : Fragment() {
 
 
                         if (click?.gamePlay == 1) {
-                                if (obj1?.IsPlayable!! && click?.playerCount?.toInt() == obj1?.playerCount) {
-                                    time.cancel()
-//                                    StaticFields.toastClass("Press button to play match.")
-//                                    if (URLConstant.oneToOne){
-                                        showDialog(
-                                            "Match fee has been deducted from your account. Match is about to start.",
-                                            "Deposit",
-                                            1
-                                        )
-//
+                            if (obj1?.IsPlayable!! && click?.playerCount?.toInt() == obj1?.playerCount) {
+                                time.cancel()
+
+                                showDialog(
+                                    "Match fee has been deducted from your account. Match is about to start.",
+                                    "Deposit",
+                                    1
+                                )
                             }
                             return@runOnUiThread
-                        }
-                        else if (click?.gamePlay == 2) {
+                        } else if (click?.gamePlay == 2) {
                             if (obj1?.IsPlayable!!) {
                                 time.cancel()
 
-                                    showDialog(
-                                        "Match fee has been deducted from your account. Match is about to start.",
-                                        "Deposit",
-                                        1
-                                    )
-//
+                                showDialog(
+                                    "Match fee has been deducted from your account. Match is about to start.",
+                                    "Deposit",
+                                    1
+                                )
                             }
 
                         }
-//                            loading.isDismiss()
                     } catch (e: Exception) {
                         Log.e(
                             "exception=",
@@ -507,13 +474,6 @@ class FindCompetitiveFragment : Fragment() {
                     "retrievematchInfo=",
                     "onCreate:${args.contentToString()} "
                 )
-//                comments.addAll(args)
-
-//                    val mJsonString = "..."
-//                    val parser = JsonParser()
-//                    val mJson = JsonParser.parse(item as JsonObject)
-//                    val gson = Gson()
-//                    val `object`: MyDataObject = gson.fromJson(mJson, MyDataObject::class.java)
 
             }
 
@@ -577,8 +537,6 @@ class FindCompetitiveFragment : Fragment() {
             }
 
 
-
-
         }
 
     }
@@ -589,7 +547,7 @@ class FindCompetitiveFragment : Fragment() {
             Log.e("connected", "onCreate:bami ")
 
 
-            if (URLConstant.oneToOne){
+            if (URLConstant.oneToOne) {
                 val checked = WebSocketJoinRoomOne2OneModel(
                     StaticFields.key,
                     URLConstant.u_id!!
@@ -597,8 +555,7 @@ class FindCompetitiveFragment : Fragment() {
 
                 gson = JsonParser.parseString(Gson().toJson(checked)).asJsonObject
 
-            }
-            else{
+            } else {
                 val checked = WebSocketJoinLeaveModel(
                     click?.tournamentID!!,
                     URLConstant.u_id!!
@@ -608,24 +565,8 @@ class FindCompetitiveFragment : Fragment() {
                 gson = JsonParser.parseString(Gson().toJson(checked)).asJsonObject
 
             }
-
-
-//            val map = HashMap<String, Any>()
-//            map["gameId"] = "00000067"
-//            map["userId"] = "62ebd0aa2a494e2a1260777f"
-//            map["type"] = 0
-//
-//            val obj = abcd()
-//            obj.gameId = "00000067"
-//            obj.userId = "62ebd0aa2a494e2a1260777f"
-//            obj.type = 0
-
-//            val jsonObj = Gson().toJson(map)
-//            Log.e("JSONOBJ", "onCreate:$jsonObj " )
-
             mSocket?.emit("joinPlayer", gson)
-//            mSocket?.emit("joinRoom", map)
-//            map.clear()
+
         } else {
             Log.e("notconnected", "onCreate:bami ")
         }
@@ -642,129 +583,19 @@ class FindCompetitiveFragment : Fragment() {
                 URLConstant.matchId,
                 URLConstant.u_id!!,
             )
-//            val map = HashMap<String, Any>()
-//            map["gameId"] = "00000067"
-//            map["userId"] = "62ebd0aa2a494e2a1260777f"
-//            map["type"] = 0
-//
-//            val obj = abcd()
-//            obj.gameId = "00000067"
-//            obj.userId = "62ebd0aa2a494e2a1260777f"
-//            obj.type = 0
+
             val gsonobj: JsonObject = JsonParser.parseString(Gson().toJson(checked)).asJsonObject
 
-//            val jsonObj = Gson().toJson(map)
-//            Log.e("JSONOBJ", "onCreate:$jsonObj " )
-
             mSocket?.emit("leavePlayer", gsonobj)
-//            mSocket?.emit("joinRoom", map)
-//            map.clear()
         } else {
             Log.e("notconnected", "onCreate:bami ")
         }
 
     }
 
-
-    private fun selectRandomplayer() {
-
-        CoroutineScope(Dispatchers.IO).launch {
-            NetworkRepo.getRandomPlayer(
-                URLConstant.u_id!!,
-                click?.tournamentID!!,
-                object : NetworkListener<GetRandomPlayerModel> {
-                    override fun successFul(t: GetRandomPlayerModel) {
-                        loading.isDismiss()
-
-                        activity?.runOnUiThread {
-
-
-                            if (t.status == 1) {
-                                // same match id hai ye or getmatched record wali
-                                URLConstant.matchId =
-                                    t.data.matchID //is match id pr report hona hai match lkn hum getmatches record k response ki match id pr report kr rahy jo k thk hai hai
-                                opponentList.addAll(t.data.listOfOpponents)
-                                rvAdapter.setData(opponentList)
-                                StaticFields.toastClass(t.message)
-                                if (click?.gamePlay == 1) {
-
-                                    if (click!!.isPractice == true) {
-
-                                        if (t.data.IsPlayable && click?.playerCount?.toInt() == t.data.listOfOpponents.size + 1) {
-                                            time.cancel()
-                                            loading.startLoading()
-                                            participateInTournament()
-                                        } else {
-                                            opponentList = ArrayList()
-                                            loading.isDismiss()
-                                            selectRandomplayer()
-                                        }
-                                    } else {
-                                        if (t.data.IsPlayable && click?.playerCount?.toInt() == t.data.listOfOpponents.size + 1) {
-                                            time.cancel()
-//                                            binding.beginMatch.setOnClickListener {
-
-                                            showDialog(
-                                                "You need to deposit following amount in order to proceed further.",
-                                                "Deposit",
-                                                1
-                                            )
-//                                            }
-                                        } else {
-                                            opponentList = ArrayList()
-                                            loading.isDismiss()
-                                            selectRandomplayer()
-                                        }
-                                    }
-
-
-                                } else if (click?.gamePlay == 2) {
-
-                                    if (t.data.IsPlayable) {
-                                        time.cancel()
-
-//                                        binding.beginMatch.setOnClickListener {
-                                        showDialog(
-                                            "You need to deposit following amount in order to proceed further.",
-                                            "Deposit",
-                                            1
-                                        )
-//                                        }
-                                    } else {
-                                        opponentList = ArrayList()
-                                        loading.isDismiss()
-                                        selectRandomplayer()
-                                    }
-
-//                            URLConstant.playerId = t.data.listOfOpponents
-//
-                                }
-                            } else {
-                                time.cancel()
-                                showDialog(t.message, "", 0)
-
-
-                            }
-                        }
-                    }
-
-
-                    override fun failure() {
-                        loading.isDismiss()
-
-                        activity?.runOnUiThread {
-                            StaticFields.toastClass("api syncing failed random")
-                        }
-
-                    }
-                }
-            )
-        }
-    }
-
     override fun onPause() {
 
-        if(!backtoHomeORExitAPP){
+        if (!backtoHomeORExitAPP) {
             leavePlayer()
             mSocket?.disconnect()
         }

@@ -2,23 +2,26 @@ package com.arhamsoft.deskilz.ui.fragment.navBarFragments
 
 import android.app.Activity
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.arhamsoft.deskilz.databinding.FragmentAddFriendBinding
 import com.arhamsoft.deskilz.domain.listeners.NetworkListener
 import com.arhamsoft.deskilz.domain.repository.NetworkRepo
-import com.arhamsoft.deskilz.networking.networkModels.*
+import com.arhamsoft.deskilz.networking.networkModels.AddFriendModel
+import com.arhamsoft.deskilz.networking.networkModels.ChatPost
+import com.arhamsoft.deskilz.networking.networkModels.GetAllUsersModel
+import com.arhamsoft.deskilz.networking.networkModels.GetAllUsersModelData
 import com.arhamsoft.deskilz.networking.retrofit.URLConstant
 import com.arhamsoft.deskilz.ui.adapter.RVAdapterGetAllUsers
+import com.arhamsoft.deskilz.ui.adapter.RecyclerViewLoadMoreScroll
 import com.arhamsoft.deskilz.utils.LoadingDialog
 import com.arhamsoft.deskilz.utils.StaticFields
 import com.tablitsolutions.crm.activities.OnLoadMoreListener
-import com.arhamsoft.deskilz.ui.adapter.RecyclerViewLoadMoreScroll
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -63,18 +66,11 @@ class AddFriendFragment : Fragment() {
                 findNavController().popBackStack()
             }
 
-
-
-
-
-
             binding.recycleListChatHeads.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
 
         rvAdapter = RVAdapterGetAllUsers(requireContext(),allUsersList,object : RVAdapterGetAllUsers.OnItemClick {
             override fun onUserClick(click: GetAllUsersModelData, position: Int) {
 
-//            val user = UserDatabase.getDatabase(requireContext()).userDao().getUser()
-//            u_id = user.userId
                 loading.startLoading()
                 addFriendsApi(click.userId)
 

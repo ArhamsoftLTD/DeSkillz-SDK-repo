@@ -15,7 +15,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
 import com.alphaCareInc.app.room.UserDatabase
-import com.arhamsoft.deskilz.utils.CustomSharedPreference
 import com.arhamsoft.deskilz.R
 import com.arhamsoft.deskilz.databinding.DialogUserChatBinding
 import com.arhamsoft.deskilz.databinding.FragmentChatBinding
@@ -25,21 +24,23 @@ import com.arhamsoft.deskilz.networking.networkModels.*
 import com.arhamsoft.deskilz.networking.retrofit.URLConstant
 import com.arhamsoft.deskilz.services.SocketHandler
 import com.arhamsoft.deskilz.ui.adapter.RVAdapterComment
+import com.arhamsoft.deskilz.ui.adapter.RecyclerViewLoadMoreScroll
+import com.arhamsoft.deskilz.utils.CustomSharedPreference
 import com.arhamsoft.deskilz.utils.InternetConLiveData
 import com.arhamsoft.deskilz.utils.LoadingDialog
 import com.arhamsoft.deskilz.utils.StaticFields
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
-import com.tablitsolutions.crm.activities.OnLoadMoreListener
-import com.arhamsoft.deskilz.ui.adapter.RecyclerViewLoadMoreScroll
 import io.socket.client.Socket
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import org.json.JSONArray
 import org.json.JSONObject
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 class ChatFragment : Fragment() {
@@ -49,18 +50,13 @@ class ChatFragment : Fragment() {
     lateinit var loading: LoadingDialog
     lateinit var rvLoadMore: RecyclerViewLoadMoreScroll
     private lateinit var rvAdapter: RVAdapterComment
-//    private var comments: ArrayList<ReceivedDataFromSocket> = ArrayList()
     private var mSocket: Socket? = null
-    private var updateComments: ArrayList<SendMsgModelData> = ArrayList()
-    var  receivedChat:ArrayList<ReceivedDataFromSocket> = ArrayList()
-    var roomID:Int = 0
+    var receivedChat: ArrayList<ReceivedDataFromSocket> = ArrayList()
+    var roomID: Int = 0
     var u_id: String? = ""
     private lateinit var connection: InternetConLiveData
-    var id:Int?=0
+    var id: Int? = 0
     lateinit var sharedPreference: CustomSharedPreference
-
-//    var apiHit:Boolean= false
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -74,10 +70,9 @@ class ChatFragment : Fragment() {
         checkNetworkConnection()
 
 
-        if (!(StaticFields.isNetworkConnected(requireContext()))){
+        if (!(StaticFields.isNetworkConnected(requireContext()))) {
             StaticFields.toastClass("Check your network connection")
-        }
-        else{
+        } else {
             connectSocket()
         }
 
@@ -85,7 +80,7 @@ class ChatFragment : Fragment() {
 
 
         runBlocking {
-            val user  = UserDatabase.getDatabase(requireContext()).userDao().getUser(id!!)
+            val user = UserDatabase.getDatabase(requireContext()).userDao().getUser(id!!)
             if (user != null) {
                 URLConstant.u_id = user.userId
             }
@@ -101,29 +96,18 @@ class ChatFragment : Fragment() {
         }
 
 
-
-
-
-
-
-
-
-
-
-
         return binding.root
     }
 
-    private fun checkNetworkConnection(){
+    private fun checkNetworkConnection() {
 
         connection = InternetConLiveData(requireContext())
 
         connection.observe(viewLifecycleOwner) { isConnected ->
 
-            if (isConnected){
+            if (isConnected) {
                 binding.noint.noInternet.visibility = View.GONE
-            }
-            else {
+            } else {
                 binding.noint.noInternet.visibility = View.VISIBLE
 
             }
@@ -136,14 +120,9 @@ class ChatFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.backBtn.setOnClickListener {
 
-//            mSocket?.on("disconnecting"){
-//                    args->
-//            }
-
             navController.popBackStack()
-            URLConstant.joinType=9
+            URLConstant.joinType = 9
             SocketHandler.closeConnection()
-
 
 
         }
@@ -152,63 +131,31 @@ class ChatFragment : Fragment() {
         binding.postComment.setOnClickListener {
 
 
-                    val checked = WebSocketSendMsgModel(
-                        roomID,
-                        URLConstant.u_id,
-                        binding.comment.text.toString()
-                    )
+            val checked = WebSocketSendMsgModel(
+                roomID,
+                URLConstant.u_id,
+                binding.comment.text.toString()
+            )
 
-                    val gson: JsonObject = JsonParser.parseString(Gson().toJson(checked)).asJsonObject
+            val gson: JsonObject = JsonParser.parseString(Gson().toJson(checked)).asJsonObject
 
-                    if (binding.comment.text.isEmpty()) {
-                        StaticFields.toastClass("write a comment.")
-                    }else{
-                        mSocket?.emit(
-                            "sendMessage",
-                            gson
-                        )
-                        binding.comment.setText("")
-                }
+            if (binding.comment.text.isEmpty()) {
+                StaticFields.toastClass("write a comment.")
+            } else {
+                mSocket?.emit(
+                    "sendMessage",
+                    gson
+                )
+                binding.comment.setText("")
+            }
 
-//            val map = HashMap<String, Any>()
-//            map["userId"] = "62ebd0aa2a494e2a1260777f"
-//            map["gameId"] = "000000067"
-//
-//            map["message"] = binding.comment.text.toString()
-
-
-//            checked = WebSocketSendMsgModel()
-
-//            mSocket?.on("sendMessage", { args ->
-//                Log.e(
-//                    "send",
-//                    "onCreate:${args.contentToString()} "
-//                )
-//            })
-//            mSocket?.io()?.on("sendMessage", { args ->
-//                Log.e(
-//                    "send",
-//                    "onCreate:${args.contentToString()} "
-//                )
-//            })
-
-
-//            mSocket.
-//
-//                sendMsgGroupApi()
-//                loading.startLoading()
         }
 
         binding.addFriends.setOnClickListener {
 
             navController.navigate(R.id.action_chatFragment_to_chatHeadsFragment)
-            URLConstant.joinType=9
-//            comments.clear()
+            URLConstant.joinType = 9
         }
-
-
-//        initScrollListener()
-
 
         binding.recycleListComment.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, true)
@@ -216,43 +163,33 @@ class ChatFragment : Fragment() {
 
 
         rvAdapter =
-            RVAdapterComment(requireContext(), receivedChat,
-                SimpleDateFormat("dd-MM-yyyy").format((Calendar.getInstance() ).time.time)
+            RVAdapterComment(requireContext(),
+                receivedChat,
+                SimpleDateFormat("dd-MM-yyyy").format((Calendar.getInstance()).time.time),
+                object : RVAdapterComment.OnItemClick {
+                    override fun onOthersClick(click: ReceivedDataFromSocket, position: Int) {
 
-                , object : RVAdapterComment.OnItemClick {
-                override fun onOthersClick(click: ReceivedDataFromSocket, position: Int) {
+                        loading.startLoading()
+                        checkFriend(click.userId, click.userImage!!, click.senderName)
 
-                    loading.startLoading()
-                    checkFriend(click.userId,click.userImage!!,click.senderName)
-//                    showDialog(,,click.userId)
+                    }
 
+                    override fun onUserClick(click: ReceivedDataFromSocket, position: Int) {
 
-
-
-                }
-
-                override fun onUserClick(click: ReceivedDataFromSocket, position: Int) {
-
-                }
-            })
+                    }
+                })
         binding.recycleListComment.adapter = rvAdapter
 
-//
-//        CoroutineScope(Dispatchers.IO).launch {
-//            val user = UserDatabase.getDatabase(requireContext()).userDao().getUser()
-//            if (user != null) {
-//                URLConstant.userId = user.userId
-//            }
-////            if (!(apiHit)) {
-////            getChats(0, false)
-//
-////            }
-//        }
     }
 
 
-    private fun showDialog(checkFrnd:Boolean,checkReq:Boolean,img:String,name:String,playerId:String) {
-
+    private fun showDialog(
+        checkFrnd: Boolean,
+        checkReq: Boolean,
+        img: String,
+        name: String,
+        playerId: String
+    ) {
 
 
         val dialog = Dialog(requireContext())
@@ -265,7 +202,7 @@ class ChatFragment : Fragment() {
         dialog.setCancelable(true)
         dialog.setContentView(dialogBinding.root)
 
-        dialogBinding.oppoenetImg.load(img){
+        dialogBinding.oppoenetImg.load(img) {
             placeholder(R.drawable.ic_baseline_person_24)
             error(R.drawable.ic_baseline_person_24)
         }
@@ -273,22 +210,20 @@ class ChatFragment : Fragment() {
 
 
 
-        if (!checkFrnd && checkReq){
+        if (!checkFrnd && checkReq) {
             dialogBinding.addFriendBtn.text = "pending"
             dialogBinding.addFriendBtn.isEnabled = false
-        }
-        else if (checkFrnd && !checkReq){
+        } else if (checkFrnd && !checkReq) {
             dialogBinding.addFriendBtn.text = "Added"
             dialogBinding.addFriendBtn.isEnabled = false
-        } else if (checkFrnd && checkReq){
+        } else if (checkFrnd && checkReq) {
             dialogBinding.addFriendBtn.text = "Added"
             dialogBinding.addFriendBtn.isEnabled = false
-        }
-        else if(!checkFrnd && !checkReq){
+        } else if (!checkFrnd && !checkReq) {
             dialogBinding.addFriendBtn.setOnClickListener {
                 loading.startLoading()
                 addFriendsApi(playerId)
-                dialogBinding.addFriendBtn.text= "pending"
+                dialogBinding.addFriendBtn.text = "pending"
                 dialogBinding.addFriendBtn.isEnabled = false
             }
         }
@@ -297,7 +232,7 @@ class ChatFragment : Fragment() {
     }
 
 
-    private fun addFriendsApi(playerId:String){
+    private fun addFriendsApi(playerId: String) {
 //
 //        val checked = chatPost(
 //            10,
@@ -338,7 +273,7 @@ class ChatFragment : Fragment() {
 
     }
 
-    fun checkFriend(playerId:String,img: String,name: String){
+    fun checkFriend(playerId: String, img: String, name: String) {
 //
 //        val checked = chatPost(
 //            10,
@@ -360,11 +295,11 @@ class ChatFragment : Fragment() {
                                 StaticFields.toastClass(t.message)
 
 
-                                showDialog(t.isFriend,t.isFriendRequest,img,name,playerId)
+                                showDialog(t.isFriend, t.isFriendRequest, img, name, playerId)
 
                             } else {
                                 StaticFields.toastClass(t.message)
-                                showDialog(t.isFriend,t.isFriendRequest,img,name,playerId)
+                                showDialog(t.isFriend, t.isFriendRequest, img, name, playerId)
 
 
                             }
@@ -396,23 +331,10 @@ class ChatFragment : Fragment() {
                 "",
                 0
             )
-//            val map = HashMap<String, Any>()
-//            map["gameId"] = "00000067"
-//            map["userId"] = "62ebd0aa2a494e2a1260777f"
-//            map["type"] = 0
-//
-//            val obj = abcd()
-//            obj.gameId = "00000067"
-//            obj.userId = "62ebd0aa2a494e2a1260777f"
-//            obj.type = 0
+
             val gson: JsonObject = JsonParser.parseString(Gson().toJson(checked)).asJsonObject
 
-//            val jsonObj = Gson().toJson(map)
-//            Log.e("JSONOBJ", "onCreate:$jsonObj " )
-
             mSocket?.emit("joinRoom", gson)
-//            mSocket?.emit("joinRoom", map)
-//            map.clear()
         } else {
             Log.e("notconnected", "onCreate:bami ")
         }
@@ -424,16 +346,9 @@ class ChatFragment : Fragment() {
             )
         }
 
-//    mSocket?.io()?.on("joinRoom", { args ->
-//            Log.e(
-//                "JOINROOM",
-//                "onCreate:${args.contentToString()} "
-//            )
-//        })
-//    }
     }
 
-    private fun joinRoomForOne2OneChat(friend_id:String) {
+    private fun joinRoomForOne2OneChat(friend_id: String) {
         if (mSocket?.connected() == true) {
             Log.e("connected", "onCreate:bami ")
 
@@ -495,13 +410,6 @@ class ChatFragment : Fragment() {
                 }
 
 
-//            mSocket?.on("logoutFromDevice"){
-//                args->
-//            }
-//
-//
-
-
                 mSocket?.on(
                     "RetrieveChatRoomData"
                 ) { args ->
@@ -527,7 +435,6 @@ class ChatFragment : Fragment() {
                         activity?.runOnUiThread {
                             rvAdapter.addData(receivedChat)
                             binding.recycleListComment.smoothScrollToPosition(0)
-//                    receivedChat.clear()
                             loading.isDismiss()
                         }
                     } catch (e: Exception) {
@@ -542,105 +449,17 @@ class ChatFragment : Fragment() {
                         "retrieve",
                         "onCreate:${args.contentToString()} "
                     )
-//                comments.addAll(args)
-
-//                    val mJsonString = "..."
-//                    val parser = JsonParser()
-//                    val mJson = JsonParser.parse(item as JsonObject)
-//                    val gson = Gson()
-//                    val `object`: MyDataObject = gson.fromJson(mJson, MyDataObject::class.java)
-
                 }
 
             }
 
-//            mSocket?.io()?.on(
-//                "RetrieveChatRoomData"
-//            ){
-//                    args->
-//                Log.e(
-//                    "retrieveIO",
-//                    "onCreate:${args.contentToString()} "
-//                )
-//            }
         }
     }
-
-
-//    fun getChats(off: Int, isLoadMore: Boolean) {
-//
-//        val checked = ChatPost(
-//            50,
-//            off + 1,
-//        )
-//
-//        CoroutineScope(Dispatchers.IO).launch {
-//            NetworkRepo.getChats(
-//                checked,
-//                object : NetworkListener<GetChatsModel> {
-//                    override fun successFul(t: GetChatsModel) {
-////                        apiHit = true
-//
-//                        loading.isDismiss()
-//
-//                        if (t.status == 1) {
-//
-//
-//                            activity?.runOnUiThread {
-//
-////                                comments.clear()
-////                                comments.addAll(t.data)
-////
-////                                rvAdapter.addData(comments)
-////
-////                                if (isLoadMore) {
-////                                    rvLoadMore.setLoaded()
-////                                }
-//                            }
-//                        } else {
-//                            StaticFields.toastClass(t.message)
-//
-//                        }
-//                    }
-//
-//                    override fun failure() {
-//                        loading.isDismiss()
-//                        StaticFields.toastClass("Apisyncing fail get chats")
-//
-//                    }
-//                }
-//            )
-//        }
-//
-//    }
-//
-//    private fun initScrollListener() {
-//        rvLoadMore =
-//            RecyclerViewLoadMoreScroll(binding.recycleListComment.layoutManager as LinearLayoutManager)
-//        rvLoadMore.setOnLoadMoreListener(object : OnLoadMoreListener {
-//            override fun onLoadMore() {
-//                loadMore()
-//            }
-//        })
-//        binding.recycleListComment.addOnScrollListener(rvLoadMore)
-//    }
-//
-//    private fun loadMore() {
-//        CoroutineScope(Dispatchers.IO).launch {
-//            withContext(Dispatchers.Main) {
-////                binding.progressBar.visibility = View.VISIBLE
-//            }
-////            getChats((comments.size), true)
-//        }
-//    }
-
-
-
 
     override fun onStop() {
         super.onStop()
 
         SocketHandler.closeConnection()
-        URLConstant.joinType =9
+        URLConstant.joinType = 9
     }
 }

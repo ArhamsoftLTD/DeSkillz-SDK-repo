@@ -1,33 +1,11 @@
 package com.arhamsoft.deskilz.ui.adapter
 
-import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.os.Build
-import android.os.Handler
-import android.os.Looper
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.annotation.RequiresApi
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
-import android.util.Base64
-import android.view.View
-import com.arhamsoft.deskilz.R
-import com.arhamsoft.deskilz.databinding.CardViewChatBinding
-import com.arhamsoft.deskilz.databinding.CardViewHeadtoheadBinding
 import com.arhamsoft.deskilz.databinding.CardViewOne2oneBinding
-import com.arhamsoft.deskilz.databinding.CardViewPracticeBinding
-import com.arhamsoft.deskilz.networking.networkModels.GetChatsModel
-import com.arhamsoft.deskilz.networking.networkModels.GetChatsModelData
 import com.arhamsoft.deskilz.networking.networkModels.GetTournamentsListData
-import java.text.DecimalFormat
-
-import java.util.Base64.getDecoder
-import kotlin.collections.ArrayList
 
 
 class RVAdapterOne2One(
@@ -65,10 +43,7 @@ class RVAdapterOne2One(
 
 
         holder.bind.tournamentName.text = listPos.tournamentName
-//        holder.bind.img.load(listPos.tournamentImage){
-//            placeholder(R.drawable.onedollarlarge)
-//            error(R.drawable.onedollarlarge)
-//        }
+
         holder.bind.entryFee.text = " Entry $${listPos.entryFee} "
         holder.bind.player.text = "${listPos.playerCount} players"
         holder.bind.prize.text = "Prize: ${listPos.winningPrize}"

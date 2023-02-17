@@ -1,7 +1,6 @@
 package com.arhamsoft.deskilz.ui.fragment
 
 import android.app.Dialog
-import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -77,31 +76,14 @@ class HeadToHeadDetailFragment : Fragment() {
 
             val bundle = Bundle()
             bundle.putBoolean("FromOutOfFund", true)
-            navController.navigate(R.id.action_headToHeadDetailFragment_to_dashboardActivity, bundle)
+            navController.navigate(
+                R.id.action_headToHeadDetailFragment_to_dashboardActivity,
+                bundle
+            )
 
-//            val intent = Intent(requireContext(), DashboardFragment::class.java)
-//            intent.putExtra("FromOutOfFund", true)
-//            startActivity(intent)
-//            requireActivity().finishAffinity()
         }
         dialog.setCancelable(false)
         dialog.show()
     }
 
-    /*private fun showDialog(title: String) {
-        val dialog = Dialog(this)
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.setCancelable(false)
-        dialog.setContentView(R.layout.dialog_head2head)
-
-        val yesBtn = dialog.findViewById(R.id.ok_button) as RelativeLayout
-        val noBtn = dialog.findViewById(R.id.cancel_button) as RelativeLayout
-
-          yesBtn.setOnClickListener {
-            dialog.dismiss()
-        }
-        noBtn.setOnClickListener {
-            dialog.dismiss() }
-        dialog.show()
-    }*/
 }
